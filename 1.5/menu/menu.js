@@ -50,6 +50,7 @@ async function generateMenu(jsonUrl) {
             button.appendChild(link);
             tabList.appendChild(button);
         });
+        let resetAll = createAndAppendElement(tabList, 'button', 'completeReset', 'tablinks', 'start', null, '')
     } catch (error) {
         console.error("Error fetching or processing the JSON data:", error);
     }
