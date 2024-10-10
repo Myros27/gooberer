@@ -6,7 +6,7 @@ function createAndAppendElement(parent, elementType, id, classes = [], position 
     if (id) {
         element.id = id;
     }
-    if (typeof classes === 'string') {
+    if (typeof classes === 'string' && classes !== '') {
         element.classList.add(classes);
     } else if (Array.isArray(classes) && classes.length > 0) {
         element.classList.add(...classes);
