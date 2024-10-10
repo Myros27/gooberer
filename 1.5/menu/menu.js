@@ -80,7 +80,7 @@ if (file) {
         }
         sessionStorage.setItem('saveFromSession', JSON.stringify(save));
         document.getElementById("tabList").removeAttribute("hidden")
-        document.getElementById("saveInput").hidden = true
+        document.getElementById("mySaveFile").hidden = true
         feature()
         }
     }
