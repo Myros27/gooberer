@@ -54,6 +54,8 @@ async function generateMenu(jsonUrl) {
         });
         let resetAll = createAndAppendElement(tabList, 'button', 'completeReset', 'tablinks', 'start', null, '')
         resetAll.setAttribute('onclick', 'resetAll()');
+        resetAll.innerText = 'Reset'
+        resetAll.style.textDecoration = 'underline';
     } catch (error) {
         console.error("Error fetching or processing the JSON data:", error);
     }
