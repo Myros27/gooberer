@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Iframe Page</title>
+</head>
+<body>
+    <h1>This is a custom iframe page</h1>
+    <div id="message-container"></div>
+    <script>
+        window.addEventListener('message', function(event) {
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.innerText = JSON.stringify(event.data);
+        });
+    </script>
+</body>
+</html>
