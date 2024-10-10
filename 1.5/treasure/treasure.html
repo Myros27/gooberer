@@ -51,9 +51,9 @@
             document.getElementById("tabList").removeAttribute("hidden")
             document.getElementById("saveInput").hidden = true
             feature()
+            }
         }
     }
-}
     
     window.addEventListener('load', function () {
         const urlParams = new URLSearchParams(window.location.search);
@@ -79,6 +79,31 @@
         save = JSON.parse(atob(event.data));
         feature()
     });
+
+    async function generateMenu(jsonUrl) {
+        try {
+            const response = await fetch(jsonUrl);
+            const data = await response.json();
+            const tabList = document.getElementById("tabList");
+            data.menuItems.forEach(item => {
+                const button = document.createElement("button");
+                button.classList.add("tablinks");
+                if (item.icon) {
+                    const icon = document.createElement("i");
+                    icon.classList.add("mdi", item.icon);
+                    button.appendChild(icon);
+                }
+                const link = document.createElement("a");
+                link.href = item.link;
+                link.textContent = item.title;
+                button.appendChild(link);
+                tabList.appendChild(button);
+            });
+        } catch (error) {
+            console.error("Error fetching or processing the JSON data:", error);
+        }
+    }
+    generateMenu("https://myros27.github.io/gooberer/1.5/menu/menu.json");
     
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
