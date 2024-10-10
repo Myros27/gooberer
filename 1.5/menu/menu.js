@@ -1,0 +1,120 @@
+var save;
+var parameters = {};
+
+function createAndAppendElement(parent, elementType, id, classes = [], position = 'end', sibling = null, hidden = false, href, rel, type) {
+    const element = document.createElement(elementType);
+    if (id) {
+        element.id = id;
+    }
+    if (classes.length > 0) {
+        element.classList.add(...classes);
+    }
+    if (hidden) {
+        element.hidden = true;
+    }
+    if (href) {
+        element.href = href;
+    }
+    if (rel) {
+        element.rel = rel;
+    }
+    if (type) {
+        element.type = type;
+    }
+    if (position === 'start') {
+    parent.insertBefore(element, parent.firstChild);
+    } else if (position === 'after' && sibling) {
+        sibling.insertAdjacentElement('afterend', element);
+    } else {
+        parent.appendChild(element);
+    }
+    return element;
+}
+
+function createAllHtmlElements(){
+  createAndAppendElement(document.head, 'link', '', '', 'start', null, '','https://myros27.github.io/gooberer/favicon.ico','shortcut icon','image/x-icon')
+  const saveInput = createAndAppendElement(document.body, 'input', 'mySaveFile', '', 'start', null, 'true', '', '', 'file')
+  saveInput.setAttribute('oninput', 'uploadFile()');
+  saveInput.style.color = '#FFFFFF';
+  const tablist = createAndAppendElement(document.body, 'div', 'tabList', 'tab', 'after', saveInput, 'true')
+  const feature = createAndAppendElement(document.body, 'div', 'feature', '', 'after', tablist, 'true')
+}
+
+createAllHtmlElements()
+
+async function feature(){
+    document.getElementById("feature").removeAttribute("hidden")
+    document.getElementById("playerId").innerText = save.playerId;
+    alert("What a nice feature player " + save.playerId)
+}
+
+function uploadFile() {
+const file = document.getElementById("myFile").files[0];
+if (file) {
+    var reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = function (evt) {
+        var rawSave = evt.target.result;
+        if (!evt.target.result.startsWith("{")) {
+            save = JSON.parse(atob(rawSave))
+        } else {
+            save = JSON.parse(rawSave)
+        }
+        sessionStorage.setItem('saveFromSession', JSON.stringify(save));
+        document.getElementById("tabList").removeAttribute("hidden")
+        document.getElementById("saveInput").hidden = true
+        feature()
+        }
+    }
+}
+
+window.addEventListener('load', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    for (const [key, value] of urlParams.entries()) {
+        parameters[key] = value;
+    }
+    if (Object.keys(parameters).length > 0) {
+        //themes?
+    } else {
+        const saveFromSession = sessionStorage.getItem('saveFromSession');
+        if (saveFromSession === null){
+            document.getElementById("showAsWebsite").removeAttribute("hidden")
+        } else {
+            save = JSON.parse(saveFromSession)
+            document.getElementById("tabList").removeAttribute("hidden")
+            document.getElementById("saveInput").hidden = true
+            feature()
+        }
+    }
+})
+
+window.addEventListener('message', function(event) {
+    save = JSON.parse(atob(event.data));
+    feature()
+});
+
+async function generateMenu(jsonUrl) {
+    try {
+        const response = await fetch(jsonUrl);
+        const data = await response.json();
+        const tabList = document.getElementById("tabList");
+        data.menuItems.forEach(item => {
+            const button = document.createElement("button");
+            button.classList.add("tablinks");
+            if (item.icon) {
+                const icon = document.createElement("i");
+                icon.classList.add("mdi", item.icon);
+                button.appendChild(icon);
+            }
+            const link = document.createElement("a");
+            link.href = item.link;
+            link.textContent = item.title;
+            button.appendChild(link);
+            tabList.appendChild(button);
+        });
+    } catch (error) {
+        console.error("Error fetching or processing the JSON data:", error);
+    }
+}
+generateMenu("https://myros27.github.io/gooberer/1.5/menu/menu.json");
+
