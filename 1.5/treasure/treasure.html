@@ -41,6 +41,7 @@
             } else {
                 save = JSON.parse(rawSave)
             }
+            sessionStorage.setItem('saveFromSession', JSON.stringify(save));
             document.getElementById("tabList").removeAttribute("hidden")
             document.getElementById("saveInput").hidden = true
             feature()
@@ -56,7 +57,15 @@
         if (Object.keys(parameters).length > 0) {
             //themes?
         } else {
-            document.getElementById("showAsWebsite").removeAttribute("hidden")
+            const saveFromSession = sessionStorage.getItem('saveFromSession');
+            if (saveFromSession === null){
+                document.getElementById("showAsWebsite").removeAttribute("hidden")
+            } else {
+                save = JSON.parse(saveFromSession)
+                document.getElementById("tabList").removeAttribute("hidden")
+                document.getElementById("saveInput").hidden = true
+                feature()
+            }
         }
     })
 
