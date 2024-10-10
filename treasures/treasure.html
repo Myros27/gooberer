@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Website Title</title>
     <style>
         body {
             background-color: #121212;
@@ -16,23 +15,19 @@
             color: white;
             text-decoration: underline;
         }
-        h1 {
-            margin-bottom: 20px;
-        }
         p {
             margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-    <h1>Welcome to Your Website</h1>
-    <p>This website has a dark theme with white text.</p>
-    
-    <h2>URL Parameters</h2>
-    <p id="url-params"></p>
+    <div id="showAsWebsite" hidden="hidden">
+        <p>Button To Upload Save</p>
+    </div>
+    <p id="playerId">Test</p>
     
     <script>
+        var save;
         function getUrlParameters() {
             const params = new URLSearchParams(window.location.search);
             const urlParams = {};
@@ -46,11 +41,16 @@
             const parameters = getUrlParameters();
             const urlParamsContainer = document.getElementById('url-params');
             if (Object.keys(parameters).length > 0) {
-                urlParamsContainer.textContent = JSON.stringify(parameters, null, 2);
+                //themes?
             } else {
-                urlParamsContainer.textContent = "No URL parameters found.";
+                document.getElementById("showAsWebsite").removeAttribute("hidden")
             }
         });
+
+        window.addEventListener('message', function(event) {
+            debugger;
+            save = event.data;
+            debugger;
     </script>
 </body>
 </html>
