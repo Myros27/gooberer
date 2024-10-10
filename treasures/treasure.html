@@ -3,15 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Iframe Page</title>
+    <title>Your Website Title</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>This is a custom iframe page</h1>
-    <div id="message-container"></div>
+
+    <h1>Welcome to Your Website</h1>
+    <p>This website has a dark theme with white text.</p>
+    
+    <h2>URL Parameters</h2>
+    <p id="url-params"></p>
+    
     <script>
-        window.addEventListener('message', function(event) {
-            const messageContainer = document.getElementById('message-container');
-            messageContainer.innerText = JSON.stringify(event.data);
+        function getUrlParameters() {
+            const params = new URLSearchParams(window.location.search);
+            const urlParams = {};
+            for (const [key, value] of params.entries()) {
+                urlParams[key] = value;
+            }
+            return urlParams;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const parameters = getUrlParameters();
+            const urlParamsContainer = document.getElementById('url-params');
+            if (Object.keys(parameters).length > 0) {
+                urlParamsContainer.textContent = JSON.stringify(parameters, null, 2);
+            } else {
+                urlParamsContainer.textContent = "No URL parameters found.";
+            }
         });
     </script>
 </body>
