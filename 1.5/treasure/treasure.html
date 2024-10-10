@@ -22,14 +22,17 @@
     </style>
 </head>
 <body>
-    <div id="showAsWebsite" hidden="hidden">
+    <div id="showAsWebsite" hidden="hidden" onload="visibilityCheck">
         <p>Button To Upload Save</p>
     </div>
     <p id="playerId">Test</p>
     
     <script>
         var save;
-        
+
+        function visibilityCheck(){
+            debugger;
+        }
         function getUrlParameters() {
             const params = new URLSearchParams(window.location.search);
             const urlParams = {};
