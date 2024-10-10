@@ -68,6 +68,7 @@ function createAllHtmlElements(){
 createAllHtmlElements()
 
 function addStyles() {
+    console.log("addStyles")
     const style = document.createElement('style');
     style.type = 'text/css';
     const cssStyles = `
