@@ -7,12 +7,14 @@
 </head>
 <body>
     <div id="showAsWebsite" hidden="hidden">
-        <div class="tab">
+        <div id="tabList" class="tab" hidden="hidden">
             <button class="tablinks">Treasures</button>
             <button class="tablinks">Cards</button>
             <button class="tablinks">Bingo, etc</button>
         </div>
-        <input type="file" id="myFile" name="Save File" oninput="uploadFile()" style="color: #FFFFFF;">upload save here</input>
+        <div id="saveInput">
+            <input type="file" id="myFile" name="Save File" oninput="uploadFile()" style="color: #FFFFFF;">upload save here</input>
+        </div>
     </div>
     <p id="playerId">Test</p>
 </body>
@@ -38,6 +40,8 @@
                 var save = atob(rawSave)
             } else {var save = rawSave}
             save = JSON.parse(atob(rawSave))
+            document.getElementById("tabList").removeAttribute("hidden")
+            document.getElementById("saveInput").hidden = true
             feature()
         }
     }
