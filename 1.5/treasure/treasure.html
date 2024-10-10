@@ -37,9 +37,10 @@
         reader.onload = function (evt) {
             var rawSave = evt.target.result;
             if (!evt.target.result.startsWith("{")) {
-                var save = atob(rawSave)
-            } else {var save = rawSave}
-            save = JSON.parse(atob(rawSave))
+                save = JSON.parse(atob(rawSave))
+            } else {
+                save = JSON.parse(rawSave)
+            }
             document.getElementById("tabList").removeAttribute("hidden")
             document.getElementById("saveInput").hidden = true
             feature()
