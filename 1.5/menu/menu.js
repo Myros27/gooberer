@@ -66,6 +66,67 @@ function createAllHtmlElements(){
 
 createAllHtmlElements()
 
+function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    const cssStyles = `
+    body {
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+    
+    p {
+        margin-bottom: 10px;
+    }
+    
+    .tab {
+        overflow: hidden;
+        border: 1px solid #222;
+        color: #FFF
+    }
+    
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        color: #FFF
+    }
+    
+    .tab button:hover {
+        background-color: #333;
+        color: #FFF
+    }
+    
+    .tab button.active {
+        background-color: #333;
+        color: #FFF
+    }
+    
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #333;
+        border-top: none;
+    }
+    `;
+    style.appendChild(document.createTextNode(cssStyles));
+    document.head.appendChild(style);
+}
+
+addStyles();
+
 function uploadFile() {
 const file = document.getElementById("mySaveFile").files[0];
 if (file) {
