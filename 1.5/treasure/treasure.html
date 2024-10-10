@@ -16,7 +16,9 @@
             <input type="file" id="myFile" name="Save File" oninput="uploadFile()" style="color: #FFFFFF;">upload save here</input>
         </div>
     </div>
-    <p id="playerId">Test</p>
+    <div id="feature" hidden="hidden">
+        <p id="playerId">Test</p>
+    </div>
 </body>
 </html>
 
@@ -55,6 +57,7 @@
             parameters[key] = value;
         }
         if (Object.keys(parameters).length > 0) {
+            document.getElementById("feature").removeAttribute("hidden")
             //themes?
         } else {
             const saveFromSession = sessionStorage.getItem('saveFromSession');
