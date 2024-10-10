@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <link rel="shortcut icon" href="https://myros27.github.io/gooberer/favicon.ico" type="image/x-icon">
 <html lang="en">
-    <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        a {
-            color: white;
-            text-decoration: underline;
-        }
-        p {
-            margin-bottom: 10px;
-        }
-    </style>
-    <script>
-        var save;
-
-        function visibilityCheck(){
-            debugger;
-        }
-        function getUrlParameters() {
-            const params = new URLSearchParams(window.location.search);
-            const urlParams = {};
-            for (const [key, value] of params.entries()) {
-                urlParams[key] = value;
-            }
-            return urlParams;
-        }
-
-        document.addEventListener('onload', () => {
-            const parameters = getUrlParameters();
-            const urlParamsContainer = document.getElementById('url-params');
-            if (Object.keys(parameters).length > 0) {
-                //themes?
-            } else {
-                document.getElementById("showAsWebsite").removeAttribute("hidden")
-            }
-        });
-
-        window.addEventListener('message', function(event) {
-            debugger;
-            save = event.data;
-            debugger;
-        });
-        
-    </script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <div id="showAsWebsite" hidden="hidden" onload="visibilityCheck()">
+    <div id="showAsWebsite" hidden="hidden">
         <p>Button To Upload Save</p>
     </div>
     <p id="playerId">Test</p>
-    
-    
 </body>
 </html>
+
+<script>
+    var save;
+
+    function visibilityCheck(){
+        debugger;
+    }
+    function getUrlParameters() {
+        const params = new URLSearchParams(window.location.search);
+        const urlParams = {};
+        for (const [key, value] of params.entries()) {
+            urlParams[key] = value;
+        }
+        return urlParams;
+    }
+
+    document.addEventListener('onload', () => {
+        const parameters = getUrlParameters();
+        const urlParamsContainer = document.getElementById('url-params');
+        if (Object.keys(parameters).length > 0) {
+            //themes?
+        } else {
+            document.getElementById("showAsWebsite").removeAttribute("hidden")
+        }
+    });
+
+    window.addEventListener('load', function () {
+        
+    })
+
+    window.addEventListener('message', function(event) {
+        debugger;
+        save = event.data;
+        debugger;
+    });
+    
+</script>
+<style>
+    body {
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+</style>
