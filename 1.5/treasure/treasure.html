@@ -7,7 +7,12 @@
 </head>
 <body>
     <div id="showAsWebsite" hidden="hidden">
-        <p>Button To Upload Save</p>
+        <div class="tab">
+            <button class="tablinks">Treasures</button>
+            <button class="tablinks">Cards</button>
+            <button class="tablinks">Bingo, etc</button>
+        </div>
+        <input type="file" id="myFile" name="Save File" oninput="uploadFile()" style="color: #FFFFFF;">upload save here</input>
     </div>
     <p id="playerId">Test</p>
 </body>
@@ -16,6 +21,27 @@
 <script>
     var save;
     var parameters = {};
+
+    async function feature(){
+        document.getElementById("playerId").innerText = save.playerId;
+        alert("What a nice feature")
+    }
+
+    function inputFile() {
+    const file = document.getElementById("myFile").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt) {
+            var rawSave = evt.target.result;
+            if (!evt.target.result.startsWith("{")) {
+                var save = atob(rawSave)
+            } else {var save = rawSave}
+            save = JSON.parse(atob(rawSave))
+            feature()
+        }
+    }
+}
     
     window.addEventListener('load', function () {
         const urlParams = new URLSearchParams(window.location.search);
@@ -32,7 +58,7 @@
 
     window.addEventListener('message', function(event) {
         save = JSON.parse(atob(event.data));
-        debugger;
+        feature()
     });
     
 </script>
@@ -44,11 +70,47 @@
         margin: 0;
         padding: 20px;
     }
+    
     a {
         color: white;
         text-decoration: underline;
     }
+    
     p {
         margin-bottom: 10px;
+    }
+    
+    .tab {
+        overflow: hidden;
+        border: 1px solid #222;
+        color: #FFF
+    }
+    
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        color: #FFF
+    }
+    
+    .tab button:hover {
+        background-color: #333;
+        color: #FFF
+    }
+    
+    .tab button.active {
+        background-color: #333;
+        color: #FFF
+    }
+    
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #333;
+        border-top: none;
     }
 </style>
