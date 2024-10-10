@@ -18,6 +18,9 @@
     </div>
     <div id="feature" hidden="hidden">
         <p id="playerId">Test</p>
+        <div>
+            <h1>Here goes the feature</p>
+        </div>
     </div>
 </body>
 </html>
@@ -27,6 +30,7 @@
     var parameters = {};
 
     async function feature(){
+        document.getElementById("feature").removeAttribute("hidden")
         document.getElementById("playerId").innerText = save.playerId;
         alert("What a nice feature player " + save.playerId)
     }
@@ -57,7 +61,6 @@
             parameters[key] = value;
         }
         if (Object.keys(parameters).length > 0) {
-            document.getElementById("feature").removeAttribute("hidden")
             //themes?
         } else {
             const saveFromSession = sessionStorage.getItem('saveFromSession');
