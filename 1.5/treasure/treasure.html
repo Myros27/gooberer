@@ -28,6 +28,7 @@
     
     <script>
         var save;
+        
         function getUrlParameters() {
             const params = new URLSearchParams(window.location.search);
             const urlParams = {};
@@ -37,7 +38,7 @@
             return urlParams;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('load', () => {
             const parameters = getUrlParameters();
             const urlParamsContainer = document.getElementById('url-params');
             if (Object.keys(parameters).length > 0) {
@@ -52,6 +53,7 @@
             save = event.data;
             debugger;
         });
+        
     </script>
 </body>
 </html>
