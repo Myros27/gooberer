@@ -38,7 +38,7 @@
             return urlParams;
         }
 
-        document.addEventListener('load', () => {
+        document.addEventListener('onload', () => {
             const parameters = getUrlParameters();
             const urlParamsContainer = document.getElementById('url-params');
             if (Object.keys(parameters).length > 0) {
