@@ -53,6 +53,7 @@ async function generateMenu(jsonUrl) {
             tabList.appendChild(button);
         });
         let resetAll = createAndAppendElement(tabList, 'button', 'completeReset', 'tablinks', 'start', null, '')
+        resetAll.setAttribute('onclick', 'resetAll()');
     } catch (error) {
         console.error("Error fetching or processing the JSON data:", error);
     }
@@ -70,7 +71,6 @@ function createAllHtmlElements(){
 createAllHtmlElements()
 
 function addStyles() {
-    console.log("addStyles")
     const style = document.createElement('style');
     style.type = 'text/css';
     const cssStyles = `
@@ -149,6 +149,11 @@ if (file) {
         feature()
         }
     }
+}
+
+function resetAll(){
+    sessionStorage.clear();
+    window.location.reload(true);
 }
 
 window.addEventListener('load', function () {
