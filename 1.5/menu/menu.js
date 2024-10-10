@@ -107,6 +107,7 @@ window.addEventListener('load', function () {
 })
 
 window.addEventListener('message', function(event) {
+    debugger;
     save = JSON.parse(atob(event.data));
     feature()
 });
