@@ -31,9 +31,7 @@
     })
 
     window.addEventListener('message', function(event) {
-        debugger;
-        save = event.data;
-        debugger;
+        save = JSON.parse(atob(event.data));
     });
     
 </script>
