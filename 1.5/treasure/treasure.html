@@ -15,12 +15,12 @@
 
 <script>
     var save;
-    var urlParams = {};
+    var parameters = {};
     
     window.addEventListener('load', function () {
-        const params = new URLSearchParams(window.location.search);
-        for (const [key, value] of params.entries()) {
-            urlParams[key] = value;
+        const urlParams = new URLSearchParams(window.location.search);
+        for (const [key, value] of urlParams.entries()) {
+            parameters[key] = value;
         }
         if (Object.keys(parameters).length > 0) {
             //themes?
