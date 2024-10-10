@@ -6,7 +6,7 @@
 </head>
 <body>
     <div id="feature" hidden="hidden">
-        
+        <p id="playerId"></p>
     </div>
 </body>
 </html>
@@ -16,6 +16,12 @@
     script.src = 'https://myros27.github.io/gooberer/1.5/menu/menu.js';
     script.async = false;
     document.head.appendChild(script);
+
+    async function feature(){
+        document.getElementById("feature").removeAttribute("hidden")
+        document.getElementById("playerId").innerText = save.playerId;
+        alert("What a nice feature player " + save.playerId)
+    }
     
 </script>
 <style>
