@@ -15,31 +15,19 @@
 
 <script>
     var save;
-
-    function visibilityCheck(){
-        debugger;
-    }
-    function getUrlParameters() {
+    var urlParams = {};
+    
+    window.addEventListener('load', function () {
         const params = new URLSearchParams(window.location.search);
-        const urlParams = {};
         for (const [key, value] of params.entries()) {
             urlParams[key] = value;
         }
-        return urlParams;
-    }
-
-    document.addEventListener('onload', () => {
-        const parameters = getUrlParameters();
-        const urlParamsContainer = document.getElementById('url-params');
         if (Object.keys(parameters).length > 0) {
             //themes?
         } else {
             document.getElementById("showAsWebsite").removeAttribute("hidden")
+            alert("visible!")
         }
-    });
-
-    window.addEventListener('load', function () {
-        debugger;
     })
 
     window.addEventListener('message', function(event) {
