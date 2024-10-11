@@ -41,6 +41,24 @@
         }
     }
 
+    function resetAll(){
+        sessionStorage.clear();
+        window.location.reload(true);
+    }
+
+    function addResetButton(tabList) {
+        const resetButton = document.createElement("button");
+        resetButton.classList.add("tablinks");
+        const resetIcon = document.createElement("i");
+        resetIcon.classList.add("mdi", "mdi-refresh");
+        resetButton.appendChild(resetIcon);
+        const resetLink = document.createElement("span");
+        resetLink.textContent = " Reset";
+        resetButton.appendChild(resetLink);
+        resetButton.addEventListener('click', resetAll);
+        tabList.prepend(resetButton);
+    }
+
     async function generateMenu(jsonUrl) {
         try {
             const response = await fetch(jsonUrl);
@@ -72,7 +90,11 @@
             console.error("Error fetching or processing the JSON data:", error);
         }
     }
+
+
     
     generateMenu("https://myros27.github.io/gooberer/1.5/menu/menu.json");
+
+    addResetButton()
     
 </script>
