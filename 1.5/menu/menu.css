@@ -56,6 +56,22 @@ p {
     border-top: none;
 }
 
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-row p {
+    margin: 0;
+    padding: 0 5px;
+}
+
+.input-row input {
+    font-family: monospace;
+    width: 70px;
+}
+
 #gooberIframe {
     flex: 1;
     border: none;
