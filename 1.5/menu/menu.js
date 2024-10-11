@@ -77,7 +77,7 @@ function processMenuData(data, menuItemsMap, originalUrl) {
     const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
     data.menuItems.forEach(item => {
         if (!item.released) return;
-        item.link = `${baseUrl}/${item.link.split('/').pop()}`;
+        item.link = `${baseUrl}/${item.link}`;
         const existingItem = menuItemsMap.get(item.title);
         if (!existingItem || item.version > existingItem.version) {
             menuItemsMap.set(item.title, item);
