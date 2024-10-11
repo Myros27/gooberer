@@ -21,6 +21,7 @@
     let effectList = ["miningDamage", "currencyMiningScrapGain", "miningOreGain"]
     
     window.addEventListener('message', function(event) {
+        if (!event.source.location.href.includes("menu/menu.html")){return;}
         save = JSON.parse(atob(event.data));
         calcTreasure()
     });
