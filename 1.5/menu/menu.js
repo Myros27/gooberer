@@ -1,9 +1,9 @@
 var save;
 
 let jsonUrlsArray = [
-  "https://myros27.github.io/gooberer/1.5/menu/menu.json",
-  "https://craftyduck100.github.io/gooberer/1.5/menu/menu.json",
-  "https://sashkara.github.io/gooberer/1.5/menu/menu.json",
+  "https://myros27.github.io/gooberer/1.5/items.json",
+  "https://craftyduck100.github.io/gooberer/1.5/items.json",
+  "https://sashkara.github.io/gooberer/1.5/items.json",
 ];
 
 function uploadFile() {
