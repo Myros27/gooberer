@@ -90,19 +90,20 @@ function processMenuData(data, menuItemsMap, originalUrl) {
     const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
     const urlPriority = jsonUrlsArray.indexOf(originalUrl);
     data.menuItems.forEach(item => {
+        let itemTitle = item.title;
         if (!item.released && !devMode) return;
-        if (!item.released && devMode) item.title = `dev-${item.title}`;
+        if (!item.released && devMode) itemTitle = `dev-${item.title}`;
         item.link = `${baseUrl}/${item.link}`;
-        const existingItem = menuItemsMap.get(item.title);
+        const existingItem = menuItemsMap.get(itemTitle);
         if (!existingItem) {
             item.priority = urlPriority;
-            menuItemsMap.set(item.title, item);
+            menuItemsMap.set(itemTitle, item);
         } else if (item.version > existingItem.version) {
             item.priority = urlPriority;
-            menuItemsMap.set(item.title, item);
+            menuItemsMap.set(itemTitle, item);
         } else if (item.version === existingItem.version && urlPriority < existingItem.priority) {
             item.priority = urlPriority;
-            menuItemsMap.set(item.title, item);
+            menuItemsMap.set(itemTitle, item);
         }
     });
 }
