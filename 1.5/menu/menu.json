@@ -10,11 +10,10 @@
       "icon": "mdi-treasure-chest",
       "link": "https://myros27.github.io/gooberer/1.5/treasure/treasure.html"
     },
-    
     {
-      "title": "Bingo",
-      "icon": "mdi-bingo",
-      "link": "https://example.com/bingo"
+      "title": "Nighthunt",
+      "icon": "mdi-weather-night",
+      "link": "https://myros27.github.io/gooberer/1.5/nighthunt/nighthunt.html"
     }
   ]
 }
