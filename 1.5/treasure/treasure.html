@@ -88,6 +88,8 @@
                         break;
                     }
             }
+            var treasureRng = save.rng.treasure_regular?? 0;
+            let rngGen = new Math.seedrandom(save.playerId + "treasure_regular" + '_' + (parseInt(treasureRng) + i));
             if (nextGL == null){
                 outputText((i + 1) + ". " + String(randomElem(effectList, rngGen()) + ", " + randomElem(iconList, rngGen())), tier);
             }else{
