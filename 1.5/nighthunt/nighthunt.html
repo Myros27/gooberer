@@ -24,7 +24,6 @@
           recipeList.push([key,save.event.nightHunt_potion[key].recipe])
       }
       var sortedRecipeList = recipeList.sort((a, b) => a[1].length - b[1].length);
-  
       const showListHere = document.getElementById('showListHere');
       showListHere.innerHTML = "";
       for (let i in sortedRecipeList){
