@@ -8,8 +8,7 @@
 <body>
   <div id="tabList" class="tab" hidden="hidden">  </div>
   <div id="saveInput">
-    <p>saveFile</p>
-    <input type="file" id="mySaveFile" oninput="uploadFile()" style="color: #FFFFFF;"></input>
+    <input type="file" id="mySaveFile" oninput="uploadFile()" style="color: #FFFFFF;">saveFile</input>
   </div>
   <div id="feature" hidden="hidden">
      <iframe id="gooberIframe" src="" height="100%" width=100%></iframe> 
@@ -21,7 +20,7 @@
     var save;
 
     function uploadFile() {
-    const file = document.getElementById("myFile").files[0];
+    const file = document.getElementById("mySaveFile").files[0];
     if (file) {
         var reader = new FileReader();
         reader.readAsText(file, "UTF-8");
