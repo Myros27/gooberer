@@ -1,15 +1,16 @@
 {
   "menuItems": [
     {
-      "title": "Treasures",
-      "icon": "mdi-treasure-chest",
-      "link": "https://myros27.github.io/gooberer/1.5/treasure/treasure.html"
-    },
-    {
       "title": "Example",
       "icon": "mdi-cards",
       "link": "https://myros27.github.io/gooberer/1.5/example/example.html"
     },
+    {
+      "title": "Treasures",
+      "icon": "mdi-treasure-chest",
+      "link": "https://myros27.github.io/gooberer/1.5/treasure/treasure.html"
+    },
+    
     {
       "title": "Bingo",
       "icon": "mdi-bingo",
