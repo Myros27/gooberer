@@ -87,11 +87,19 @@ async function fetchData(url, menuItemsMap) {
 
 function processMenuData(data, menuItemsMap, originalUrl) {
     const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
+    const urlPriority = jsonUrlsArray.indexOf(originalUrl);
     data.menuItems.forEach(item => {
         if (!item.released) return;
         item.link = `${baseUrl}/${item.link}`;
         const existingItem = menuItemsMap.get(item.title);
-        if (!existingItem || item.version > existingItem.version) {
+        if (!existingItem) {
+            item.priority = urlPriority;
+            menuItemsMap.set(item.title, item);
+        } else if (item.version > existingItem.version) {
+            item.priority = urlPriority;
+            menuItemsMap.set(item.title, item);
+        } else if (item.version === existingItem.version && urlPriority < existingItem.priority) {
+            item.priority = urlPriority;
             menuItemsMap.set(item.title, item);
         }
     });
