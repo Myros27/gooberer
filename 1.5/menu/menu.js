@@ -91,8 +91,10 @@ function processMenuData(data, menuItemsMap, originalUrl) {
     const urlPriority = jsonUrlsArray.indexOf(originalUrl);
     data.menuItems.forEach(item => {
         let itemTitle = item.title;
+        if (!item.released && devMode) {
+            itemTitle = `dev-${item.title}`;
+        }
         if (!item.released && !devMode) return;
-        if (!item.released && devMode) itemTitle = `dev-${item.title}`;
         item.link = `${baseUrl}/${item.link}`;
         const existingItem = menuItemsMap.get(itemTitle);
         if (!existingItem) {
