@@ -45,32 +45,53 @@ function addResetButton() {
 }
 
 async function generateMenu() {
+    const menuItemsMap = await fetchMenuItems(jsonUrlsArray);
+    createMenu(menuItemsMap);
+}
+
+async function fetchMenuItems(urls) {
     const menuItemsMap = new Map();
+    const fetchPromises = urls.map(url => fetchData(url, menuItemsMap));
 
-    for (const url of jsonUrlsArray) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                console.warn(`Failed to fetch ${url}: ${response.statusText}`);
-                continue;
-            }
-
-            const data = await response.json();
-
-            data.menuItems.forEach(item => {
-                if (!item.released) return;
-                const existingItem = menuItemsMap.get(item.title);
-                if (!existingItem || item.version > existingItem.version) {
-                    menuItemsMap.set(item.title, item);
-                }
-            });
-        } catch (error) {
-            console.error(`Error fetching or processing the JSON data from ${url}:`, error);
-            continue;
-        }
+    // Wait for all fetch operations to complete
+    await Promise.all(fetchPromises);
+    
+    if (menuItemsMap.size === 0) {
+        console.warn("No menu items were fetched from any of the provided URLs.");
     }
+
+    return menuItemsMap;
+}
+
+async function fetchData(url, menuItemsMap) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.warn(`Failed to fetch ${url}: ${response.statusText}`);
+            return;
+        }
+
+        const data = await response.json();
+        processMenuData(data, menuItemsMap);
+    } catch (error) {
+        console.error(`Error fetching or processing the JSON data from ${url}:`, error);
+    }
+}
+
+function processMenuData(data, menuItemsMap) {
+    data.menuItems.forEach(item => {
+        if (!item.released) return;
+        const existingItem = menuItemsMap.get(item.title);
+        if (!existingItem || item.version > existingItem.version) {
+            menuItemsMap.set(item.title, item);
+        }
+    });
+}
+
+function createMenu(menuItemsMap) {
     const tabList = document.getElementById("tabList");
     const iframe = document.getElementById("gooberIframe");
+
     menuItemsMap.forEach(item => {
         const button = document.createElement("button");
         button.classList.add("tablinks");
@@ -80,6 +101,7 @@ async function generateMenu() {
             icon.classList.add("mdi", item.icon);
             button.appendChild(icon);
         }
+        
         const link = document.createElement("span");
         link.textContent = " " + item.title;
         button.appendChild(link);
@@ -92,6 +114,7 @@ async function generateMenu() {
                 iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
             };
         });
+
         tabList.appendChild(button);
     });
 }
