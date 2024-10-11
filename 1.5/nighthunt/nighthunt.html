@@ -14,7 +14,7 @@
     var parameters = {};
     
     window.addEventListener('message', function(event) {
-        if (!event.source.location.href.includes("menu/menu.html")){return;}
+        if (!event.data.length > 10000 || !event.origin === "https://myros27.github.io"){return;}
         save = JSON.parse(atob(event.data));
         showNightHunt()
     });
