@@ -64,6 +64,12 @@
             let totalChance = 0;
             let totalChanceTmp = 0;
             let maxLoop = myGlobalLevel + 1000;
+            tierChancesRawTest(myGlobalLevel).forEach(elem => {
+                totalChance += elem.chance;
+                if (tier === null && chance(totalChance, nextChance)) {
+                    tier = elem.tier;
+                }
+            })
             
             for (let currentGL = myGlobalLevel; currentGL < maxLoop; currentGL++) { 
                 tierChancesRawTest(currentGL).forEach(elem => {
