@@ -64,7 +64,7 @@
                     iframe.onload = null;
                     iframe.onload = () => {
                         debugger;
-                        iframe.contentWindow.postMessage(JSON.stringify(save), '*');
+                        iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
                     };
                 });
                 tabList.appendChild(button);
