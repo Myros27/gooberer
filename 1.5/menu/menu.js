@@ -45,11 +45,18 @@ function addResetButton() {
 }
 
 async function generateMenu() {
-    try {
-        const menuItemsMap = new Map();
-        for (const url of jsonUrlsArray) {
+    const menuItemsMap = new Map();
+
+    for (const url of jsonUrlsArray) {
+        try {
             const response = await fetch(url);
+            if (!response.ok) {
+                console.warn(`Failed to fetch ${url}: ${response.statusText}`);
+                continue;
+            }
+
             const data = await response.json();
+
             data.menuItems.forEach(item => {
                 if (!item.released) return;
                 const existingItem = menuItemsMap.get(item.title);
@@ -57,34 +64,36 @@ async function generateMenu() {
                     menuItemsMap.set(item.title, item);
                 }
             });
+        } catch (error) {
+            console.error(`Error fetching or processing the JSON data from ${url}:`, error);
+            continue;
         }
-        const tabList = document.getElementById("tabList");
-        const iframe = document.getElementById("gooberIframe");
-        menuItemsMap.forEach(item => {
-            const button = document.createElement("button");
-            button.classList.add("tablinks");
-            if (item.icon) {
-                const icon = document.createElement("i");
-                icon.classList.add("mdi", item.icon);
-                button.appendChild(icon);
-            }
-            const link = document.createElement("span");
-            link.textContent = " " + item.title;
-            button.appendChild(link);
-
-            button.addEventListener('click', () => {
-                iframe.src = item.link;
-                document.title = `Gooberer ${item.title}`;
-                iframe.onload = null;
-                iframe.onload = () => {
-                    iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
-                };
-            });
-            tabList.appendChild(button);
-        });
-    } catch (error) {
-        console.error("Error fetching or processing the JSON data:", error);
     }
+    const tabList = document.getElementById("tabList");
+    const iframe = document.getElementById("gooberIframe");
+    menuItemsMap.forEach(item => {
+        const button = document.createElement("button");
+        button.classList.add("tablinks");
+
+        if (item.icon) {
+            const icon = document.createElement("i");
+            icon.classList.add("mdi", item.icon);
+            button.appendChild(icon);
+        }
+        const link = document.createElement("span");
+        link.textContent = " " + item.title;
+        button.appendChild(link);
+
+        button.addEventListener('click', () => {
+            iframe.src = item.link;
+            document.title = `Gooberer ${item.title}`;
+            iframe.onload = null;
+            iframe.onload = () => {
+                iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
+            };
+        });
+        tabList.appendChild(button);
+    });
 }
 
 generateMenu();
