@@ -51,7 +51,7 @@ async function generateMenu() {
 
 async function fetchMenuItems(urls) {
     const menuItemsMap = new Map();
-    const fetchPromises = urls.map(url => fetchData(url, menuItemsMap));
+    const fetchPromises = urls.map(url => fetchData(url, menuItemsMap, url));
     await Promise.all(fetchPromises);
     if (menuItemsMap.size === 0) {
         console.warn("No menu items were fetched from any of the provided URLs.");
@@ -88,7 +88,6 @@ function processMenuData(data, menuItemsMap, originalUrl) {
 function createMenu(menuItemsMap) {
     const tabList = document.getElementById("tabList");
     const iframe = document.getElementById("gooberIframe");
-
     menuItemsMap.forEach(item => {
         const button = document.createElement("button");
         button.classList.add("tablinks");
@@ -100,7 +99,6 @@ function createMenu(menuItemsMap) {
         const link = document.createElement("span");
         link.textContent = " " + item.title;
         button.appendChild(link);
-
         button.addEventListener('click', () => {
             iframe.src = item.link;
             document.title = `Gooberer ${item.title}`;
