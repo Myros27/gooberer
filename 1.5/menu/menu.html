@@ -55,10 +55,15 @@
                     button.appendChild(icon);
                 }
                 const link = document.createElement("span");
-                link.textContent = item.title;
+                link.textContent = " " + item.title;
                 button.appendChild(link);
                 button.addEventListener('click', () => {
                     iframe.src = item.link;
+                    document.title = `Gooberer ${item.title}`;
+                    iframe.onload = null;
+                    iframe.onload = () => {
+                        iframe.contentWindow.postMessage(save, '*');
+                    };
                 });
                 tabList.appendChild(button);
             });
