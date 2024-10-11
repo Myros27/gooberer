@@ -63,16 +63,9 @@
             let nextGL = null
             let totalChance = 0;
             let totalChanceTmp = 0;
-            tierChancesRaw().forEach(elem => {
-                totalChance += elem.chance;
-                if (tier === null && chance(totalChance, nextChance)) {
-                    tier = elem.tier;
-                }
-            })
-    
             let maxLoop = myGlobalLevel + 1000;
             
-            for (let currentGL = parseInt(myGlobalLevel); currentGL < maxLoop; currentGL++) { 
+            for (let currentGL = myGlobalLevel; currentGL < maxLoop; currentGL++) { 
                 tierChancesRawTest(currentGL).forEach(elem => {
                     totalChanceTmp += elem.chance;
                     if (newtier === null && chance(totalChanceTmp, nextChance)) {
