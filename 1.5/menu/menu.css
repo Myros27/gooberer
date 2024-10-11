@@ -59,4 +59,6 @@ p {
 #gooberIframe {
     flex: 1;
     border: none;
+    width: 100%;
+    height: 100%;
 }
