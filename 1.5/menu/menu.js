@@ -18,17 +18,18 @@ if (file) {
         } else {
             save = JSON.parse(rawSave)
         }
-            validateSave()
+        validateSave()
         }
     }
 }
 
 function validateSave(){
-    if (save === undefined || save === null || save === ""){
+    if (save === undefined || save === null || save === "")
+    {
         alert("invalid save")
     }
-        showMenu()
-    }
+    showMenu()
+}
 
 function showMenu(){
     document.getElementById("tabList").removeAttribute("hidden")
