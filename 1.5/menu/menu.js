@@ -51,7 +51,7 @@ async function generateMenu() {
 
 async function fetchMenuItems(urls) {
     const menuItemsMap = new Map();
-    const fetchPromises = urls.map(url => fetchData(url, menuItemsMap, url));
+    const fetchPromises = urls.map(url => fetchData(url, menuItemsMap));
     await Promise.all(fetchPromises);
     if (menuItemsMap.size === 0) {
         console.warn("No menu items were fetched from any of the provided URLs.");
@@ -59,7 +59,7 @@ async function fetchMenuItems(urls) {
     return menuItemsMap;
 }
 
-async function fetchData(url, menuItemsMap, originalUrl) {
+async function fetchData(url, menuItemsMap) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -67,7 +67,7 @@ async function fetchData(url, menuItemsMap, originalUrl) {
             return;
         }
         const data = await response.json();
-        processMenuData(data, menuItemsMap, originalUrl);
+        processMenuData(data, menuItemsMap, url);
     } catch (error) {
         console.error(`Error fetching or processing the JSON data from ${url}:`, error);
     }
