@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <p id="playerId"></p>
-    <p>example</p>
+    <div id="showListHere"></div>
 </body>
 </html>
 
@@ -16,14 +15,13 @@
     
     window.addEventListener('message', function(event) {
         save = JSON.parse(atob(event.data));
-        feature()
+        showNightHunt()
     });
 
     function showNightHunt(){
-      let localDict = JSON.parse(document.getElementById("saveData").innerHTML);
       let recipeList = []
-      for (let key in localDict.event.nightHunt_potion){
-          recipeList.push([key,localDict.event.nightHunt_potion[key].recipe])
+      for (let key in save.event.nightHunt_potion){
+          recipeList.push([key,save.event.nightHunt_potion[key].recipe])
       }
       var sortedRecipeList = recipeList.sort((a, b) => a[1].length - b[1].length);
   
@@ -49,10 +47,6 @@
           img.src = "/gooberer/1.5/nighthunt/images/" + arr[i] + ".png";
           div.appendChild(img);
       }
-  }
-
-  function feature(){
-      document.getElementById("playerId").innerText = save.playerId
   }
     
 </script>
