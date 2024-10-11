@@ -63,24 +63,26 @@ async function fetchMenuItems(urls) {
     return menuItemsMap;
 }
 
-async function fetchData(url, menuItemsMap) {
+async function fetchData(url, menuItemsMap, originalUrl) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
             console.warn(`Failed to fetch ${url}: ${response.statusText}`);
             return;
         }
-
         const data = await response.json();
-        processMenuData(data, menuItemsMap);
+        processMenuData(data, menuItemsMap, originalUrl);
     } catch (error) {
         console.error(`Error fetching or processing the JSON data from ${url}:`, error);
     }
 }
 
-function processMenuData(data, menuItemsMap) {
+function processMenuData(data, menuItemsMap, originalUrl) {
+    const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
+
     data.menuItems.forEach(item => {
         if (!item.released) return;
+        item.link = `${baseUrl}/${item.link.split('/').pop()}`;
         const existingItem = menuItemsMap.get(item.title);
         if (!existingItem || item.version > existingItem.version) {
             menuItemsMap.set(item.title, item);
@@ -95,13 +97,11 @@ function createMenu(menuItemsMap) {
     menuItemsMap.forEach(item => {
         const button = document.createElement("button");
         button.classList.add("tablinks");
-
         if (item.icon) {
             const icon = document.createElement("i");
             icon.classList.add("mdi", item.icon);
             button.appendChild(icon);
         }
-        
         const link = document.createElement("span");
         link.textContent = " " + item.title;
         button.appendChild(link);
@@ -114,7 +114,6 @@ function createMenu(menuItemsMap) {
                 iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
             };
         });
-
         tabList.appendChild(button);
     });
 }
