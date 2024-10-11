@@ -1,4 +1,5 @@
 var save;
+var devmode = false;
 
 let jsonUrlsArray = [
     "https://myros27.github.io/gooberer/1.5/items.json",
@@ -89,7 +90,8 @@ function processMenuData(data, menuItemsMap, originalUrl) {
     const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
     const urlPriority = jsonUrlsArray.indexOf(originalUrl);
     data.menuItems.forEach(item => {
-        if (!item.released) return;
+        if (!item.released && !devMode) return;
+        if (!item.released && devMode) item.title = `dev-${item.title}`;
         item.link = `${baseUrl}/${item.link}`;
         const existingItem = menuItemsMap.get(item.title);
         if (!existingItem) {
