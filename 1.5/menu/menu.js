@@ -1,9 +1,9 @@
 var save;
 
 let jsonUrlsArray = [
-  "https://myros27.github.io/gooberer/1.5/items.json",
-  "https://craftyduck100.github.io/gooberer/1.5/items.json",
-  "https://sashkara.github.io/gooberer/1.5/items.json",
+    "https://myros27.github.io/gooberer/1.5/items.json",
+    "https://craftyduck100.github.io/gooberer/1.5/items.json",
+    "https://sashkara.github.io/gooberer/1.5/items.json",
 ];
 
 function uploadFile() {
@@ -18,11 +18,22 @@ if (file) {
         } else {
             save = JSON.parse(rawSave)
         }
-        document.getElementById("tabList").removeAttribute("hidden")
-        document.getElementById("feature").removeAttribute("hidden")
-        document.getElementById("saveInput").hidden = true
+            validateSave()
         }
     }
+}
+
+function validateSave(){
+    if (save === undefined || save === null || save === ""){
+        alert("invalid save")
+    }
+        showMenu()
+    }
+
+function showMenu(){
+    document.getElementById("tabList").removeAttribute("hidden")
+    document.getElementById("feature").removeAttribute("hidden")
+    document.getElementById("saveInput").hidden = true
 }
 
 function resetAll(){
