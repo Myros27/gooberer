@@ -18,14 +18,18 @@
 <script>
     var save;
     var parameters = {};
+    const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
     
     window.addEventListener('message', function(event) {
         save = JSON.parse(atob(event.data));
         calcTreasure()
     });
 
-    let colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
+    
     function calcTreasure() {
+        if (save === undefined){
+            return
+        }
         debugger;
         let myGlobalLevel = typeof parseInt(document.getElementById('GL').value) === "number" ? document.getElementById('GL').value : 200;
         
