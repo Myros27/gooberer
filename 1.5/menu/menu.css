@@ -17,6 +17,10 @@ p {
     margin-bottom: 10px;
 }
 
+.distance {
+    padding: 5rem
+}
+
 .tab {
     overflow: hidden;
     border: 1px solid #222;
