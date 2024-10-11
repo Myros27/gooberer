@@ -63,7 +63,6 @@
                     document.title = `Gooberer ${item.title}`;
                     iframe.onload = null;
                     iframe.onload = () => {
-                        debugger;
                         iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
                     };
                 });
