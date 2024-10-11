@@ -8,8 +8,6 @@
     <div class="input-row">
         <p>amount:</p>
         <input type="number" value=20 id="treasureAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="calcTreasure()"></input>
-        <p>look ahead:</p>
-        <input type="number" value=20 id="treasureLevelAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="calcTreasure()"></input>
     </div>
     <div id="showTreasureHere"></div>
 </body>
@@ -19,6 +17,8 @@
     var save;
     var parameters = {};
     const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
+    const iconList = ['mdi-star', 'mdi-hexagram', 'mdi-star-four-points', 'mdi-star-three-points', 'mdi-lightning-bolt', 'mdi-spear', 'mdi-stamper', 'mdi-magnify', 'mdi-shaker', 'mdi-checkerboard', 'mdi-sd', 'mdi-bullseye', 'mdi-spa', 'mdi-sim', 'mdi-drama-masks', 'mdi-tag', 'mdi-water-pump', 'mdi-asterisk', 'mdi-filmstrip', 'mdi-pillar', 'mdi-vhs']
+    let effectList = ["miningDamage", "currencyMiningScrapGain", "miningOreGain"]
     
     window.addEventListener('message', function(event) {
         save = JSON.parse(atob(event.data));
@@ -26,35 +26,17 @@
     });
     
     function calcTreasure() {
-        debugger;
-        let myGlobalLevel = typeof parseInt(document.getElementById('GL').value) === "number" ? document.getElementById('GL').value : 200;
-        
+        let myGlobalLevel = getGl()
         let chosenEffect = [];
-        iconList = [
-            'mdi-star', 'mdi-hexagram', 'mdi-star-four-points', 'mdi-star-three-points', 'mdi-lightning-bolt',
-            'mdi-spear', 'mdi-stamper', 'mdi-magnify', 'mdi-shaker', 'mdi-checkerboard', 'mdi-sd', 'mdi-bullseye',
-            'mdi-spa', 'mdi-sim', 'mdi-drama-masks', 'mdi-tag', 'mdi-water-pump', 'mdi-asterisk', 'mdi-filmstrip',
-            'mdi-pillar', 'mdi-vhs'
-        ]
-        let effectList = [
-            "miningDamage",
-            "currencyMiningScrapGain",
-            "miningOreGain"
-        ]
-    
         const div = document.getElementById("showTreasureHere");
         while(div.firstChild){
             div.removeChild(div.firstChild);
         }
-    
         let amount = document.getElementById("treasureAmount").value;
         if (amount < 1 && amount > 10000) {amount = 20}
-    
-        let amountLvl = document.getElementById("treasureLevelAmount").value;
-        if (amount < 1 && amount > 10000) {amount = 20}
-    
+        
         var unlocks = save.unlock;
-        "miningSmeltery" in unlocks ? effectList.push("miningSmelterySpeed") : null;
+        "miningSmeltery" in unlocks ? effectList.push("miningSmelterySpeed") : null;//update those
         effectList.push("queueSpeedVillageBuilding");
         effectList.push("villageMaterialGain");
         effectList.push("currencyVillageCoinGain");
@@ -72,9 +54,8 @@
         "galleryDrums" in unlocks ? effectList.push("currencyGalleryPackageGain") : null;
     
         for(let i = 0; i < amount; i++) {
-            // Tier Rolling
-            var tierRng = typeof parseInt(document.getElementById('tierRng').value) === "number" ? document.getElementById('tierRng').value : 0;
-            let tierGen = new Math.seedrandom(document.getElementById('playerID').value + "treasureTier_regular" + '_' + (parseInt(tierRng) + i));
+            let tierRng = save.rng.treasureTier_regular ?? 0;
+            let tierGen = new Math.seedrandom(save.playerId + "treasureTier_regular" + '_' + (parseInt(tierRng) + i));
             const nextChance = tierGen()
             let tier = null;
             let newtier = null;
@@ -88,7 +69,7 @@
                 }
             })
     
-            let maxLoop = parseInt(amountLvl) + parseInt(myGlobalLevel);
+            let maxLoop = myGlobalLevel + 1000;
             
             for (let currentGL = parseInt(myGlobalLevel); currentGL < maxLoop; currentGL++) { 
                 tierChancesRawTest(currentGL).forEach(elem => {
@@ -107,19 +88,14 @@
                         break;
                     }
             }
-    
-            // Treasure Type + Output
-            var treasureRng = typeof parseInt(document.getElementById('treasureRng').value) === "number" ? document.getElementById('treasureRng').value : 0;
-            let rngGen = new Math.seedrandom(document.getElementById('playerID').value + "treasure_regular" + '_' + (parseInt(treasureRng) + i));
             if (nextGL == null){
                 outputText((i + 1) + ". " + String(randomElem(effectList, rngGen()) + ", " + randomElem(iconList, rngGen())), tier);
             }else{
                 outputText((i + 1) + ". " + String(randomElem(effectList, rngGen()) + ", " + randomElem(iconList, rngGen())) + ", Next Tier at GL" + nextGL, tier);
             }
-            
-            
         }
     }
+    
     function outputText(text, color = 0) {
         const para = document.createElement("p");
         para.style.color = colors[color];
@@ -135,68 +111,14 @@
         element.appendChild(para);
     }
     
-    function randomElem(array, rng = Math.random()) {
-        return array[randomInt(0, array.length - 1, rng)];
-    }
-    function randomInt(min, max, rng = Math.random()) {
-        return Math.floor(rng * (1 + max - min) + min);
-    }
-    
-    function tierChances() {
-        let chances = [];
-        var globalLevel = typeof parseInt(document.getElementById('GL').value) === "number" ? document.getElementById('GL').value : 200;
-        let chanceValue = globalLevel / 1000;
-    
-        while (chanceValue > 0) {
-            chances.push(chanceValue);
-    
-            chanceValue *= 0.9;
-            chanceValue -= 0.2;
-        }
-    
-        return chances;
-    }
-    
-    function chance(chance, rng = Math.random()) {
-        return rng < chance;
-    }
-    
-    function tierChancesRaw() {
+    function tierChancesRawTest(gl = getGl()) {
         let arr = [];
         let tier = 0;
         let totalChance = 0;
-    
-        const upgradeChances = tierChances();
-    
-        if (upgradeChances.length <= 0) {
-            return [{tier: 0, chance: 1}];
-        }
-    
-        upgradeChances.forEach((elem, key) => {
-            if (elem < 1) {
-                const chance = (1 - totalChance) * (1 - elem)
-                arr.push({tier, chance});
-                totalChance += chance;
-            }
-            tier++;
-            if ((key + 1) >= upgradeChances.length) {
-                arr.push({tier, chance: (1 - totalChance)});
-            }
-        });
-        return arr;
-    }
-    
-    function tierChancesRawTest(gl) {
-        let arr = [];
-        let tier = 0;
-        let totalChance = 0;
-    
         const upgradeChances = tierChancesTest(gl);
-    
         if (upgradeChances.length <= 0) {
             return [{tier: 0, chance: 1}];
         }
-    
         upgradeChances.forEach((elem, key) => {
             if (elem < 1) {
                 const chance = (1 - totalChance) * (1 - elem)
@@ -214,16 +136,26 @@
     function tierChancesTest(gl) {
         let chances = [];
         let chanceValue = gl / 1000;
-    
         while (chanceValue > 0) {
             chances.push(chanceValue);
-    
             chanceValue *= 0.9;
             chanceValue -= 0.2;
         }
-    
         return chances;
     }
+
+    function randomElem(array, rng = Math.random()) {
+        return array[randomInt(0, array.length - 1, rng)];
+    }
+    
+    function randomInt(min, max, rng = Math.random()) {
+        return Math.floor(rng * (1 + max - min) + min);
+    }
+    
+    function chance(chance, rng = Math.random()) {
+        return rng < chance;
+    }
+    
 </script>
 <script src="https://myros27.github.io/gooberer/1.5/utils/myros.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
