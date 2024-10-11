@@ -11,8 +11,8 @@
     <p>saveFile</p>
     <input type="file" id="mySaveFile" oninput="uploadFile()" style="color: #FFFFFF;"></input>
   </div>
-  <div id="feature">
-    
+  <div id="feature" hidden="hidden">
+     <iframe id="gooberIframe" src="" height="100%" width=100%></iframe> 
   </div>
 </body>
 </html>
@@ -44,6 +44,7 @@
             const response = await fetch(jsonUrl);
             const data = await response.json();
             const tabList = document.getElementById("tabList");
+            const iframe = document.getElementById("gooberIframe");
             data.menuItems.forEach(item => {
                 const button = document.createElement("button");
                 button.classList.add("tablinks");
@@ -52,16 +53,19 @@
                     icon.classList.add("mdi", item.icon);
                     button.appendChild(icon);
                 }
-                const link = document.createElement("a");
-                link.href = item.link;
+                const link = document.createElement("span");
                 link.textContent = item.title;
                 button.appendChild(link);
+                button.addEventListener('click', () => {
+                    iframe.src = item.link;
+                });
                 tabList.appendChild(button);
             });
         } catch (error) {
             console.error("Error fetching or processing the JSON data:", error);
         }
     }
+    
     generateMenu("https://myros27.github.io/gooberer/1.5/menu/menu.json");
     
 </script>
