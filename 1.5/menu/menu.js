@@ -52,14 +52,10 @@ async function generateMenu() {
 async function fetchMenuItems(urls) {
     const menuItemsMap = new Map();
     const fetchPromises = urls.map(url => fetchData(url, menuItemsMap));
-
-    // Wait for all fetch operations to complete
     await Promise.all(fetchPromises);
-    
     if (menuItemsMap.size === 0) {
         console.warn("No menu items were fetched from any of the provided URLs.");
     }
-
     return menuItemsMap;
 }
 
@@ -79,7 +75,6 @@ async function fetchData(url, menuItemsMap, originalUrl) {
 
 function processMenuData(data, menuItemsMap, originalUrl) {
     const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
-
     data.menuItems.forEach(item => {
         if (!item.released) return;
         item.link = `${baseUrl}/${item.link.split('/').pop()}`;
