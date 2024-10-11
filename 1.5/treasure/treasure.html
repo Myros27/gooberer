@@ -6,23 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <div id="feature" hidden="hidden">
-        <p id="playerId"></p>
-        <p>treasure</p>
-    </div>
+    <p id="playerId"></p>
+    <p>treasure</p>
 </body>
 </html>
 
 <script>
-    const script = document.createElement('script');
-    script.src = 'https://myros27.github.io/gooberer/1.5/menu/menu.js';
-    script.async = false;
-    document.head.appendChild(script);
-
-    async function feature(){
-        document.getElementById("feature").removeAttribute("hidden")
-        document.getElementById("playerId").innerText = save.playerId;
-        alert("What a nice feature player " + save.playerId)
-    }
+    var save;
+    var parameters = {};
     
+    window.addEventListener('message', function(event) {
+        save = JSON.parse(atob(event.data));
+        feature()
+    });
+
+    function feature(){
+        document.getElementById("playerId").innerText = save.playerId
+    }
 </script>
