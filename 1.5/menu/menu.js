@@ -1,5 +1,5 @@
 var save;
-var devmode = false;
+var devMode = false;
 
 let jsonUrlsArray = [
     "https://myros27.github.io/gooberer/1.5/items.json",
