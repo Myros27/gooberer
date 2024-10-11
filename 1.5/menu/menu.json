@@ -3,17 +3,23 @@
     {
       "title": "Example",
       "icon": "mdi-cards",
-      "link": "https://myros27.github.io/gooberer/1.5/example/example.html"
+      "link": "https://myros27.github.io/gooberer/1.5/example/example.html",
+      "version": 1,
+      "released": false
     },
     {
       "title": "Treasures",
       "icon": "mdi-treasure-chest",
-      "link": "https://myros27.github.io/gooberer/1.5/treasure/treasure.html"
+      "link": "https://myros27.github.io/gooberer/1.5/treasure/treasure.html",
+      "version": 1,
+      "released": true
     },
     {
       "title": "Nighthunt",
       "icon": "mdi-weather-night",
-      "link": "https://myros27.github.io/gooberer/1.5/nighthunt/nighthunt.html"
+      "link": "https://myros27.github.io/gooberer/1.5/nighthunt/nighthunt.html",
+      "version": 1,
+      "released": true
     }
   ]
 }
