@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <p id="playerId"></p>
+    <p>example</p>
+    <h1>Save Test</h1>
+</body>
+</html>
+
+<script>
+    var save;
+    var parameters = {};
+    
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'jsException'){return;}
+        save = JSON.parse(atob(event.data));
+        feature()
+    });
+
+    function feature(){
+        document.getElementById("playerId").innerText = save.playerId
+    }
+
+    const apiUrl = 'https://cloudsavez-production.up.railway.app';
+
+        async function deleteAllSaves() {
+            try {
+                const response = await fetch(`${apiUrl}/deleteAllSaves`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const result = await response.json();
+                console.log('Delete All Saves Response:', result);
+            } catch (error) {
+                console.error('Error deleting all saves:', error);
+            }
+        }
+
+        async function saveData(playerId, ident, deviceDescription, timeStamp, saveData) {
+            try {
+                const response = await fetch(`${apiUrl}/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ playerId, ident, deviceDescription, timeStamp, saveData }),
+                });
+
+                const result = await response.json();
+                console.log('Save Response:', result);
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        }
+
+        async function test() {
+            await deleteAllSaves();
+            await saveData('player123', 'ident123', 'Chrome Browser', new Date().toISOString(), { score: 100 });
+            await saveData('player456', 'ident456', 'Firefox Browser', new Date().toISOString(), { score: 200 });
+            await saveData('player789', 'ident789', 'Safari Browser', new Date().toISOString(), { score: 300 });
+
+            // Fetch saves by playerId to check if they were saved correctly
+            await fetchSaves('player123');
+            await fetchSaves('player456');
+            await fetchSaves('player789');
+
+            // Fetch all player IDs
+            await fetchAllPlayerIds();
+        }
+
+        async function fetchSaves(playerId) {
+            try {
+                const response = await fetch(`${apiUrl}/getSavesByPlayerId/${playerId}`);
+                const result = await response.json();
+                console.log(`Saves by Player ID ${playerId}:`, result);
+            } catch (error) {
+                console.error('Error fetching saves by playerId:', error);
+            }
+        }
+
+        async function fetchAllPlayerIds() {
+            try {
+                const response = await fetch(`${apiUrl}/returnAllPlayerIds`);
+                const result = await response.json();
+                console.log('All Player IDs:', result);
+            } catch (error) {
+                console.error('Error fetching all player IDs:', error);
+            }
+        }
+
+        test();
+    
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
