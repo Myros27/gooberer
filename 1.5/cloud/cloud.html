@@ -6,8 +6,17 @@
 </head>
 <body>
     <p id="playerId"></p>
-    <p>example</p>
-    <h1>Save Test</h1>
+
+    <button onclick="deleteAllSaves()">Delete All Saves</button>
+    <button onclick="saveData('player123', 'ident123', 'Chrome Browser', new Date().toISOString(), { score: 100 })">Save Data Player 123</button>
+    <button onclick="saveData('player456', 'ident456', 'Firefox Browser', new Date().toISOString(), { score: 200 })">Save Data Player 456</button>
+    <button onclick="saveData('player789', 'ident789', 'Safari Browser', new Date().toISOString(), { score: 300 })">Save Data Player 789</button>
+    <button onclick="fetchSaves('player123')">Fetch Saves for Player 123</button>
+    <button onclick="fetchSaves('player456')">Fetch Saves for Player 456</button>
+    <button onclick="fetchSaves('player789')">Fetch Saves for Player 789</button>
+    <button onclick="fetchAllPlayerIds()">Fetch All Player IDs</button>
+    
+    <div id="result"></div>
 </body>
 </html>
 
@@ -25,78 +34,81 @@
         document.getElementById("playerId").innerText = save.playerId
     }
 
-    const apiUrl = 'https://cloudsavez-production.up.railway.app';
+     const apiUrl = 'https://cloudsavez-production.up.railway.app';
 
-        async function deleteAllSaves() {
-            try {
-                const response = await fetch(`${apiUrl}/deleteAllSaves`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+    async function deleteAllSaves() {
+        try {
+            const response = await fetch(`${apiUrl}/deleteAllSaves`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                const result = await response.json();
-                console.log('Delete All Saves Response:', result);
-            } catch (error) {
-                console.error('Error deleting all saves:', error);
-            }
+            const result = await response.json();
+            document.getElementById('result').innerText = 'Delete All Saves Response: ' + JSON.stringify(result, null, 2);
+        } catch (error) {
+            console.error('Error deleting all saves:', error);
+            document.getElementById('result').innerText = 'Error deleting all saves: ' + error;
         }
+    }
 
-        async function saveData(playerId, ident, deviceDescription, timeStamp, saveData) {
-            try {
-                const response = await fetch(`${apiUrl}/save`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ playerId, ident, deviceDescription, timeStamp, saveData }),
-                });
+    async function saveData(playerId, ident, deviceDescription, timeStamp, saveData) {
+        try {
+            const response = await fetch(`${apiUrl}/save`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ playerId, ident, deviceDescription, timeStamp, saveData }),
+            });
 
-                const result = await response.json();
-                console.log('Save Response:', result);
-            } catch (error) {
-                console.error('Error saving data:', error);
-            }
+            const result = await response.json();
+            document.getElementById('result').innerText = 'Save Response: ' + JSON.stringify(result, null, 2);
+        } catch (error) {
+            console.error('Error saving data:', error);
+            document.getElementById('result').innerText = 'Error saving data: ' + error;
         }
+    }
 
-        async function test() {
-            await deleteAllSaves();
-            await saveData('player123', 'ident123', 'Chrome Browser', new Date().toISOString(), { score: 100 });
-            await saveData('player456', 'ident456', 'Firefox Browser', new Date().toISOString(), { score: 200 });
-            await saveData('player789', 'ident789', 'Safari Browser', new Date().toISOString(), { score: 300 });
-
-            // Fetch saves by playerId to check if they were saved correctly
-            await fetchSaves('player123');
-            await fetchSaves('player456');
-            await fetchSaves('player789');
-
-            // Fetch all player IDs
-            await fetchAllPlayerIds();
+    async function fetchSaves(playerId) {
+        try {
+            const response = await fetch(`${apiUrl}/getSavesByPlayerId/${playerId}`);
+            const result = await response.json();
+            document.getElementById('result').innerText = `Saves for Player ID ${playerId}: ` + JSON.stringify(result, null, 2);
+        } catch (error) {
+            console.error('Error fetching saves by playerId:', error);
+            document.getElementById('result').innerText = 'Error fetching saves: ' + error;
         }
+    }
 
-        async function fetchSaves(playerId) {
-            try {
-                const response = await fetch(`${apiUrl}/getSavesByPlayerId/${playerId}`);
-                const result = await response.json();
-                console.log(`Saves by Player ID ${playerId}:`, result);
-            } catch (error) {
-                console.error('Error fetching saves by playerId:', error);
-            }
+    async function fetchAllPlayerIds() {
+        try {
+            const response = await fetch(`${apiUrl}/returnAllPlayerIds`);
+            const result = await response.json();
+            document.getElementById('result').innerText = 'All Player IDs: ' + JSON.stringify(result, null, 2);
+        } catch (error) {
+            console.error('Error fetching all player IDs:', error);
+            document.getElementById('result').innerText = 'Error fetching all player IDs: ' + error;
         }
-
-        async function fetchAllPlayerIds() {
-            try {
-                const response = await fetch(`${apiUrl}/returnAllPlayerIds`);
-                const result = await response.json();
-                console.log('All Player IDs:', result);
-            } catch (error) {
-                console.error('Error fetching all player IDs:', error);
-            }
-        }
-
-        test();
+    }
     
 </script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    button {
+        margin: 5px;
+    }
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        white-space: pre-wrap;
+    }
+</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
