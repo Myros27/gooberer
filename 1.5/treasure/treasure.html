@@ -62,7 +62,7 @@
         
         let icon = mapTypeToIcon(type)
         let color = mapTierToColor(tier)
-        let strenght =  mapTypeToStrenght(type) + 1
+        let strenght =  (tier * mapTypeToStrenght(type)) + 1
         let effectName = mapTypeToText(type)
         const showTreasureHere = document.getElementById("showTreasureHere");
         const div = document.createElement("div");
