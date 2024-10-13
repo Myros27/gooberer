@@ -50,7 +50,8 @@
     }
 
     function generateTreasure(tier, nextGl){
-        let rngGen = new Math.seedrandom(save.playerId + "treasure_" + (parseInt(save.rng.treasure_regular ?? 0) + i));
+        let seed = save.playerId + "treasure_" + ((save.rng.treasure_regular ?? 0) + i)
+        let rngGen = new Math.seedrandom(seed);
         let chosenEffect = [];
         const effectlist = generateEffectlist()
         let chosenElem = Elem(effectList, rngGen());
