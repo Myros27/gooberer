@@ -41,7 +41,7 @@ function mapTierToColorOriginal(tier){
 }
 
 function mapTierToColor(tier){
-    const colors = ['white', '#FFEB3B', '#FF9800', '#E91E63', '#9C27B0', '#3D4FB1', '#3E50B2', '#2095F2', '#009486', '#121212', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
+    const colors = ['white', 'white', '#FFEB3B', '#FF9800', '#F24235', '#E91E63', '#9C27B0', '#3D4FB1', '#3E50B2', '#2095F2', '#009486', '#121212', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
     return colors[tier]
 }
 
