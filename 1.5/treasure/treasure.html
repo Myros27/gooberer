@@ -74,6 +74,7 @@
         const textContainer = document.createElement("p");
         const strengthContainer = document.createElement("p");
         const effectContainer = document.createElement("p");
+        const nextGlContainer = document.createElement("p");
         
         div.classList.add("treasure-item");
         divIcon.classList.add("icon-container");
@@ -88,11 +89,15 @@
         strengthContainer.innerText = "x" + strength;
         effectContainer.innerText = "Tier " + tier + ": ";
         effectContainer.style.color = color;
+
+        nextGlContainer.innerText = "Tier " + tier + ": ";
+        nextGlContainer.style.color = color;
         
         divIcon.appendChild(iconContainer);
         divTreasure.appendChild(textContainer);
         divTreasure.appendChild(strengthContainer);
         divEffect.appendChild(effectContainer);
+        divEffect.appendChild(nextGlContainer);
         div.appendChild(divIcon);
         div.appendChild(divEffect);
         div.appendChild(divTreasure);
@@ -208,7 +213,7 @@
     }
     
     .effect-text {
-        font-size: 40px;
+        font-size: 20px;
         margin-right: 10px;
         text-align: right;
         flex-shrink: 0;
