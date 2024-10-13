@@ -14,6 +14,7 @@
     <button onclick="fetchSaves('player123')">Fetch Saves for Player 123</button>
     <button onclick="fetchSaves('player456')">Fetch Saves for Player 456</button>
     <button onclick="fetchSaves('player789')">Fetch Saves for Player 789</button>
+    <button onclick="fetchAllIdents()">Fetch All Idents</button>
     <button onclick="fetchAllPlayerIds()">Fetch All Player IDs</button>
     
     <div id="result"></div>
@@ -91,6 +92,17 @@
         } catch (error) {
             console.error('Error fetching all player IDs:', error);
             document.getElementById('result').innerText = 'Error fetching all player IDs: ' + error;
+        }
+    }
+
+    async function fetchAllIdents() {
+        try {
+            const response = await fetch(`${apiUrl}/returnAllIdents`);
+            const result = await response.json();
+            document.getElementById('result').innerText = 'All Idents: ' + JSON.stringify(result, null, 2);
+        } catch (error) {
+            console.error('Error fetching all idents:', error);
+            document.getElementById('result').innerText = 'Error fetching all idents: ' + error;
         }
     }
     
