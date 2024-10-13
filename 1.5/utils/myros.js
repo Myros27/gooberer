@@ -37,7 +37,7 @@ function mapTypeToIcon(type){
 
 function mapTierToColor(tier){
     const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
-    return color[tier]
+    return colors[tier]
 }
 
 function mapTypeToStrenght(type){
