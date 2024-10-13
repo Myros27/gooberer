@@ -86,7 +86,7 @@
 
     async function fetchAllPlayerIds() {
         try {
-            const response = await fetch(`${apiUrl}/returnAllPlayerIds`);
+            const response = await fetch(`${apiUrl}/returnAllPlayerIdsFromFiles`);
             const result = await response.json();
             document.getElementById('result').innerText = 'All Player IDs: ' + JSON.stringify(result, null, 2);
         } catch (error) {
