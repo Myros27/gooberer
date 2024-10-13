@@ -73,6 +73,12 @@
         const textContainer = document.createElement("p");
         const strenghtContainer = document.createElement("p");
         const effectContainer = document.createElement("p");
+
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+
+        divTreasure.style.display = "flex";
+        divTreasure.style.justifyContent = "space-between";
         
         iconContainer.style.fontSize = "40px";
         iconContainer.classList.add("mdi")
@@ -80,7 +86,9 @@
         iconContainer.style.color = color
 
         textContainer.innerText = effectName + ": "
+        
         strenghtContainer.innerText = "x" + strenght
+        
         effectContainer.innerText = "Tier " + tier + " treasure"
 
         divIcon.appendChild(iconContainer);
