@@ -6,7 +6,7 @@
 </head>
 <body>
     <div id="amountInput" class="input-row">
-        <p>amount:</p>
+        <p id="amountText">amount:</p>
         <input type="number" value=20 id="treasureAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="calcTreasure()"></input>
     </div>
     <div id="showTreasureHere"></div>
@@ -23,6 +23,8 @@
         if (parameters.size > 0)
         {
             document.getElementById("amountInput").hidden = "hidden";
+            document.getElementById("treasureAmount").hidden = "hidden";
+            document.getElementById("amountText").hidden = "hidden";
             document.getElementById("treasureAmount").value = 17
         }
         calcTreasure()
