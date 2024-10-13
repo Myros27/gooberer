@@ -15,7 +15,7 @@
 
 <script>
     var save;
-    var parameters = {};
+    var parameters = new URLSearchParams(document.location.search)
     
     window.addEventListener('message', function(event) {
         if (event.data.action === 'jsException'){return;}
