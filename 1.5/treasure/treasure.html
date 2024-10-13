@@ -45,11 +45,11 @@
                     break;
                 }
             }
-            generateTreasure(tier, nextGl)
+            generateTreasure(tier, nextGl, i)
         }
     }
 
-    function generateTreasure(tier, nextGl){
+    function generateTreasure(tier, nextGl, i){
         let seed = save.playerId + "treasure_" + ((save.rng.treasure_regular ?? 0) + i)
         let rngGen = new Math.seedrandom(seed);
         let chosenEffect = [];
