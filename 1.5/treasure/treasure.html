@@ -66,15 +66,30 @@
         let effectName = mapTypeToText(type)
         const showTreasureHere = document.getElementById("showTreasureHere");
         const div = document.createElement("div");
+        const divIcon = document.createElement("div");
+        const divTreasure = document.createElement("div");
+        const divEffect = document.createElement("div");
         const iconContainer = document.createElement("i");
         const textContainer = document.createElement("p");
+        const strenghtContainer = document.createElement("p");
+        const effectContainer = document.createElement("p");
+        
         iconContainer.style.fontSize = "40px";
         iconContainer.classList.add("mdi")
         iconContainer.classList.add(icon)
         iconContainer.style.color = color
-        textContainer.innerText = effectName + " " + strenght
-        div.appendChild(iconContainer);
-        div.appendChild(textContainer);
+
+        textContainer.innerText = effectName + ": "
+        strenghtContainer.innerText = "x" + strenght
+        effectContainer.innerText = "Tier " + tier + "treasure"
+
+        divIcon.appendChild(iconContainer);
+        divTreasure.appendChild(textContainer);
+        divTreasure.appendChild(strenghtContainer);
+        divEffect.appendChild(effectContainer);
+        div.appendChild(divIcon);
+        div.appendChild(divTreasure);
+        div.appendChild(divEffect);
         showTreasureHere.appendChild(div);
     }
 
