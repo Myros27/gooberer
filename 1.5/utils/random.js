@@ -1,5 +1,3 @@
-export { randomInt, randomFloat, randomElem, weightSelect, chance, randomRound, simpleHash, randomHex }
-
 /**
  * Return a random integer between two numbers
  * @param {Number} min minimum value returned
