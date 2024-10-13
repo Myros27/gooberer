@@ -20,7 +20,7 @@
     window.addEventListener('message', function(event) {
         if (event.data.action === 'jsException'){return;}
         save = JSON.parse(atob(event.data));
-        if (parameters.lenght > 0)
+        if (parameters.size > 0)
         {
             document.getElementById("amountInput").hidden = "hidden";
             document.getElementById("treasureAmount").value = 14
