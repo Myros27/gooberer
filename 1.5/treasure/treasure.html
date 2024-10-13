@@ -53,7 +53,7 @@
         let seed = save.playerId + "treasure_" + ((save.rng.treasure_regular ?? 0) + i)
         let rngGen = new Math.seedrandom(seed);
         let chosenEffect = [];
-        const effectlist = generateEffectlist()
+        const effectList = generateEffectList()
         let chosenElem = randomElem(effectList, rngGen());
         //effectList = effectList.filter(el => el !== chosenElem); dual
         chosenEffect.push(chosenElem);
@@ -62,7 +62,7 @@
         console.log("tier: " + tier + " nextGl: " + nextGl + " effect: " + chosenEffect[0])
     }
 
-    function generateEffectlist(){
+    function generateEffectList(){
         let unlocks = save.unlock;
         let effectList = [];
         effectList.push("miningDamage");
