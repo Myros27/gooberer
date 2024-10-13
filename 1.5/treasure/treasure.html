@@ -52,9 +52,10 @@
     function generateTreasure(tier, nextGl, i){
         let seed = save.playerId + "treasure_" + ((save.rng.treasure_regular ?? 0) + i)
         let rngGen = new Math.seedrandom(seed);
+        let randomValue = rngGen()
         let chosenEffect = [];
         const effectList = generateEffectList()
-        let chosenElem = randomElem(effectList, rngGen());
+        let chosenElem = randomElem(effectList, randomValue);
         //effectList = effectList.filter(el => el !== chosenElem); dual
         chosenEffect.push(chosenElem);
         const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
