@@ -14,6 +14,7 @@
 </html>
 
 <script>
+    import { randomElem, chance} from random
     var save;
     var parameters = {};
     
@@ -32,7 +33,7 @@
         let amount = document.getElementById("treasureAmount").value;
         if (amount < 1 && amount > 10000) {amount = 20}
         for (let i = 0; i < amount; i++) {
-            let rngGen = new Math.seedrandom(save.playerId + "treasureTier_" + (parseInt(save.rng.treasureTier_regular ?? 0) + i));
+            let rngGen = new Math.seed(save.playerId + "treasureTier_" + (parseInt(save.rng.treasureTier_regular ?? 0) + i));
             const nextChance = rngGen();
             let tier = getTier(myGlobalLevel, nextChance)
             let nextGl
@@ -49,10 +50,10 @@
     }
 
     function generateTreasure(tier, nextGl){
-        let rngGen = new Math.seedrandom(save.playerId + "treasure_" + (parseInt(save.rng.treasure_regular ?? 0) + i));
+        let rngGen = new Math.seed(save.playerId + "treasure_" + (parseInt(save.rng.treasure_regular ?? 0) + i));
         let chosenEffect = [];
         const effectlist = generateEffectlist()
-        let chosenElem = randomElem(effectList, rngGen());
+        let chosenElem = Elem(effectList, rngGen());
         //effectList = effectList.filter(el => el !== chosenElem); dual
         chosenEffect.push(chosenElem);
         const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
@@ -133,7 +134,7 @@
     
 </script>
 <script src="https://myros27.github.io/gooberer/1.5/utils/myros.js"></script>
-<script src="https://myros27.github.io/gooberer/1.5/utils/random.js" type="module"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+<script src="https://myros27.github.io/gooberer/1.5/utils/.js" type="module"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/seed/3.0.5/seed.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
