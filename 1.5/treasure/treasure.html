@@ -66,13 +66,15 @@
         let effectName = mapTypeToText(type)
         const showTreasureHere = document.getElementById("showTreasureHere");
         const div = document.createElement("div");
-        const icon = document.createElement("i");
-        const text = document.createElement("p");
+        const iconContainer = document.createElement("i");
+        const textContainer = document.createElement("p");
         icon.style.fontSize = "40px";
         icon.classList.add("mdi " + icon)
         icon.style.color = color
         text.innerText = text + " " + strenght
-        para.appendChild(node);
+        div.appendChild(iconContainer);
+        div.appendChild(textContainer);
+        showTreasureHere.appendChild(div);
     }
 
     function generateEffectList(){
