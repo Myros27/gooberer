@@ -36,8 +36,7 @@
             let rngGen = new Math.seedrandom(seed);
             const nextChance = rngGen();
             let tier = getTier(myGlobalLevel, nextChance)
-            let nextGl
-                        
+            let nextGl      
             for (let currentGL = myGlobalLevel; currentGL < myGlobalLevel + 1000; currentGL++) {
                 if (getTier(currentGL, nextChance) !== tier)
                 {
