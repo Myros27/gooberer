@@ -102,7 +102,7 @@
         let arr = [];
         let tier = 0;
         let totalChance = 0;
-        const upgradeChances = tierChancesTest(gl);
+        const upgradeChances = tierChances(gl);
         if (upgradeChances.length <= 0) {
             return [{tier: 0, chance: 1}];
         }
