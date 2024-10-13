@@ -69,7 +69,8 @@
         const iconContainer = document.createElement("i");
         const textContainer = document.createElement("p");
         iconContainer.style.fontSize = "40px";
-        iconContainer.classList.add("mdi " + icon)
+        iconContainer.classList.add("mdi")
+        iconContainer.classList.add(icon)
         iconContainer.style.color = color
         textContainer.innerText = text + " " + strenght
         div.appendChild(iconContainer);
