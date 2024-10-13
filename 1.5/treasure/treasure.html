@@ -54,7 +54,7 @@
         let rngGen = new Math.seedrandom(seed);
         let chosenEffect = [];
         const effectlist = generateEffectlist()
-        let chosenElem = Elem(effectList, rngGen());
+        let chosenElem = randomElem(effectList, rngGen());
         //effectList = effectList.filter(el => el !== chosenElem); dual
         chosenEffect.push(chosenElem);
         const colors = ['white', 'yellow', 'orange', 'red', 'pink', 'purple', 'indigo', 'blue', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange-red', 'red-pink', 'pink-purple', 'dark-blue', 'light-blue', 'cyan']
