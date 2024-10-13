@@ -40,7 +40,7 @@ function mapTierToColor(tier){
     return colors[tier]
 }
 
-function mapTypeToStrenght(type){
+function mapTypeTostrength(type){
     const valueList = {
         miningDamage: 0.25,
         currencyMiningScrapGain: 0.3,
