@@ -89,7 +89,7 @@
     function getTier(gl = getGl(), nextChance){
         let tier = null
         let totalChance = 0;
-        tierChancesRaw(myGlobalLevel).forEach(elem => {
+        tierChancesRaw(gl).forEach(elem => {
             totalChance += elem.chance;
             if (tier === null && chance(totalChance, nextChance)) {
                 tier = elem.tier;
