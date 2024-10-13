@@ -68,10 +68,10 @@
         const div = document.createElement("div");
         const iconContainer = document.createElement("i");
         const textContainer = document.createElement("p");
-        icon.style.fontSize = "40px";
-        icon.classList.add("mdi " + icon)
-        icon.style.color = color
-        text.innerText = text + " " + strenght
+        iconContainer.style.fontSize = "40px";
+        iconContainer.classList.add("mdi " + icon)
+        iconContainer.style.color = color
+        textContainer.innerText = text + " " + strenght
         div.appendChild(iconContainer);
         div.appendChild(textContainer);
         showTreasureHere.appendChild(div);
