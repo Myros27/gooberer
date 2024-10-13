@@ -65,35 +65,32 @@
         let strenght =  (tier * mapTypeToStrenght(type)) + 1
         let effectName = mapTypeToText(type)
         const showTreasureHere = document.getElementById("showTreasureHere");
+        
         const div = document.createElement("div");
         const divIcon = document.createElement("div");
         const divTreasure = document.createElement("div");
         const divEffect = document.createElement("div");
         const iconContainer = document.createElement("i");
         const textContainer = document.createElement("p");
-        const strenghtContainer = document.createElement("p");
+        const strengthContainer = document.createElement("p");
         const effectContainer = document.createElement("p");
-
-        div.style.display = "flex";
-        div.style.alignItems = "center";
-
-        divTreasure.style.display = "flex";
-        divTreasure.style.justifyContent = "space-between";
+        
+        div.classList.add("treasure-item");
+        divIcon.classList.add("icon-container");
+        divTreasure.classList.add("treasure-text");
+        divEffect.classList.add("effect-text");
         
         iconContainer.style.fontSize = "40px";
-        iconContainer.classList.add("mdi")
-        iconContainer.classList.add(icon)
-        iconContainer.style.color = color
-
-        textContainer.innerText = effectName + ": "
+        iconContainer.classList.add("mdi", icon);
+        iconContainer.style.color = color;
         
-        strenghtContainer.innerText = "x" + strenght
+        textContainer.innerText = effectName + ": ";
+        strengthContainer.innerText = "x" + strength;
+        effectContainer.innerText = "Tier " + tier + " treasure";
         
-        effectContainer.innerText = "Tier " + tier + " treasure"
-
         divIcon.appendChild(iconContainer);
         divTreasure.appendChild(textContainer);
-        divTreasure.appendChild(strenghtContainer);
+        divTreasure.appendChild(strengthContainer);
         divEffect.appendChild(effectContainer);
         div.appendChild(divIcon);
         div.appendChild(divTreasure);
@@ -178,3 +175,27 @@
 <script src="https://myros27.github.io/gooberer/1.5/utils/seedrandom.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
+<style>
+    .treasure-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .icon-container {
+        font-size: 40px;
+        margin-right: 10px;
+    }
+    
+    .treasure-text {
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
+    
+    .effect-text {
+        margin-left: 10px;
+        text-align: right;
+        flex-shrink: 0;
+    }
+</style>
