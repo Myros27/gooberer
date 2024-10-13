@@ -32,7 +32,7 @@
         let amount = document.getElementById("treasureAmount").value;
         if (amount < 1 && amount > 10000) {amount = 20}
         for (let i = 0; i < amount; i++) {
-            let rngGen = new Math.seed(save.playerId + "treasureTier_" + (parseInt(save.rng.treasureTier_regular ?? 0) + i));
+            let rngGen = new Math.seedrandom(save.playerId + "treasureTier_" + (parseInt(save.rng.treasureTier_regular ?? 0) + i));
             const nextChance = rngGen();
             let tier = getTier(myGlobalLevel, nextChance)
             let nextGl
@@ -49,7 +49,7 @@
     }
 
     function generateTreasure(tier, nextGl){
-        let rngGen = new Math.seed(save.playerId + "treasure_" + (parseInt(save.rng.treasure_regular ?? 0) + i));
+        let rngGen = new Math.seedrandom(save.playerId + "treasure_" + (parseInt(save.rng.treasure_regular ?? 0) + i));
         let chosenEffect = [];
         const effectlist = generateEffectlist()
         let chosenElem = Elem(effectList, rngGen());
