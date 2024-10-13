@@ -36,7 +36,7 @@
         let amount = document.getElementById("treasureAmount").value;
         if (amount < 1 && amount > 10000) {amount = 20}
         
-        var unlocks = save.unlock;
+        let unlocks = save.unlock;
         "miningSmeltery" in unlocks ? effectList.push("miningSmelterySpeed") : null;//update those
         effectList.push("queueSpeedVillageBuilding");
         effectList.push("villageMaterialGain");
@@ -70,7 +70,7 @@
                     tier = elem.tier;
                 }
             })
-            
+            debugger;
             for (let currentGL = myGlobalLevel; currentGL < maxLoop; currentGL++) { 
                 tierChancesRawTest(currentGL).forEach(elem => {
                     totalChanceTmp += elem.chance;
