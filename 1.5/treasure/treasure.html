@@ -176,7 +176,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
 <style>
-    .treasure-item {
+.treasure-item {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
@@ -189,8 +189,20 @@
     
     .treasure-text {
         display: flex;
-        flex-grow: 1;
         justify-content: space-between;
+        flex-grow: 1;
+        align-items: baseline;
+    }
+    
+    .treasure-text p:first-child {
+        flex-grow: 1;
+        text-align: left;
+        margin-right: 10px;
+    }
+    
+    .treasure-text p:last-child {
+        text-align: right;
+        flex-shrink: 0;
     }
     
     .effect-text {
