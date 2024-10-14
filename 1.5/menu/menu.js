@@ -37,6 +37,10 @@ function validateSave(){
     {
         alert("invalid save")
     }
+    if (save.playerId.length !== 16){
+        alert("invalid save attr playerId")
+    }
+    localStorage.setItem('playerId', save.playerId);
     showMenu()
 }
 
