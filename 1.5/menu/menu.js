@@ -33,6 +33,7 @@ function validateSave(){
 }
 
 function showMenu(){
+    localStorage.setItem("lastSave", btoa(JSON.stringify(save)));
     document.getElementById("tabList").removeAttribute("hidden")
     document.getElementById("feature").removeAttribute("hidden")
     document.getElementById("saveInput").hidden = true
