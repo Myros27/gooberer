@@ -25,7 +25,11 @@ if (file) {
 }
 
 function useLocalSaveFile(){
-    alert("Hi")
+    let localSaveFile = localStorage.getItem("lastSave")
+    if (localSaveFile.lenght > 0){
+        save = JSON.parse(atob(localSaveFile))
+        validateSave()
+    }
 }
 
 function validateSave(){
@@ -38,8 +42,8 @@ function validateSave(){
 
 function showMenu(){
     localStorage.setItem("lastSave", btoa(JSON.stringify(save)));
-    document.getElementById("tabList").removeAttribute("hidden")
-    document.getElementById("feature").removeAttribute("hidden")
+    document.getElementById("tabList").removeAttribute("hidden");
+    document.getElementById("feature").removeAttribute("hidden");
     document.getElementById("saveInput").style.display = "none";
 }
 
@@ -141,6 +145,14 @@ function createMenu(menuItemsMap) {
     });
 }
 
-generateMenu();
+function useLocalStorage(){
+    let localSaveFile = localStorage.getItem("lastSave")
+    if (localSaveFile.lenght > 0){
+        document.getElementById("myLocalSaveFileSpan").parentElement.style.display = "flex"
+    }
+}
 
+generateMenu();
 addResetButton();
+useLocalStorage();
+
