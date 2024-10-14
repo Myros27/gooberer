@@ -126,6 +126,7 @@ function createMenu(menuItemsMap) {
         button.appendChild(link);
         button.addEventListener('click', () => {
             iframe.src = item.link;
+            iframe.removeAttribute('hidden');
             document.title = `Gooberer ${item.title}`;
             iframe.onload = null;
             iframe.onload = () => {
