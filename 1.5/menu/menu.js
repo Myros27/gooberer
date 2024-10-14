@@ -26,7 +26,7 @@ if (file) {
 
 function useLocalSaveFile(){
     let localSaveFile = localStorage.getItem("lastSave")
-    if (localSaveFile.lenght > 0){
+    if (localSaveFile.length > 0){
         save = JSON.parse(atob(localSaveFile))
         validateSave()
     }
@@ -147,7 +147,7 @@ function createMenu(menuItemsMap) {
 
 function useLocalStorage(){
     let localSaveFile = localStorage.getItem("lastSave")
-    if (localSaveFile.lenght > 0){
+    if (localSaveFile.length > 0){
         document.getElementById("myLocalSaveFileSpan").parentElement.style.display = "flex"
     }
 }
