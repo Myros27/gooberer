@@ -24,6 +24,10 @@ if (file) {
     }
 }
 
+function useLocalSaveFile(){
+    alert("Hi")
+}
+
 function validateSave(){
     if (save === undefined || save === null || save === "")
     {
