@@ -84,7 +84,7 @@ p {
   display: flex;
   gap: 50px;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
 }
 
 .custom-upload-btn {
