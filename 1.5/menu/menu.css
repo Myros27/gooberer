@@ -82,41 +82,45 @@ p {
 }
 
 #saveInput {
-  display: flex;
-  gap: 1rem;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
 }
 
 .custom-upload-btn {
-  background-color: #333;
-  color: #fff;
-  padding: 15px 30px;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid #555;
-  transition: background-color 0.3s, transform 0.3s;
-  margin-bottom: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid #555;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-bottom: 10px;
 }
 
 .custom-upload-btn:hover {
-  background-color: #444;
-  transform: scale(1.05);
+    background-color: #444;
+    transform: scale(1.05);
 }
 
 #fileStatus {
-  color: #999;
-  font-size: 14px;
-  margin-top: 10px;
+    color: #999;
+    font-size: 14px;
+    margin-top: 10px;
 }
 
 .custom-upload-btn span {
-  display: inline-block;
-  margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .custom-upload-btn:active {
-  transform: scale(0.98);
+    transform: scale(0.98);
+}
+
+.aLittleBitUp{
+    transform: translateY(-0.35rem);
 }
