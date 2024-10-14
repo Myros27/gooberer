@@ -83,7 +83,7 @@ p {
 #saveInput {
   display: flex;
   gap: 50px;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
