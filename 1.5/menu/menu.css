@@ -78,5 +78,43 @@ p {
     margin-left: 1rem;
     width: 100%;
     height: 100%;
-    
+}
+
+#saveInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-upload-btn {
+  background-color: #333;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid #555;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-bottom: 10px;
+}
+
+.custom-upload-btn:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+#fileStatus {
+  color: #999;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.custom-upload-btn span {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.custom-upload-btn:active {
+  transform: scale(0.98);
 }
