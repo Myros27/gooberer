@@ -14,8 +14,13 @@
             <span id="uploadText">Upload Save File</span>
             <input type="file" id="mySaveFile" oninput="uploadFile()" style="display: none;">
         </label>
+        <h3 id="localSaveFileOr" class="aLittleBitUp" style="display: none;">or</h3>
         <label for="myLocalSaveFile" class="custom-upload-btn" style="display: none;">
-            <span id="myLocalSaveFileSpan" onclick="useLocalSaveFile()">Use the last Save File</span>
+            <span id="myLocalSaveFile" onclick="useLocalSaveFile()">Use the last Save File</span>
+        </label>
+        <h3 id="cloudSaveFileOr" class="aLittleBitUp" style="display: none;">or</h3>
+        <label for="myCloudSaveFile" class="custom-upload-btn" style="display: none;">
+            <span id="myCloudSaveFile" onclick="useCloudSaveFile()">Use Cloud Save File</span>
         </label>
     </div>
     <div id="feature" hidden="hidden" style="display: flex; height: 100%;">
