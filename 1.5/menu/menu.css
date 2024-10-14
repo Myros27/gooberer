@@ -185,8 +185,7 @@ label {
     font-size: 16px;
     margin-right: 10px;
     color: #fff;
-    width: 100px;
-    text-align: right;
+    display: block;
 }
 
 .modal-body div {
