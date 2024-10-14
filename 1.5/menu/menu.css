@@ -136,6 +136,10 @@ p {
   overflow: auto;
 }
 
+.modal-header{
+    line-height: 0;
+}
+
 .modal-content {
   background-color: #000;
   margin: 15% auto;
