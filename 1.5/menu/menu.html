@@ -8,9 +8,13 @@
 </head>
 <body>
   <div id="tabList" class="tab distance" hidden="hidden">  </div>
-  <div id="saveInput" class="distance">
-    <input type="file" id="mySaveFile" oninput="uploadFile()" style="color: #FFFFFF;">saveFile</input>
-  </div>
+    <div id="saveInput" class="distance">
+      <label for="mySaveFile" class="custom-upload-btn">
+        <span id="uploadText">Upload Save File</span>
+        <input type="file" id="mySaveFile" oninput="uploadFile()" style="display: none;">
+      </label>
+      <span id="fileStatus">No file selected</span>
+    </div>
   <div id="feature" hidden="hidden" style="display: flex; height: 100%;">
      <iframe id="gooberIframe" hidden="hidden" src=""></iframe> 
   </div>
