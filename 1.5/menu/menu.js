@@ -39,7 +39,6 @@ function showMenu(){
 }
 
 function resetAll(){
-    sessionStorage.clear();
     window.location.reload(true);
 }
 
