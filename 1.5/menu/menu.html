@@ -14,9 +14,8 @@
             <span id="uploadText">Upload Save File</span>
             <input type="file" id="mySaveFile" oninput="uploadFile()" style="display: none;">
         </label>
-        <label for="mySaveFile" class="custom-upload-btn">
-            <span id="uploadText">Upload Save File</span>
-            <input type="file" id="mySaveFile" oninput="uploadFile()" style="display: none;">
+        <label onclick="useLocalSaveFile" for="myLocalSaveFile" class="custom-upload-btn" style="display: none;">
+            <span id="myLocalSaveFileSpan">Use the last Save File</span>
         </label>
     </div>
     <div id="feature" hidden="hidden" style="display: flex; height: 100%;">
