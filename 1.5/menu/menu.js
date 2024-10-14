@@ -170,7 +170,30 @@ function setupCloudSaveFile(){
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    } 
+    }
+    
+    const ident = localStorage.getItem('ident');
+    const playerId = localStorage.getItem('playerId');
+
+    if (ident) {
+        document.getElementById('ident').value = ident;
+    }
+    if (playerId) {
+        document.getElementById('playerId').value = playerId;
+    }
+    
+    const inputs = document.querySelectorAll('.sync-input');
+    inputs.forEach(input => {
+        input.addEventListener('input', saveToLocalStorage);
+    });
+}
+
+function saveToLocalStorage() {
+    const ident = document.getElementById('ident').value;
+    const playerId = document.getElementById('playerId').value;
+
+    localStorage.setItem('ident', ident);
+    localStorage.setItem('playerId', playerId);
 }
 
 generateMenu();
