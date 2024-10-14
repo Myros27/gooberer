@@ -149,6 +149,7 @@ function useLocalStorage(){
     let localSaveFile = localStorage.getItem("lastSave")
     if (localSaveFile.length > 0){
         document.getElementById("myLocalSaveFileSpan").parentElement.style.display = "flex"
+        document.getElementById("localSaveFileOr").style.display = "flex"
     }
 }
 
