@@ -153,7 +153,28 @@ function useLocalStorage(){
     }
 }
 
+function setupCloudSaveFile(){
+    let modal = document.getElementById("cloudModal");
+    let btn = document.getElementById("setupCloudSaveFile");
+    let span = document.getElementsByClassName("close")[0];
+    
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    } 
+}
+
 generateMenu();
 addResetButton();
 useLocalStorage();
+setupCloudSaveFile();
 
