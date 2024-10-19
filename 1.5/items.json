@@ -30,7 +30,7 @@
     },
     {
       "title": "Settings",
-      "icon": "mdi-settings",
+      "icon": "mdi-cog",
       "link": "settings/settings.html",
       "version": 1,
       "released": true
