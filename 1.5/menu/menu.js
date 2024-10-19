@@ -22,6 +22,12 @@ window.addEventListener('message', function(event) {
     }
 });
 
+let jsonUrlsArray = [
+    "https://myros27.github.io/gooberer/1.5/items.json",
+    "https://craftyduck100.github.io/gooberer/1.5/items.json",
+    "https://sashkara.github.io/gooberer/1.5/items.json",
+];
+
 function isValidSettings(storedSettings) {
     try {
         const parsedSettings = JSON.parse(storedSettings);
@@ -30,12 +36,6 @@ function isValidSettings(storedSettings) {
         return false;
     }
 }
-
-let jsonUrlsArray = [
-    "https://myros27.github.io/gooberer/1.5/items.json",
-    "https://craftyduck100.github.io/gooberer/1.5/items.json",
-    "https://sashkara.github.io/gooberer/1.5/items.json",
-];
 
 function uploadFile() {
 const file = document.getElementById("mySaveFile").files[0];
@@ -173,6 +173,7 @@ function createMenu(menuItemsMap) {
             iframe.onload = null;
             iframe.onload = () => {
                 let sendData = {
+                    action: 'initData',
                     save: save,
                     settings: settings                    
                 }
