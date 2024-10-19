@@ -26,12 +26,12 @@
     });
 
     document.getElementById('devSwitch').addEventListener('change', function() {
-            settings.devVisible = this.checked;
+            settings.devMode = this.checked;
             sendSettingsBack();
         });
 
     function feature(){
-        document.getElementById('devSwitch').checked = settings.devVisible;
+        document.getElementById('devSwitch').checked = settings.devMode;
     }
 
     function sendSettingsBack(){
