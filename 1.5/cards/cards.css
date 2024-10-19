@@ -1,0 +1,29 @@
+#aggregateCardsHere table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#aggregateCardsHere th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+#aggregateCardsHere td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+#aggregateCardsHere tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#aggregateCardsHere tr:hover {
+    background-color: #ddd;
+}
+
+#aggregateCardsHere th, #aggregateCardsHere td {
+    transition: background-color 0.3s;
+}
