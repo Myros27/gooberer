@@ -19,7 +19,7 @@
       "icon": "mdi-cards",
       "link": "cards/cards.html",
       "version": 1,
-      "released": false
+      "released": true
     },
     {
       "title": "Nighthunt",
