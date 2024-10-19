@@ -34,7 +34,7 @@
         document.getElementById('devSwitch').checked = devVisible;
     }
 
-    sendSettingsBack(){
+    function sendSettingsBack(){
         let dataToSend = {
             action: 'settingsUpdate',
             settings: settings
