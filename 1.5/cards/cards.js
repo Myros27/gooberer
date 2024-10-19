@@ -54,26 +54,27 @@ function predictCards() {
     innerHtml += "</table><br>";
     aggregate.innerHTML = innerHtml;
 }
-/*
-function outputTextCards(text, color = 0) {
+
+function outputTextCards(text) {
     const element = document.getElementById("showCardsHere");
-    const parts = text.split(' ');
+    let lastArticle = element.lastElementChild;
+    if (text.startsWith("---")) {
+        const article = document.createElement("article");
+        article.className = "card-group";
+        element.appendChild(article);
+        lastArticle = article;
+    }
 
-    parts.forEach(part => {
-        const span = document.createElement("span");
-        span.className = "card-text";
-        span.textContent = part;
+    const span = document.createElement("span");
+    span.className = "card-text";
+    span.textContent = text;
 
-        element.appendChild(span);
-
-        const isLastElement = part === parts[parts.length - 1];
-        if (!isLastElement) {
-            const space = document.createTextNode(' ');
-            element.appendChild(space);
-        }
-    });
+    if (lastArticle) {
+        lastArticle.appendChild(span);
+        lastArticle.appendChild(document.createTextNode(' '));
+    }
 }
-*/
+/*
 function outputTextCards(text, color = 0) {
     const para = document.createElement("p");
     para.style.color = "white";
@@ -89,7 +90,7 @@ function outputTextCards(text, color = 0) {
     const element = document.getElementById("showCardsHere");
     element.appendChild(para);
 }
-
+*/
 window.addEventListener('message', function(event) {
     let receivedData = JSON.parse(atob(event.data));
     if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
