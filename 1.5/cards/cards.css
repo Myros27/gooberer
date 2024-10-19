@@ -1,3 +1,7 @@
+.smol{
+    font-size: 10px;
+}
+
 #aggregateCardsHere table {
     width: 100%;
     border-collapse: collapse;
