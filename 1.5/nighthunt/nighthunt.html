@@ -11,12 +11,17 @@
 
 <script>
     var save;
+    var settings;
     var parameters = {};
     
     window.addEventListener('message', function(event) {
-        if (event.data.action === 'jsException'){return;}
-        save = JSON.parse(atob(event.data));
-        showNightHunt()
+        let receivedData = JSON.parse(atob(event.data));
+        if (receivedData.action === 'jsException') {
+            return;
+        }
+        let save = receivedData.save;
+        let settings = receivedData.additionalInfo;
+        feature();
     });
 
     function showNightHunt(){
