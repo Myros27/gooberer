@@ -29,7 +29,7 @@
       "released": false
     },
     {
-      "title": "TestArea",
+      "title": "Settings",
       "icon": "mdi-settings",
       "link": "settings/settings.html",
       "version": 1,
