@@ -40,7 +40,7 @@ function predictCards() {
     if (aggregateAmount < 1 && aggregateAmount > 1000) {aggregateAmount = 4}
     for (let i = 0; i < aggregateAmount; i++) {
         let row = i + 1
-        innerHtml += "<tr><th>" + row + "</th>";
+        innerHtml += "<tr><td>" + row + "</td>";
         for (let j = 0; j < info.length; j++){
             if (info[j][i] !== undefined) {
                 innerHtml += "<td>In " + info[j][i] + ", " + info[j][i]*pack.price + " ⬢</td>";
