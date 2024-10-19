@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <p id="playerId"></p>
+    <p>example</p>
+</body>
+</html>
+
+<script>
+    var save;
+    var parameters = {};
+    
+    window.addEventListener('message', function(event) {
+        if (event.data.action === 'jsException'){return;}
+        save = JSON.parse(atob(event.data));
+        feature()
+    });
+
+    function feature(){
+        document.getElementById("playerId").innerText = save.playerId
+    }
+    
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
