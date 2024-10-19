@@ -26,9 +26,13 @@
     var parameters = {};
     
     window.addEventListener('message', function(event) {
-        if (event.data.action === 'jsException'){return;}
-        save = JSON.parse(atob(event.data));
-        feature()
+        let receivedData = JSON.parse(atob(event.data));
+        if (receivedData.action === 'jsException') {
+            return;
+        }
+        let save = receivedData.save;
+        let additionalInfo = receivedData.additionalInfo;
+        feature();
     });
 
     function feature(){
