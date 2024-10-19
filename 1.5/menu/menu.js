@@ -1,5 +1,6 @@
 var save;
 var settings = localStorage.getItem("settings");
+debugger;
 
 if (settings === null || !isValidSettings(settings)) {
     settings = {
