@@ -41,24 +41,8 @@
         };
         window.parent.postMessage(btoa(JSON.stringify(dataToSend)), '*');
     }
-
-    function isConsoleOpen() {
-        const devtools = /./;
-        devtools.toString = function() {
-            this.opened = true;
-        };
-        console.log(devtools);
-        return devtools.opened;
-    }
-    
-    setInterval(() => {
-        if (isConsoleOpen()) {
-            console.log('Die Entwicklertools sind geöffnet.');
-        } else {
-            console.log('Die Entwicklertools sind geschlossen.');
-        }
-    }, 1000);
     
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
+<link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/settings/settings.css">
