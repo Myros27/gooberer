@@ -18,7 +18,7 @@
 }
 
 #aggregateCardsHere table tr:nth-child(even) {
-    background-color: #333;
+    background-color: #222;
 }
 
 #aggregateCardsHere tr:hover {
