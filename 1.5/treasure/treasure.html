@@ -20,7 +20,7 @@
     
     window.addEventListener('message', function(event) {
         let receivedData = JSON.parse(atob(event.data));
-        if (receivedData.action === 'jsException') {
+        if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
             return;
         }
         save = receivedData.save;
