@@ -3,6 +3,11 @@
     display: inline;
 }
 
+.card-text {
+    color: white;
+    margin: 0;
+}
+
 #aggregateCardsHere table {
     width: 100%;
     border-collapse: collapse;
