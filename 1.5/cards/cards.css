@@ -5,23 +5,24 @@
 }
 
 #aggregateCardsHere th {
-    background-color: #4CAF50;
+    background-color: #333;
     color: white;
     padding: 12px;
     text-align: left;
 }
 
 #aggregateCardsHere td {
-    border: 1px solid #ddd;
+    border: 1px solid white;
     padding: 10px;
+    color: white;
 }
 
 #aggregateCardsHere tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #444;
 }
 
 #aggregateCardsHere tr:hover {
-    background-color: #ddd;
+    background-color: #555;
 }
 
 #aggregateCardsHere th, #aggregateCardsHere td {
