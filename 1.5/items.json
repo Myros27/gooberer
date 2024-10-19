@@ -26,7 +26,7 @@
       "icon": "mdi-bug",
       "link": "cloud/cloud.html",
       "version": 1,
-      "released": true
+      "released": false
     }
   ]
 }
