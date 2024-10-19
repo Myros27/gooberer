@@ -26,16 +26,20 @@
     });
 
     document.getElementById('devSwitch').addEventListener('change', function() {
-            devVisible = this.checked;
-            sendSettings();
+            settings.devVisible = this.checked;
+            sendSettingsBack();
         });
 
     function feature(){
         document.getElementById('devSwitch').checked = devVisible;
     }
 
-    sendSettings(){
-        
+    sendSettingsBack(){
+        let dataToSend = {
+            action: 'settingsUpdate',
+            settings: settings
+        };
+        window.parent.postMessage(btoa(JSON.stringify(dataToSend)), '*');
     }
     
 </script>
