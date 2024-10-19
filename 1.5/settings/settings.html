@@ -25,8 +25,17 @@
         feature();
     });
 
+    document.getElementById('devSwitch').addEventListener('change', function() {
+            devVisible = this.checked;
+            sendSettings();
+        });
+
     function feature(){
-        document.getElementById("playerId").innerText = save.playerId
+        document.getElementById('devSwitch').checked = devVisible;
+    }
+
+    sendSettings(){
+        
     }
     
 </script>
