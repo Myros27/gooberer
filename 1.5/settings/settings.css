@@ -1,48 +1,24 @@
 #devSwitch {
-    position: relative;
-    width: 50px;
-    height: 25px;
-}
-
-#devSwitch:checked {
-    background-color: #4CAF50;
+    display: none;
 }
 
 #devSwitch + label {
-    display: block;
-    position: relative;
     cursor: pointer;
-    padding-left: 60px;
-}
-
-#devSwitch + label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50px;
-    height: 25px;
-    border-radius: 15px;
+    padding: 10px 20px;
     background-color: #ccc;
-    transition: background-color 0.3s;
+    color: white;
+    border-radius: 5px;
+    position: relative;
+    font-size: 16px;
 }
 
-#devSwitch:checked + label::before {
+#devSwitch:checked + label {
     background-color: #4CAF50;
 }
 
-#devSwitch + label::after {
-    content: '';
+#devSwitch:checked + label::before {
+    content: '✔';
     position: absolute;
-    left: 5px;
-    top: 5px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: white;
-    transition: transform 0.3s;
-}
-
-#devSwitch:checked + label::after {
-    transform: translateX(25px);
+    left: 10px;
+    color: white;
 }
