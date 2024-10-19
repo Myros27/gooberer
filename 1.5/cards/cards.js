@@ -43,7 +43,7 @@ function predictCards() {
         innerHtml += "<tr><td>" + row + "</td>";
         for (let j = 0; j < info.length; j++){
             if (info[j][i] !== undefined) {
-                innerHtml += "<td>In " + info[j][i] + ", " + info[j][i]*pack.price + " ⬢</td>";
+                innerHtml += "<td><p class="smol">In </p>" + info[j][i] + ", " + info[j][i]*pack.price + " ⬢</td>";
             } else {
                 innerHtml += "<td>-</td>";
             }
