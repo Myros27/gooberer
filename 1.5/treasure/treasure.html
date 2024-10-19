@@ -15,11 +15,16 @@
 
 <script>
     var save;
+    var settings;
     var parameters = new URLSearchParams(document.location.search)
     
     window.addEventListener('message', function(event) {
-        if (event.data.action === 'jsException'){return;}
-        save = JSON.parse(atob(event.data));
+        let receivedData = JSON.parse(atob(event.data));
+        if (receivedData.action === 'jsException') {
+            return;
+        }
+        save = receivedData.save;
+        settings = receivedData.additionalInfo;
         if (parameters.size > 0)
         {
             document.getElementById("amountInput").hidden = "hidden";
