@@ -21,6 +21,8 @@
     border: 1px solid white;
     padding: 10px;
     color: white;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #aggregateCardsHere table tr:nth-child(even) {
