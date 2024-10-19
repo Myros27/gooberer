@@ -30,8 +30,8 @@
     },
     {
       "title": "TestArea",
-      "icon": "mdi-bug",
-      "link": "devMenu/devMenu.html",
+      "icon": "mdi-settings",
+      "link": "settings/settings.html",
       "version": 1,
       "released": true
     }
