@@ -56,6 +56,25 @@ function predictCards() {
 }
 
 function outputTextCards(text, color = 0) {
+    const element = document.getElementById("showCardsHere");
+    const parts = text.split(' ');
+
+    parts.forEach(part => {
+        const span = document.createElement("span");
+        span.className = "card-text";
+        span.textContent = part;
+
+        element.appendChild(span);
+
+        const isLastElement = part === parts[parts.length - 1];
+        if (!isLastElement) {
+            const space = document.createTextNode(' ');
+            element.appendChild(space);
+        }
+    });
+}
+/*
+function outputTextCards(text, color = 0) {
     const para = document.createElement("p");
     para.style.color = "white";
     para.style.textShadow = "-1px -1px 2px black, 1px 1px 2px black, 1px -1px 2px black, -1px 1px 2px black, \
@@ -70,7 +89,7 @@ function outputTextCards(text, color = 0) {
     const element = document.getElementById("showCardsHere");
     element.appendChild(para);
 }
-
+*/
 window.addEventListener('message', function(event) {
     let receivedData = JSON.parse(atob(event.data));
     if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
