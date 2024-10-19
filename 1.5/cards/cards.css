@@ -1,5 +1,6 @@
 .smol{
-    font-size: 10px;
+    font-size: 8px;
+    display: inline;
 }
 
 #aggregateCardsHere table {
