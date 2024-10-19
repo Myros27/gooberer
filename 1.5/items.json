@@ -15,6 +15,13 @@
       "released": true
     },
     {
+      "title": "Cards",
+      "icon": "mdi-cards",
+      "link": "cards/cards.html",
+      "version": 1,
+      "released": false
+    },
+    {
       "title": "Nighthunt",
       "icon": "mdi-weather-night",
       "link": "nighthunt/nighthunt.html",
