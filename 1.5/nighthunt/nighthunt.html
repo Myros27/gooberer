@@ -19,8 +19,8 @@
         if (receivedData.action === 'jsException') {
             return;
         }
-        let save = receivedData.save;
-        let settings = receivedData.additionalInfo;
+        save = receivedData.save;
+        settings = receivedData.additionalInfo;
         feature();
     });
 
