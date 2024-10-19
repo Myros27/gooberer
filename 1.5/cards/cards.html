@@ -59,10 +59,10 @@
             info.push([])
         }
         innerHtml += "</tr>";
-        var prog = typeof parseInt(document.getElementById('cardRng').value) === "number" ? document.getElementById('cardRng').value : 0;
+        var prog = save.rng['cardPack_' + selectedPack] ?? 0;
         for (let i = 0; i < amount; i++) {
             outputTextCards("------  " + (i + 1) + "  ------")
-            let rngGen = new Math.seedrandom(document.getElementById('playerID').value + "cardPack_" + String(selectedPack) + "_" + (parseInt(prog) + i));
+            let rngGen = new Math.seedrandom(save.playerId + "cardPack_" + String(selectedPack) + "_" + (parseInt(prog) + i));
             let cacheWeight = [];
             let cacheContent = [];
             for (const [key, elem] of Object.entries(pack.content)) {
