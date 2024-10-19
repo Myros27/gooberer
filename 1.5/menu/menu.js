@@ -196,31 +196,25 @@ function setupCloudSaveFile(){
     let modal = document.getElementById("cloudModal");
     let btn = document.getElementById("setupCloudSaveFile");
     let span = document.getElementsByClassName("close")[0];
-    
     btn.onclick = function() {
         modal.style.display = "block";
     }
-    
     span.onclick = function() {
         modal.style.display = "none";
     }
-    
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-    
     const ident = localStorage.getItem('ident');
     const playerId = localStorage.getItem('playerId');
-
     if (ident) {
         document.getElementById('ident').value = ident;
     }
     if (playerId) {
         document.getElementById('playerId').value = playerId;
     }
-    
     const inputs = document.querySelectorAll('.sync-input');
     inputs.forEach(input => {
         input.addEventListener('input', saveToLocalStorage);
