@@ -86,7 +86,7 @@ function resetAll(){
 }
 
 function addResetButton() {
-    const tablist = document.getElementById("tabList")
+    const tabList = document.getElementById("tabList")
     const resetButton = document.createElement("button");
     resetButton.classList.add("tablinks");
     const resetIcon = document.createElement("i");
