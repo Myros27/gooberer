@@ -10,6 +10,18 @@ if (settings === null || !isValidSettings(settings)) {
     settings = JSON.parse(settings);
 }
 
+window.addEventListener('message', function(event) {
+    try {
+        let receivedData = JSON.parse(atob(event.data));
+        if (receivedData.action === 'settingsUpdate' && receivedData.settings) {
+            let updatedSettings = receivedData.settings;
+            processUpdatedSettings(updatedSettings);
+        }
+    } catch (error) {
+        console.error('Fehler beim Verarbeiten der Nachricht:', error);
+    }
+});
+
 function isValidSettings(storedSettings) {
     try {
         const parsedSettings = JSON.parse(storedSettings);
@@ -44,7 +56,7 @@ if (file) {
 
 function useLocalSaveFile(){
     let localSaveFile = localStorage.getItem("lastSave")
-    if (localSaveFile.length > 0){
+    if (localSaveFile && localSaveFile.length > 0){
         save = JSON.parse(atob(localSaveFile))
         validateSave()
     }
@@ -74,7 +86,7 @@ function resetAll(){
 }
 
 function addResetButton() {
-    document.getElementById("tabList")
+    const tablist = document.getElementById("tabList")
     const resetButton = document.createElement("button");
     resetButton.classList.add("tablinks");
     const resetIcon = document.createElement("i");
@@ -220,6 +232,13 @@ function saveToLocalStorage() {
 
     localStorage.setItem('ident', ident);
     localStorage.setItem('playerId', playerId);
+}
+
+function processUpdatedSettings(updatedSettings) {
+    if (isValidSettings(JSON.stringify(updatedSettings))) {
+        localStorage.setItem("settings", JSON.stringify(updatedSettings));
+        settings = updatedSettings;
+    }
 }
 
 generateMenu();
