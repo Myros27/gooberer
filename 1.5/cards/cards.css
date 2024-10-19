@@ -16,8 +16,13 @@
     text-align: left;
 }
 
-#aggregateCardsHere td,
 #aggregateCardsHere th {
+    border: 1px solid white;
+    padding: 10px;
+    color: white;
+}
+
+#aggregateCardsHere td{
     border: 1px solid white;
     padding: 10px;
     color: white;
