@@ -7,7 +7,7 @@
 #aggregateCardsHere th {
     background-color: #333;
     color: white;
-    padding: 12px;
+    padding-right: 2px;
     text-align: left;
 }
 
@@ -17,7 +17,7 @@
     color: white;
 }
 
-#aggregateCardsHere tr:nth-child(even) {
+#aggregateCardsHere table tr:nth-child(even) {
     background-color: #444;
 }
 
