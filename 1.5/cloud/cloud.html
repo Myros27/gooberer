@@ -6,17 +6,17 @@
 </head>
 <body>
     <p id="playerId"></p>
-
-    <button onclick="deleteAllSaves()">Delete All Saves</button>
-    <button onclick="saveData('player123', 'ident123', 'Chrome Browser', new Date().toISOString(), { score: 100 })">Save Data Player 123</button>
-    <button onclick="saveData('player456', 'ident456', 'Firefox Browser', new Date().toISOString(), { score: 200 })">Save Data Player 456</button>
-    <button onclick="saveData('player789', null, 'Safari Browser', new Date().toISOString(), { score: 300 })">Save Data Player 789</button>
-    <button onclick="fetchSaves('player123')">Fetch Saves for Player 123</button>
-    <button onclick="fetchSaves('player456')">Fetch Saves for Player 456</button>
-    <button onclick="fetchSaves('player789')">Fetch Saves for Player 789</button>
-    <button onclick="fetchAllIdents()">Fetch All Idents</button>
-    <button onclick="fetchAllPlayerIds()">Fetch All Player IDs</button>
-    
+    <div style="display:none;">
+        <button onclick="deleteAllSaves()">Delete All Saves</button>
+        <button onclick="saveData('player123', 'ident123', 'Chrome Browser', new Date().toISOString(), { score: 100 })">Save Data Player 123</button>
+        <button onclick="saveData('player456', 'ident456', 'Firefox Browser', new Date().toISOString(), { score: 200 })">Save Data Player 456</button>
+        <button onclick="saveData('player789', null, 'Safari Browser', new Date().toISOString(), { score: 300 })">Save Data Player 789</button>
+        <button onclick="fetchSaves('player123')">Fetch Saves for Player 123</button>
+        <button onclick="fetchSaves('player456')">Fetch Saves for Player 456</button>
+        <button onclick="fetchSaves('player789')">Fetch Saves for Player 789</button>
+        <button onclick="fetchAllIdents()">Fetch All Idents</button>
+        <button onclick="fetchAllPlayerIds()">Fetch All Player IDs</button>
+    </div>
     <div id="result"></div>
 </body>
 </html>
