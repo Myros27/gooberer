@@ -27,6 +27,13 @@
       "link": "cloud/cloud.html",
       "version": 1,
       "released": false
+    },
+    {
+      "title": "TestArea",
+      "icon": "mdi-bug",
+      "link": "devMenu/devMenu.html",
+      "version": 1,
+      "released": true
     }
   ]
 }
