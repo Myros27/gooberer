@@ -5,7 +5,7 @@
 }
 
 #aggregateCardsHere th {
-    background-color: #333;
+    background-color: #111;
     color: white;
     text-align: left;
 }
@@ -18,11 +18,11 @@
 }
 
 #aggregateCardsHere table tr:nth-child(even) {
-    background-color: #444;
+    background-color: #333;
 }
 
 #aggregateCardsHere tr:hover {
-    background-color: #555;
+    background-color: #111;
 }
 
 #aggregateCardsHere th, #aggregateCardsHere td {
