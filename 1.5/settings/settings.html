@@ -26,9 +26,9 @@
     });
 
     document.getElementById('devSwitch').addEventListener('change', function() {
-            settings.devMode = this.checked;
-            sendSettingsBack();
-        });
+        settings.devMode = this.checked;
+        sendSettingsBack();
+    });
 
     function feature(){
         document.getElementById('devSwitch').checked = settings.devMode;
