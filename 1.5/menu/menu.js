@@ -1,5 +1,23 @@
 var save;
-var devMode = false;
+var settings = localStorage.getItem("settings");
+
+if (settings === null || !isValidSettings(settings)) {
+    settings = {
+        devMode: false
+    };
+    localStorage.setItem("settings", JSON.stringify(settings));
+} else {
+    settings = JSON.parse(settings);
+}
+
+function isValidSettings(storedSettings) {
+    try {
+        const parsedSettings = JSON.parse(storedSettings);
+        return typeof parsedSettings.devMode === "boolean";
+    } catch (e) {
+        return false;
+    }
+}
 
 let jsonUrlsArray = [
     "https://myros27.github.io/gooberer/1.5/items.json",
@@ -103,10 +121,10 @@ function processMenuData(data, menuItemsMap, originalUrl) {
     const urlPriority = jsonUrlsArray.indexOf(originalUrl);
     data.menuItems.forEach(item => {
         let itemTitle = item.title;
-        if (!item.released && devMode) {
+        if (!item.released && settings.devMode) {
             itemTitle = `dev-${item.title}`;
         }
-        if (!item.released && !devMode) return;
+        if (!item.released && !settings.devMode) return;
         item.link = `${baseUrl}/${item.link}`;
         const existingItem = menuItemsMap.get(itemTitle);
         if (!existingItem) {
@@ -142,7 +160,11 @@ function createMenu(menuItemsMap) {
             document.title = `Gooberer ${item.title}`;
             iframe.onload = null;
             iframe.onload = () => {
-                iframe.contentWindow.postMessage(btoa(JSON.stringify(save)), '*');
+                let sendData = {
+                    save: save,
+                    settings: settings                    
+                }
+                iframe.contentWindow.postMessage(btoa(JSON.stringify(sendData)), '*');
             };
         });
         tabList.appendChild(button);
@@ -152,8 +174,8 @@ function createMenu(menuItemsMap) {
 function useLocalStorage(){
     let localSaveFile = localStorage.getItem("lastSave")
     if (localSaveFile.length > 0){
-        document.getElementById("myLocalSaveFile").parentElement.style.display = "flex"
-        document.getElementById("localSaveFileOr").style.display = "flex"
+        document.getElementById("myLocalSaveFile").parentElement.style.display = "flex";
+        document.getElementById("localSaveFileOr").style.display = "flex";
     }
 }
 
@@ -204,4 +226,3 @@ generateMenu();
 addResetButton();
 useLocalStorage();
 setupCloudSaveFile();
-
