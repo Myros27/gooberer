@@ -236,6 +236,15 @@ function processUpdatedSettings(updatedSettings) {
     }
 }
 
+function isConsoleOpen() {
+    const devtools = /./;
+    devtools.toString = function() {
+        this.opened = true;
+    };
+    console.log(devtools);
+    return devtools.opened;
+}
+
 generateMenu();
 addResetButton();
 useLocalStorage();
