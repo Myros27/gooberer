@@ -124,7 +124,7 @@ async function showSavesAndSelect(allSaves){
     }
     document.getElementById('identAndPlayerIdInput').style.display = "none"
     const saveSelectDiv = document.getElementById('saveSelect')
-    saveSelectDiv.style.display = "saveSelect"
+    saveSelectDiv.style.display = "flex"
     let allSavesAggregated = allSaves.lastSlots.concat(allSaves.historySlots)
     allSavesAggregated.forEach((singleSave) => {
         const article = document.createElement('article');
