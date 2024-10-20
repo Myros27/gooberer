@@ -126,7 +126,7 @@ async function showSavesAndSelect(allSaves){
     document.getElementById('modalForResize').style.maxWidth = "80%"
     const saveSelectDiv = document.getElementById('saveSelect')
     saveSelectDiv.style.display = "flex"
-    let allSavesAggregated = allSaves.lastSlots.concat(allSaves.historySlots)
+    let allSavesAggregated = allSaves.lastSlots.reverse().concat(allSaves.historySlots.reverse())
     allSavesAggregated.forEach((singleSave) => {
         const article = document.createElement('article');
         const osMatch = singleSave.deviceDescription.match(/\(([^)]+)\)/);
