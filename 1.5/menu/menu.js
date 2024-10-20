@@ -147,7 +147,10 @@ async function showSavesAndSelect(allSaves){
 
 function loadThisCloudSave(button) {
     const encodedSave = button.getAttribute('data-save');
-    debugger;
+    save = JSON.parse(atob(encodedSave))
+    let modal = document.getElementById("cloudModal");
+    modal.style.display = "none";
+    validateSave()
 }
 
 function addResetButton() {
