@@ -207,6 +207,10 @@ label {
     min-width: 250px;
 }
 
+#saveSelect article p{
+    font-size: 75%;
+}
+
 #saveSelect article:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
