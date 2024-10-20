@@ -70,7 +70,6 @@ function predictCards() {
         }
         innerHtml += "</tr>";
     } 
-    
     innerHtml += "</table><br>";
     aggregate.innerHTML = innerHtml;
 }
@@ -84,11 +83,9 @@ function outputTextCards(text) {
         element.appendChild(article);
         lastArticle = article;
     }
-
     const span = document.createElement("span");
     span.className = "card-text";
     span.textContent = text;
-
     if (lastArticle) {
         lastArticle.appendChild(span);
         lastArticle.appendChild(document.createTextNode(' '));
