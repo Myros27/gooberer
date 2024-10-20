@@ -1,6 +1,6 @@
 var save;
 var settings;
-var parameters = {};
+var parameters = new URLSearchParams(document.location.search)
 
 let cardStuff = getCardData();
 
