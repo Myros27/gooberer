@@ -32,7 +32,7 @@ function predictCards() {
         document.getElementById("inputs").style.display = "none";
     }
     let pack = cardStuff.packs[selectedPack]
-    let innerHtml = "<br><table><tr><th>" + selectedPack + "</th>";
+    let innerHtml = "<br><table><tr><th></th>"; //let innerHtml = "<br><table><tr><th>" + selectedPack + "</th>";
     let info = []
     for (const [keyx, elemx] of Object.entries(pack.content)) {
         innerHtml += "<th>" + keyx + "<br>" + cardStuff.names[keyx] + "</th>"
