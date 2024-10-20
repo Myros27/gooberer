@@ -1,5 +1,6 @@
 var save;
 var settings;
+var selectedPackGlobal;
 var parameters = new URLSearchParams(document.location.search)
 
 let cardStuff = getCardData();
@@ -25,6 +26,10 @@ function predictCards() {
     if (amount < 1 && amount > 1000000) {amount = 10}
     while(div.firstChild) { div.removeChild(div.firstChild); }
     let selectedPack = document.getElementById("selectedPack").value;
+    if (selectedPackGlobal !== null){
+        selectedPack = selectedPackGlobal
+        document.getElementById("showCardsHere").style.display = none;
+    }
     let pack = cardStuff.packs[selectedPack]
     let innerHtml = "<br><table><tr><th>" + selectedPack + "</th>";
     let info = []
@@ -96,6 +101,7 @@ window.addEventListener('message', function(event) {
     }
     save = receivedData.save;
     settings = receivedData.settings;
+    selectedPackGlobal = receivedData.pack;
     feature();
 });
 
