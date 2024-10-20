@@ -69,3 +69,7 @@
     margin: 5px 0;
     text-align: center;
 }
+
+p, td{
+  font-size: 80%;
+}
