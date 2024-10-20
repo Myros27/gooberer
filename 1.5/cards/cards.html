@@ -26,9 +26,9 @@
             <option value="newArtist">New Artist</option>
             <option value="inspiringCreations">Inspiring Creations</option>
         </select>
-        Amount:
+        <label for="cardAmount" style="color: #FFFFFF;">Amount:</label>
         <input type="number" value=100 id="cardAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
-        Aggregate Rows:
+        <label for="aggregateAmount" style="color: #FFFFFF;">Aggregate Rows:</label>
         <input type="number" value=10 id="aggregateAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
         <button onclick="predictCards()">Update</button>
         <div id="aggregateCardsHere" style="margin-top:0;margin-bottom:2px;"></div>
