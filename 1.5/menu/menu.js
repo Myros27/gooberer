@@ -128,10 +128,14 @@ async function showSavesAndSelect(allSaves){
     let allSavesAggregated = allSaves.lastSlots.concat(allSaves.historySlots)
     allSavesAggregated.forEach((singleSave) => {
         const article = document.createElement('article');
+        const osMatch = singleSave.deviceDescription.match(/\(([^)]+)\)/);
+        const os = osMatch ? osMatch[1] : 'Unknown OS';
+        const browser = singleSave.deviceDescription.split(' ').pop();
         article.innerHTML = `
-            <h2>${singleSave.playerId}</h2>
-            <p>${singleSave.deviceDescription}</p>
-            <p>${singleSave.timeStamp}</p>
+            <p>PlayerId: ${singleSave.playerId}</p>
+            <p>OS: ${os}</p>
+            <p>Browser: ${browser}</p>
+            <p>Save Time: ${new Date(singleSave.timeStamp).toLocaleString()}</p>
         `;
 
     saveSelectDiv.appendChild(article);
