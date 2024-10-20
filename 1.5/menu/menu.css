@@ -202,7 +202,6 @@ label {
     border: 1px solid #ccc;
     padding: 8px;
     border-radius: 4px;
-    flex: 1 1 20%;
     box-sizing: border-box;
     min-width: 250px;
 }
