@@ -123,7 +123,7 @@ async function showSavesAndSelect(allSaves){
         return;
     }
     document.getElementById('identAndPlayerIdInput').style.display = "none"
-    document.getElementById('modalForResize').style.
+    document.getElementById('modalForResize').style.maxWidth = "80%"
     const saveSelectDiv = document.getElementById('saveSelect')
     saveSelectDiv.style.display = "flex"
     let allSavesAggregated = allSaves.lastSlots.concat(allSaves.historySlots)
