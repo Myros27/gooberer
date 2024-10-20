@@ -122,7 +122,20 @@ async function showSavesAndSelect(allSaves){
         save = undefined;
         return;
     }
-    
+    document.getElementById('identAndPlayerIdInput').style.display = "none"
+    const saveSelectDiv = document.getElementById('saveSelect')
+    saveSelectDiv.style.display = "saveSelect"
+    let allSavesAggregated = allSaves.lastSlots.concat(allSaves.historySlots)
+    allSavesAggregated.forEach((singleSave) => {
+        const article = document.createElement('article');
+        article.innerHTML = `
+            <h2>${singleSave.playerId}</h2>
+            <p>${singleSave.deviceDescription}</p>
+            <p>${singleSave.timeStamp}</p>
+        `;
+
+    saveSelectDiv.appendChild(article);
+    }
 }
 
 function addResetButton() {
