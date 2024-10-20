@@ -1,5 +1,6 @@
 var save;
 var settings = localStorage.getItem("settings");
+const apiUrl = 'https://gooberer.glitch.me';
 
 if (settings === null || !isValidSettings(settings)) {
     settings = {
@@ -83,6 +84,34 @@ function showMenu(){
 
 function resetAll(){
     window.location.reload(true);
+}
+
+function loadWithIdent(){
+    try {
+        let claimIdent = document.getElementById("ident").value
+        const response = await fetch(`${apiUrl}/getSavesByIdent/${claimIdent}`);
+        const result = await response.json();
+        showSavesAndSelect(result)
+    } catch (error) {
+        console.error('Error fetching saves by ident:', error);
+        document.getElementById('result').innerText = 'Error fetching save: ' + error;
+    }
+}
+
+async function loadWithPlayerId(){
+    try {
+        let claimPlayerId = document.getElementById("playerId").value
+        const response = await fetch(`${apiUrl}/getSavesByPlayerId/${claimPlayerId}`);
+        const result = await response.json();
+        showSavesAndSelect(result)
+    } catch (error) {
+        console.error('Error fetching saves by playerId:', error);
+        document.getElementById('result').innerText = 'Error fetching save: ' + error;
+    }
+}
+
+function showSavesAndSelect(allSaves){
+    console.log(allSaves)
 }
 
 function addResetButton() {
