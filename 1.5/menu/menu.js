@@ -133,14 +133,13 @@ async function showSavesAndSelect(allSaves){
         const os = osMatch ? osMatch[1] : 'Unknown OS';
         const browser = singleSave.deviceDescription.split(' ').pop();
         article.innerHTML = `
-            <p>Ident: ${singleSave.ident ?? singleSave.playerId}</p>
-            <p>PlayerId: ${singleSave.playerId}</p>
+            <p>Ident: sampleIdent</p>
+            <p>PlayerId: samplePlayerId</p>
             <p>OS: ${os}</p>
             <p>Browser: ${browser}</p>
             <p>Save Time: ${new Date(singleSave.timeStamp).toLocaleString()}</p>
             <button class="custom-upload-btn" onclick="loadThisCloudSave(this)" data-save="${singleSave.saveData}" style="margin-left: 1rem;">Load this save</button>
         `;
-
     saveSelectDiv.appendChild(article);
     });
 }
