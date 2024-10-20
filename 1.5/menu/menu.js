@@ -86,7 +86,7 @@ function resetAll(){
     window.location.reload(true);
 }
 
-function loadWithIdent(){
+async function loadWithIdent(){
     try {
         let claimIdent = document.getElementById("ident").value
         const response = await fetch(`${apiUrl}/getSavesByIdent/${claimIdent}`);
@@ -98,7 +98,7 @@ function loadWithIdent(){
     }
 }
 
-async function loadWithPlayerId(){
+async async function loadWithPlayerId(){
     try {
         let claimPlayerId = document.getElementById("playerId").value
         const response = await fetch(`${apiUrl}/getSavesByPlayerId/${claimPlayerId}`);
@@ -110,7 +110,7 @@ async function loadWithPlayerId(){
     }
 }
 
-function showSavesAndSelect(allSaves){
+async function showSavesAndSelect(allSaves){
     console.log(allSaves)
 }
 
