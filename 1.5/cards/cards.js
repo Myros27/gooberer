@@ -26,7 +26,7 @@ function predictCards() {
     if (amount < 1 && amount > 1000000) {amount = 10}
     while(div.firstChild) { div.removeChild(div.firstChild); }
     let selectedPack = document.getElementById("selectedPack").value;
-    if (selectedPackGlobal !== null){
+    if (!(selectedPackGlobal === null || selectedPackGlobal === undefined)){
         selectedPack = selectedPackGlobal
         document.getElementById("showCardsHere").style.display = "none";
     }
