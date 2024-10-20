@@ -6,31 +6,33 @@
 </head>
 <body>
     <div id="cards" style="color:#FFF">
-        <label for="packs" id="packLabel" style="color: #FFFFFF;">What pack to predict:</label>
-        <select name="packs" id="selectedPack" onchange="predictCards()">
-            <option value="intoDarkness">Into Darkness</option>
-            <option value="drillsAndDepths">Drills and Depths</option>
-            <option value="hotStuff">Hot Stuff</option>
-            <option value="dangerZone">Danger Zone</option>
-            <option value="meetingNewPeople">Meeting New People</option>
-            <option value="darkCult">Dark Cult</option>
-            <option value="technologicalAdvancement">Technological Advancement</option>
-            <option value="rookieOnTheBattlefield">Rookie on the Battlefield</option>
-            <option value="spiritualSuccess">Spiritual Success</option>
-            <option value="oldMemories">Old Memories</option>
-            <option value="taintedWorld">Tainted World</option>
-            <option value="bountifulHarvest">Bountiful Harvest</option>
-            <option value="juicyYields">Juicy Yields</option>
-            <option value="insectWorld">Insect World</option>
-            <option value="beesAndFlowers">Bees and Flowers</option>
-            <option value="newArtist">New Artist</option>
-            <option value="inspiringCreations">Inspiring Creations</option>
-        </select>
-        <label for="cardAmount" style="color: #FFFFFF;">Amount:</label>
-        <input type="number" value=100 id="cardAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
-        <label for="aggregateAmount" style="color: #FFFFFF;">Aggregate Rows:</label>
-        <input type="number" value=10 id="aggregateAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
-        <button onclick="predictCards()">Update</button>
+        <div id="inputs" style="color:#FFF; display: flex; align-items: center; gap: 1rem;">
+            <label for="packs" id="packLabel" style="color: #FFFFFF;">What pack to predict:</label>
+            <select name="packs" id="selectedPack" onchange="predictCards()">
+                <option value="intoDarkness">Into Darkness</option>
+                <option value="drillsAndDepths">Drills and Depths</option>
+                <option value="hotStuff">Hot Stuff</option>
+                <option value="dangerZone">Danger Zone</option>
+                <option value="meetingNewPeople">Meeting New People</option>
+                <option value="darkCult">Dark Cult</option>
+                <option value="technologicalAdvancement">Technological Advancement</option>
+                <option value="rookieOnTheBattlefield">Rookie on the Battlefield</option>
+                <option value="spiritualSuccess">Spiritual Success</option>
+                <option value="oldMemories">Old Memories</option>
+                <option value="taintedWorld">Tainted World</option>
+                <option value="bountifulHarvest">Bountiful Harvest</option>
+                <option value="juicyYields">Juicy Yields</option>
+                <option value="insectWorld">Insect World</option>
+                <option value="beesAndFlowers">Bees and Flowers</option>
+                <option value="newArtist">New Artist</option>
+                <option value="inspiringCreations">Inspiring Creations</option>
+            </select>
+            <label for="cardAmount" style="color: #FFFFFF;">Amount:</label>
+            <input type="number" value=100 id="cardAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
+            <label for="aggregateAmount" style="color: #FFFFFF;">Aggregate Rows:</label>
+            <input type="number" value=10 id="aggregateAmount" style="width: 70px; font-family: monospace; padding-right: 0,2rem;" oninput="predictCards()"></input>
+            <button onclick="predictCards()">Update</button>
+        </div>
         <div id="aggregateCardsHere" style="margin-top:0;margin-bottom:2px;"></div>
         <div id="showCardsHere" style="margin-top:0;margin-bottom:2px;"></div>
     </div>
