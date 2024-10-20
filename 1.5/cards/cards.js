@@ -88,23 +88,7 @@ function outputTextCards(text) {
         lastArticle.appendChild(document.createTextNode(' '));
     }
 }
-/*
-function outputTextCards(text, color = 0) {
-    const para = document.createElement("p");
-    para.style.color = "white";
-    para.style.textShadow = "-1px -1px 2px black, 1px 1px 2px black, 1px -1px 2px black, -1px 1px 2px black, \
-    -1px -1px 1px black, 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, \
-    1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black, \
-    1px 0px 2px black, 0px 1px 2px black, -1px 0px 2px black, 0px -1px 2px black";
-    para.style.margin = "0";
-    para.style.fontSize = "19px";
-    para.style.fontFamily = "Araboto";
-    const node = document.createTextNode(text);
-    para.appendChild(node);
-    const element = document.getElementById("showCardsHere");
-    element.appendChild(para);
-}
-*/
+
 window.addEventListener('message', function(event) {
     let receivedData = JSON.parse(atob(event.data));
     if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
