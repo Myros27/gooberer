@@ -138,11 +138,17 @@ async function showSavesAndSelect(allSaves){
             <p>OS: ${os}</p>
             <p>Browser: ${browser}</p>
             <p>Save Time: ${new Date(singleSave.timeStamp).toLocaleString()}</p>
-            <button class="custom-upload-btn" onclick="loadThisCloudSave()" style="margin-left: 1rem;">Load this save</button>
+            <button class="custom-upload-btn" onclick="loadThisCloudSave(this)" data-save="${singleSave.saveData}" style="margin-left: 1rem;">Load this save</button>
         `;
 
     saveSelectDiv.appendChild(article);
     });
+}
+
+function loadThisCloudSave(button) {
+    const encodedSave = button.getAttribute('data-save');
+    console.log(saveId);
+    debugger;
 }
 
 function addResetButton() {
