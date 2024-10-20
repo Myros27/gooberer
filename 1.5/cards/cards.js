@@ -28,7 +28,7 @@ function predictCards() {
     let selectedPack = document.getElementById("selectedPack").value;
     if (selectedPackGlobal !== null){
         selectedPack = selectedPackGlobal
-        document.getElementById("showCardsHere").style.display = none;
+        document.getElementById("showCardsHere").style.display = "none";
     }
     let pack = cardStuff.packs[selectedPack]
     let innerHtml = "<br><table><tr><th>" + selectedPack + "</th>";
