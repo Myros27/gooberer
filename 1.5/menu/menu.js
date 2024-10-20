@@ -98,7 +98,7 @@ async function loadWithIdent(){
     }
 }
 
-async async function loadWithPlayerId(){
+async function loadWithPlayerId(){
     try {
         let claimPlayerId = document.getElementById("playerId").value
         const response = await fetch(`${apiUrl}/getSavesByPlayerId/${claimPlayerId}`);
