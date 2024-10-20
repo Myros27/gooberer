@@ -135,7 +135,7 @@ async function showSavesAndSelect(allSaves){
         `;
 
     saveSelectDiv.appendChild(article);
-    }
+    });
 }
 
 function addResetButton() {
