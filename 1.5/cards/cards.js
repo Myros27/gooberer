@@ -4,6 +4,20 @@ var parameters = new URLSearchParams(document.location.search)
 
 let cardStuff = getCardData();
 
+function selectIfInternal(){
+    let selectedPackValue = parameters.get('pack');
+    let selectElement = document.getElementById("selectedPack");
+    if (selectedPackValue) {
+        let options = Array.from(selectElement.options);
+        let validOption = options.find(option => option.value === selectedPackValue);
+        if (validOption) {
+            selectElement.value = selectedPackValue;
+        }
+    }
+}
+
+selectIfInternal()
+
 function predictCards() {
     const div = document.getElementById("showCardsHere");
     let aggregate = document.getElementById("aggregateCardsHere");
