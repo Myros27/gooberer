@@ -147,7 +147,6 @@ async function showSavesAndSelect(allSaves){
 
 function loadThisCloudSave(button) {
     const encodedSave = button.getAttribute('data-save');
-    console.log(saveId);
     debugger;
 }
 
