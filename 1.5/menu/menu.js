@@ -88,6 +88,7 @@ function resetAll(){
 
 async function loadWithIdent(){
     try {
+        document.getElementById('result').innerText = 'Loading data, please hold on.'
         let claimIdent = document.getElementById("ident").value
         const response = await fetch(`${apiUrl}/getSavesByIdent/${claimIdent}`);
         const result = await response.json();
@@ -100,6 +101,7 @@ async function loadWithIdent(){
 
 async function loadWithPlayerId(){
     try {
+        document.getElementById('result').innerText = 'Loading data, please hold on.'
         let claimPlayerId = document.getElementById("playerId").value
         const response = await fetch(`${apiUrl}/getSavesByPlayerId/${claimPlayerId}`);
         const result = await response.json();
@@ -111,7 +113,16 @@ async function loadWithPlayerId(){
 }
 
 async function showSavesAndSelect(allSaves){
-    console.log(allSaves)
+    if (save !== undefined)
+    {
+        return;
+    }
+    save = "data"
+    if (!(allSaves.lastSlots && allSaves.lastSlots.length !== 0)){
+        save = undefined;
+        return;
+    }
+    
 }
 
 function addResetButton() {
