@@ -200,9 +200,9 @@ label {
 
 #saveSelect article {
     border: 1px solid #ccc;
-    padding: 16px;
-    border-radius: 8px;
-    flex: 1 1 calc(33.33% - 16px);
+    padding: 8px;
+    border-radius: 4px;
+    flex: 1 1 calc(20% - 8px);
     box-sizing: border-box;
     min-width: 250px;
 }
