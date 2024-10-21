@@ -13,7 +13,7 @@
 <script>
     var save;
     var settings;
-    var events;
+    var nextEvents;
     var parameters = new URLSearchParams(document.location.search)
     
     window.addEventListener('message', function(event) {
@@ -28,23 +28,20 @@
 
     function feature(){
         document.getElementById("playerId").innerText = save.playerId
-        events = returnNextEvents()
+        nextEvents = returnNextEvents()
     }
 
     function returnNextEvents(day = null){
         let arr = [];
         let small = ["merchant", "casino", "bank"];
         const big = JSON.parse('{"cinders":{"start":"01-15","end":"02-03","color":"amber","currency":"wax","token":"cindersToken"},"bloom":{"start":"03-09","end":"03-31","color":"light-green","currency":"humus","token":"bloomToken"},"weatherChaos":{"start":"05-22","end":"06-08","color":"grey","currency":"cloud","token":"weatherChaosToken"},"summerFestival":{"start":"07-26","end":"08-22","color":"orange-red","currency":"cocktail","token":"summerFestivalToken"},"nightHunt":{"start":"10-04","end":"10-19","color":"deep-purple","currency":"magic","token":"nightHuntToken"},"snowdown":{"start":"11-25","end":"12-15","color":"skyblue","currency":"snowball","token":"snowdownToken"}}')
-
         const now = new Date(`${day ?? new Date().toISOString().split("T")[0]}T00:00:00`);
         const min = new Date(now.getFullYear(), now.getMonth(), 1);
         const max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-
         const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1))); // Adjust to the previous Monday
         const lastday = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
-
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
                 arr.push({
@@ -55,7 +52,6 @@
                 });
             }
         }
-
         let timestamp = firstday.toISOString().split("T")[0];
         let weeks = [];
         while (new Date(`${timestamp}T00:00:00`) <= lastday) {
@@ -64,7 +60,6 @@
             newDate.setDate(newDate.getDate() + 7);
             timestamp = newDate.toISOString().split("T")[0];
         }
-
         weeks.forEach(week => {
             let startCompare = new Date(`${week}T00:00:00`);
             startCompare.setDate(startCompare.getDate() + 4);
