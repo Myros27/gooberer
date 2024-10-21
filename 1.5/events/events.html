@@ -28,8 +28,9 @@
     });
 
     function feature(){
-        nextEvents = returnNextEvents()
-        nextEvents.concat(returnNextEvents(true))
+        let thisMonth = returnNextEvents()
+        let nextMonth = returnNextEvents(true)
+        nextEvents = thisMonth.concat(nextMonth)
         console.log(nextEvents)
     }
 
