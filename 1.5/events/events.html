@@ -30,8 +30,12 @@
     function feature(){
         let thisMonth = returnNextEvents()
         let nextMonth = returnNextEvents(true)
-        nextEvents = thisMonth.concat(nextMonth)
+        nextEvents = thisMonth.concat(nextMonth).filter((event, index, self) =>
+            index === self.findIndex(e => e.name === event.name && e.start.getTime() === event.start.getTime())
+        );
+        nextEvents.sort((a, b) => a.start - b.start);
         console.log(nextEvents)
+        debugger;
     }
 
     function returnNextEvents(nextMonth = false) {
