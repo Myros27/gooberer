@@ -11,9 +11,9 @@
 </html>
 
 <script>
-    var save; //This contains the whole save, ready to use
-    var settings; //This can be used to get some global settings
-    var parameters = new URLSearchParams(document.location.search) //This is used when opened with ? Parameters
+    var save;
+    var settings;
+    var parameters = new URLSearchParams(document.location.search)
     
     window.addEventListener('message', function(event) {
         let receivedData = JSON.parse(atob(event.data));
@@ -26,8 +26,8 @@
     });
 
     function feature(){
-        document.getElementById("playerId").innerText = save.playerId
         debugger;
+        document.getElementById("playerId").innerText = save.playerId
     }
     
 </script>

@@ -8,6 +8,13 @@
       "released": false
     },
     {
+      "title": "Info",
+      "icon": "mdi-information",
+      "link": "info/info.html",
+      "version": 1,
+      "released": false
+    },
+    {
       "title": "Treasures",
       "icon": "mdi-treasure-chest",
       "link": "treasure/treasure.html",
@@ -27,6 +34,13 @@
       "link": "relics/relics.html",
       "version": 2,
       "released": true
+    },
+    {
+      "title": "Events",
+      "icon": "mdi-calendar",
+      "link": "events/events.html",
+      "version": 1,
+      "released": false
     },
     {
       "title": "Nighthunt",
