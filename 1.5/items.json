@@ -25,8 +25,8 @@
       "title": "Relics",
       "icon": "mdi-ring",
       "link": "relics/relics.html",
-      "version": 1,
-      "released": false
+      "version": 2,
+      "released": true
     },
     {
       "title": "Nighthunt",
