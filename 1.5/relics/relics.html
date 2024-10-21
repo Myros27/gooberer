@@ -159,7 +159,6 @@
             const div = document.createElement("div");
             const iconContainer = document.createElement("span");
             const nameContainer = document.createElement("p");
-            const descriptionContainer = document.createElement("p");
             div.style.backgroundColor = elem.color;
             div.style.padding = "1rem";
             div.style.borderStyle = "solid";
@@ -167,9 +166,6 @@
             nameContainer.innerText = elem.name;
             nameContainer.style.padding = "0";
             nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
-            descriptionContainer.innerText = elem.description;
-            descriptionContainer.style.padding = "0";
-            descriptionContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
             iconContainer.style.fontSize = "2rem";
             iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
             iconContainer.style.display = "flex";
@@ -177,9 +173,15 @@
             iconContainer.style.justifyContent = "center";
             iconContainer.classList.add("mdi");
             iconContainer.classList.add(elem.icon);
+            if ( elem.description !== undefined){
+                const descriptionContainer = document.createElement("p");
+                descriptionContainer.innerText = elem.description;
+                descriptionContainer.style.padding = "0";
+                descriptionContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+                div.appendChild(descriptionContainer);
+            }
             div.appendChild(iconContainer);
             div.appendChild(nameContainer);
-            div.appendChild(descriptionContainer);
             rootElement.appendChild(div);
         });
     }
