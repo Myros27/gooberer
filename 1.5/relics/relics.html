@@ -27,7 +27,7 @@
                     {"name":"consolationPrize","color":"lighter-grey","icon":"mdi-seal-variant"},
                     {"name":"prettyLamp","color":"light-blue","icon":"mdi-vanity-light"},
                     {"name":"chessboard","color":"grey","icon":"mdi-checkerboard","description":"UNOBTAINABLE, used for future content"},
-                    {"name":"iridiscentFlower","color":"pink","icon":"mdi-flower-pollen"},
+                    {"name":"iridiscentFlower","color":"pink","icon":"mdi-flower-pollen","description":"UNOBTAINABLE, used for future content"},
                     {"name":"friendlyBat","color":"dark-grey","icon":"mdi-bat"},
                     {"name":"hammer","color":"brown","icon":"mdi-hammer"},
                     {"name":"aluminiumBrick","color":"blue-grey","icon":"mdi-wall"},
@@ -173,15 +173,16 @@
             iconContainer.style.justifyContent = "center";
             iconContainer.classList.add("mdi");
             iconContainer.classList.add(elem.icon);
+            div.appendChild(iconContainer);
+            div.appendChild(nameContainer);
             if ( elem.description !== undefined){
                 const descriptionContainer = document.createElement("p");
                 descriptionContainer.innerText = elem.description;
+                descriptionContainer.style.fontSize = "12px";
                 descriptionContainer.style.padding = "0";
                 descriptionContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
                 div.appendChild(descriptionContainer);
             }
-            div.appendChild(iconContainer);
-            div.appendChild(nameContainer);
             rootElement.appendChild(div);
         });
     }
