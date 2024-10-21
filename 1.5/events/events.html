@@ -52,7 +52,7 @@
 
         const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
         const lastday = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
-
+        console.log(now)
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
                 arr.push({
