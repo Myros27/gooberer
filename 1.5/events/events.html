@@ -73,17 +73,21 @@
         weeks.forEach(week => {
             let startDate = new Date(`${week}T00:00:00`);
             let endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 6); // Sonntag
-            let startCompare = new Date(startDate);
-            startCompare.setDate(startCompare.getDate() + 5); // Samstag
-            let endCompare = new Date(endDate);
-            endCompare.setDate(endCompare.getDate() + 1); // Montag
+            endDate.setDate(endDate.getDate() + 6);
+
+            let saturday = new Date(startDate);
+            saturday.setDate(startDate.getDate() + 5);
+            let sunday = new Date(saturday);
+            sunday.setDate(saturday.getDate() + 1);
+
+            let startCompare = new Date(saturday);
+            let endCompare = new Date(sunday);
 
             if (arr.findIndex(el => el.start <= endCompare && el.end >= startCompare) === -1) {
                 arr.push({
-                    name: small[getWeek(startDate) % small.length],
-                    start: new Date(startDate), // Samstag
-                    end: new Date(endDate) // Sonntag
+                    name: small[getWeek(saturday) % small.length],
+                    start: saturday,
+                    end: sunday
                 });
             }
         });
