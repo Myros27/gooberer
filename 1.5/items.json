@@ -4,35 +4,42 @@
       "title": "Example",
       "icon": "mdi-cards",
       "link": "example/example.html",
-      "version": 1,
+      "version": 2,
       "released": false
     },
     {
       "title": "Treasures",
       "icon": "mdi-treasure-chest",
       "link": "treasure/treasure.html",
-      "version": 1,
+      "version": 2,
       "released": true
     },
     {
       "title": "Cards",
       "icon": "mdi-cards",
       "link": "cards/cards.html",
-      "version": 1,
+      "version": 2,
       "released": true
+    },
+    {
+      "title": "Relics",
+      "icon": "mdi-ring",
+      "link": "relics/relics.html",
+      "version": 1,
+      "released": false
     },
     {
       "title": "Nighthunt",
       "icon": "mdi-weather-night",
       "link": "nighthunt/nighthunt.html",
-      "version": 1,
+      "version": 2,
       "released": true
     },
     {
       "title": "Settings",
       "icon": "mdi-cog",
       "link": "settings/settings.html",
-      "version": 1,
+      "version": 2,
       "released": true
     }
   ]
