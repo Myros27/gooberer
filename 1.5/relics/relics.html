@@ -159,8 +159,10 @@
             const div = document.createElement("div");
             const iconContainer = document.createElement("span");
             const nameContainer = document.createElement("p");
-            iconContainer.innerText = elem.name;
             div.style.backgroundColor = elem.color;
+            nameContainer.innerText = elem.name;
+            nameContainer.style.padding = "0";
+            iconContainer.style.paddingRight = "2rem";
             iconContainer.classList.add("mdi");
             iconContainer.classList.add(elem.icon);
             div.appendChild(iconContainer);
