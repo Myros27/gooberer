@@ -42,7 +42,7 @@
             '"summerFestival":{"start":"07-26","end":"08-22","color":"orange-red","currency":"cocktail","token":"summerFestivalToken"},' +
             '"nightHunt":{"start":"10-04","end":"10-19","color":"deep-purple","currency":"magic","token":"nightHuntToken"},' +
             '"snowdown":{"start":"11-25","end":"12-15","color":"skyblue","currency":"snowball","token":"snowdownToken"}}')
-        const now = new Date().toISOString().split("T")[0];
+        const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
         let min = new Date(now.getFullYear(), now.getMonth(), 1);
