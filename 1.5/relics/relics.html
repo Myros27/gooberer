@@ -180,6 +180,9 @@
             div.appendChild(nameContainer);
             if ( elem.description !== undefined){
                 const descriptionContainer = document.createElement("p");
+                descriptionContainer.style.display = "flex";
+                descriptionContainer.style.alignItems = "center";
+                descriptionContainer.style.justifyContent = "center";
                 descriptionContainer.innerText = elem.description;
                 descriptionContainer.style.fontSize = "12px";
                 descriptionContainer.style.padding = "0";
