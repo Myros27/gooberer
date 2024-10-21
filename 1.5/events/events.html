@@ -13,6 +13,7 @@
 <script>
     var save;
     var settings;
+    var events;
     var parameters = new URLSearchParams(document.location.search)
     
     window.addEventListener('message', function(event) {
@@ -26,9 +27,8 @@
     });
 
     function feature(){
-        debugger;
         document.getElementById("playerId").innerText = save.playerId
-        returnNextEvents()
+        events = returnNextEvents()
     }
 
     function returnNextEvents(day = null){
@@ -67,13 +67,13 @@
 
         weeks.forEach(week => {
             let startCompare = new Date(`${week}T00:00:00`);
-            startCompare.setDate(startCompare.getDate() + 4); // Thursday
+            startCompare.setDate(startCompare.getDate() + 4);
             let startDate = new Date(`${week}T00:00:00`);
-            startDate.setDate(startDate.getDate() + 5); // Friday
+            startDate.setDate(startDate.getDate() + 5);
             let endCompare = new Date(`${week}T23:59:59`);
-            endCompare.setDate(endCompare.getDate() + 7); // Next week
+            endCompare.setDate(endCompare.getDate() + 7);
             let endDate = new Date(`${week}T23:59:59`);
-            endDate.setDate(endDate.getDate() + 6); // End of the week (next Saturday)
+            endDate.setDate(endDate.getDate() + 6);
             if (arr.findIndex(el => el.start <= endCompare && el.end >= startCompare) === -1) {
                 arr.push({
                     name: small[getWeek(startDate) % small.length],
