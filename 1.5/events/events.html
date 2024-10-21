@@ -33,7 +33,7 @@
         console.log(nextEvents)
     }
 
-    function returnNextEvents(nextMonth = false){
+    function returnNextEvents(nextMonth = false) {
         let arr = [];
         let small = ["merchant", "casino", "bank"];
         const big = JSON.parse('{"cinders":{"start":"01-15","end":"02-03","color":"amber","currency":"wax","token":"cindersToken"},' +
@@ -48,7 +48,7 @@
         let min = new Date(now.getFullYear(), now.getMonth(), 1);
         let max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         if (nextMonth){
-            min = max
+            min = new Date(now.getFullYear(), now.getMonth() + 1, 0);
             max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
         }
         const firstDay = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
@@ -65,10 +65,10 @@
         }
         let timestamp = getDay(firstDay);
         let weeks = [];
-        while ((new Date(`${timestamp}T00:00:00`)) <= lastDay) {
+        while (new Date(`${timestamp}T00:00:00`) <= lastDay) {
             weeks.push(timestamp);
             let newDate = new Date(`${timestamp}T00:00:00`);
-            newDate.setDate(newDate.getDate() + 7)
+            newDate.setDate(newDate.getDate() + 7);
             timestamp = getDay(newDate);
         }
         weeks.forEach(week => {
