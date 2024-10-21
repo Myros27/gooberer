@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <p id="playerId"></p>
+    <p>example</p>
+</body>
+</html>
+
+<script>
+    var save;
+    var settings;
+    var parameters = {};
+    
+    window.addEventListener('message', function(event) {
+        let receivedData = JSON.parse(atob(event.data));
+        if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
+            return;
+        }
+        save = receivedData.save;
+        settings = receivedData.settings;
+        feature();
+    });
+
+    function feature(){
+        document.getElementById("playerId").innerText = save.playerId
+    }
+    
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.4.55/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
