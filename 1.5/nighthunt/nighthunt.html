@@ -25,25 +25,29 @@
     });
 
     function showNightHunt(){
-      let recipeList = []
-      for (let key in save.event.nightHunt_potion){
-          recipeList.push([key,save.event.nightHunt_potion[key].recipe])
-      }
-      var sortedRecipeList = recipeList.sort((a, b) => a[1].length - b[1].length);
-      const showListHere = document.getElementById('showListHere');
-      showListHere.innerHTML = "";
-      for (let i in sortedRecipeList){
-          const entry = sortedRecipeList[i];
-          const div = document.createElement('div');
-          const p = document.createElement('p');
-          const text = entry[0].charAt(0).toUpperCase() + entry[0].slice(1)
-          p.textContent = `Potion name: ${text}`;
-          p.style.color = "#FFF";
-          p.style.marginBottom = "2px";
-          div.appendChild(p);
-          appendImageToDiv(div, entry[1])
-          showListHere.appendChild(div);
-      }
+        let recipeList = []
+        if (save.event.nightHunt_potion === undefined){
+            document.getElementById('showListHere').innerText = "Nighthunt is closed"
+            return;
+        }
+        for (let key in save.event.nightHunt_potion){
+            recipeList.push([key,save.event.nightHunt_potion[key].recipe])
+        }
+        var sortedRecipeList = recipeList.sort((a, b) => a[1].length - b[1].length);
+        const showListHere = document.getElementById('showListHere');
+        showListHere.innerHTML = "";
+        for (let i in sortedRecipeList){
+            const entry = sortedRecipeList[i];
+            const div = document.createElement('div');
+            const p = document.createElement('p');
+            const text = entry[0].charAt(0).toUpperCase() + entry[0].slice(1)
+            p.textContent = `Potion name: ${text}`;
+            p.style.color = "#FFF";
+            p.style.marginBottom = "2px";
+            div.appendChild(p);
+            appendImageToDiv(div, entry[1])
+            showListHere.appendChild(div);
+        }
   }
 
   function appendImageToDiv(div, arr) {
