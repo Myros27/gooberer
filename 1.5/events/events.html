@@ -11,6 +11,8 @@
 </html>
 
 <script>
+    import { getDay, getWeek } from "../utils/date";
+
     var save;
     var settings;
     var nextEvents;
@@ -45,10 +47,11 @@
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
 
-        const min = new Date(year, month - 1, 1);
-        const max = new Date(year, month, 0);
+        const min = new Date(now.getFullYear(), now.getMonth(), 1);
+        const max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
         const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
-        const lastday = new Date(max.setDate(max.getDate() + (7 - max.getDay())));
+        const lastday = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
 
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
@@ -61,47 +64,39 @@
             }
         }
 
-        let timestamp = firstday.toISOString().split("T")[0];
+        let timestamp = getDay(firstday);
         let weeks = [];
-        while (new Date(`${timestamp}T00:00:00`) <= lastday) {
+        while ((new Date(`${timestamp}T00:00:00`)) <= lastday) {
             weeks.push(timestamp);
             let newDate = new Date(`${timestamp}T00:00:00`);
-            newDate.setDate(newDate.getDate() + 7);
-            timestamp = newDate.toISOString().split("T")[0];
+            newDate.setDate(newDate.getDate() + 7)
+            timestamp = getDay(newDate);
         }
 
         weeks.forEach(week => {
+            let startCompare = new Date(`${week}T00:00:00`);
+            startCompare.setDate(startCompare.getDate() + 4);
             let startDate = new Date(`${week}T00:00:00`);
-            let endDate = new Date(startDate);
+            startDate.setDate(startDate.getDate() + 5);
+            let endCompare = new Date(`${week}T23:59:59`);
+            endCompare.setDate(endCompare.getDate() + 7);
+            let endDate = new Date(`${week}T23:59:59`);
             endDate.setDate(endDate.getDate() + 6);
-
-            let saturday = new Date(startDate);
-            saturday.setDate(startDate.getDate() + 5);
-            let sunday = new Date(saturday);
-            sunday.setDate(saturday.getDate() + 1);
-
-            let startCompare = new Date(saturday);
-            let endCompare = new Date(sunday);
-
             if (arr.findIndex(el => el.start <= endCompare && el.end >= startCompare) === -1) {
                 arr.push({
-                    name: small[getWeek(saturday) % small.length],
-                    start: saturday,
-                    end: sunday
+                    name: state.small[getWeek(startDate) % state.small.length],
+                    start: startDate,
+                    end: endDate
                 });
             }
         });
         return arr;
     }
 
-    function getWeek(date) {
-        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-        const days = Math.floor((date - firstDayOfYear) / (24 * 60 * 60 * 1000));
-        return Math.ceil((days + firstDayOfYear.getDay() + 1) / 7);
-    }
-
 
     
 </script>
+<script src="https://myros27.github.io/gooberer/1.5/utils/date.js"></script>
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/utils/icons/css/materialdesignicons.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
+
