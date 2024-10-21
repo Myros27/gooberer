@@ -1,5 +1,3 @@
-export { getDay, getWeek }
-
 /**
  * Get a readable string representation of the current day of a date
  * @param {Date} date The date object used to get the day string
