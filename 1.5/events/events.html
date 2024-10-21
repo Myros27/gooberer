@@ -28,14 +28,12 @@
     });
 
     function feature(){
-        const currentDate = new Date(`${new Date().toISOString().split("T")[0]}T00:00:00`)
-        nextEvents = returnNextEvents(currentDate)
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        nextEvents.concat(returnNextEvents(currentDate))
+        nextEvents = returnNextEvents()
+        nextEvents.concat(returnNextEvents(true))
         console.log(nextEvents)
     }
 
-    function returnNextEvents(day = null){
+    function returnNextEvents(nextMonth = false){
         let arr = [];
         let small = ["merchant", "casino", "bank"];
         const big = JSON.parse('{"cinders":{"start":"01-15","end":"02-03","color":"amber","currency":"wax","token":"cindersToken"},' +
@@ -44,11 +42,15 @@
             '"summerFestival":{"start":"07-26","end":"08-22","color":"orange-red","currency":"cocktail","token":"summerFestivalToken"},' +
             '"nightHunt":{"start":"10-04","end":"10-19","color":"deep-purple","currency":"magic","token":"nightHuntToken"},' +
             '"snowdown":{"start":"11-25","end":"12-15","color":"skyblue","currency":"snowball","token":"snowdownToken"}}')
-        const now = new Date(`${day ?? new Date().toISOString().split("T")[0]}T00:00:00`);
+        const now = new Date(`${new Date().toISOString().split("T")[0]}T00:00:00`);
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
-        const min = new Date(now.getFullYear(), now.getMonth(), 1);
-        const max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        let min = new Date(now.getFullYear(), now.getMonth(), 1);
+        let max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        if (nextMonth){
+            min = max
+            max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+        }
         const firstDay = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
         const lastDay = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
         for (const [key, elem] of Object.entries(big)) {
