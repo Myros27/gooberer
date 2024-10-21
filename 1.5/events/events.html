@@ -47,10 +47,10 @@
         const month = now.getMonth() + 1;
 
         const min = new Date(now.getFullYear(), now.getMonth(), 1);
-        const max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        const max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
 
-        const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
-        const lastday = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
+        const firstDay = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
+        const lastDay = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
         console.log(now)
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
@@ -62,16 +62,14 @@
                 });
             }
         }
-
-        let timestamp = getDay(firstday);
+        let timestamp = getDay(firstDay);
         let weeks = [];
-        while ((new Date(`${timestamp}T00:00:00`)) <= lastday) {
+        while ((new Date(`${timestamp}T00:00:00`)) <= lastDay) {
             weeks.push(timestamp);
             let newDate = new Date(`${timestamp}T00:00:00`);
             newDate.setDate(newDate.getDate() + 7)
             timestamp = getDay(newDate);
         }
-
         weeks.forEach(week => {
             let startCompare = new Date(`${week}T00:00:00`);
             startCompare.setDate(startCompare.getDate() + 4);
