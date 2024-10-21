@@ -161,6 +161,7 @@
             const nameContainer = document.createElement("p");
             iconContainer.innerText = elem.name;
             div.style.backgroundColor = elem.color;
+            iconContainer.classList.add("mdi");
             iconContainer.classList.add(elem.icon);
             div.appendChild(iconContainer);
             div.appendChild(nameContainer);
@@ -171,3 +172,11 @@
 </script>
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/utils/icons/css/materialdesignicons.css">
 <link rel="stylesheet" href="https://myros27.github.io/gooberer/1.5/menu/menu.css">
+<style>
+    #missingRelics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+</style>
