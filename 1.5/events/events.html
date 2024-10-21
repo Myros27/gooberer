@@ -38,10 +38,12 @@
         const now = new Date(`${day ?? new Date().toISOString().split("T")[0]}T00:00:00`);
         const min = new Date(now.getFullYear(), now.getMonth(), 1);
         const max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-        const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1))); // Adjust to the previous Monday
+
+        const firstday = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
         const lastday = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
+
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
                 arr.push({
@@ -52,6 +54,7 @@
                 });
             }
         }
+
         let timestamp = firstday.toISOString().split("T")[0];
         let weeks = [];
         while (new Date(`${timestamp}T00:00:00`) <= lastday) {
@@ -60,15 +63,16 @@
             newDate.setDate(newDate.getDate() + 7);
             timestamp = newDate.toISOString().split("T")[0];
         }
+
         weeks.forEach(week => {
-            let startCompare = new Date(`${week}T00:00:00`);
-            startCompare.setDate(startCompare.getDate() + 4);
             let startDate = new Date(`${week}T00:00:00`);
-            startDate.setDate(startDate.getDate() + 5);
-            let endCompare = new Date(`${week}T23:59:59`);
-            endCompare.setDate(endCompare.getDate() + 7);
-            let endDate = new Date(`${week}T23:59:59`);
+            let endDate = new Date(startDate);
             endDate.setDate(endDate.getDate() + 6);
+            let startCompare = new Date(startDate);
+            startCompare.setDate(startCompare.getDate() + 4);
+            let endCompare = new Date(endDate);
+            endCompare.setDate(endCompare.getDate() + 1);
+
             if (arr.findIndex(el => el.start <= endCompare && el.end >= startCompare) === -1) {
                 arr.push({
                     name: small[getWeek(startDate) % small.length],
