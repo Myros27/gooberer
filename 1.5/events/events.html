@@ -83,7 +83,7 @@
             endDate.setDate(endDate.getDate() + 6);
             if (arr.findIndex(el => el.start <= endCompare && el.end >= startCompare) === -1) {
                 arr.push({
-                    name: state.small[getWeek(startDate) % state.small.length],
+                    name: small[getWeek(startDate) % small.length],
                     start: startDate,
                     end: endDate
                 });
