@@ -28,8 +28,11 @@
     });
 
     function feature(){
-        document.getElementById("playerId").innerText = save.playerId
-        nextEvents = returnNextEvents()
+        const currentDate = new Date();
+        nextEvents = returnNextEvents(currentDate)
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        nextEvents.concat(returnNextEvents(currentDate))
+        console.log(nextEvents)
     }
 
     function returnNextEvents(day = null){
@@ -41,17 +44,13 @@
             '"summerFestival":{"start":"07-26","end":"08-22","color":"orange-red","currency":"cocktail","token":"summerFestivalToken"},' +
             '"nightHunt":{"start":"10-04","end":"10-19","color":"deep-purple","currency":"magic","token":"nightHuntToken"},' +
             '"snowdown":{"start":"11-25","end":"12-15","color":"skyblue","currency":"snowball","token":"snowdownToken"}}')
-
         const now = new Date(`${day ?? new Date().toISOString().split("T")[0]}T00:00:00`);
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
-
         const min = new Date(now.getFullYear(), now.getMonth(), 1);
-        const max = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-
+        const max = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         const firstDay = new Date(min.setDate(min.getDate() - (min.getDay() === 0 ? 6 : min.getDay() - 1)));
         const lastDay = new Date(max.setDate(max.getDate() - (max.getDay() === 0 ? 6 : max.getDay() - 1) + 6));
-        console.log(now)
         for (const [key, elem] of Object.entries(big)) {
             if (month >= parseInt(elem.start.substring(0, 2)) && month <= parseInt(elem.end.substring(0, 2))) {
                 arr.push({
