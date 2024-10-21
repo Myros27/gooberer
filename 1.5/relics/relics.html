@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <p id="playerId"></p>
-    <p>example</p>
+    <div id="missingRelics">
+    </div>   
 </body>
 </html>
 
@@ -14,6 +14,8 @@
     var save;
     var settings;
     var parameters = {};
+
+    let allRelics = ["excavator","redCard","briefcase","strangePlant","beneficialVirus","torch","purpleHeart","rottenLeaf","stonepiercer","consolationPrize","prettyLamp","chessboard","iridiscentFlower","friendlyBat","hammer","aluminiumBrick","copperBrick","aluminiumHeap","bomb","copperHeap","radar","press","cupboard","catalyst","jumprope","bronzePickaxe","oreShelf","coalBrick","washingMachine","openedGift","magnet","copperPickaxe","tinBucket","honeyPot","mudBrick","sapling","keychain","treasureChest","screwdriver","rose","goldenKey","supervisor","globe","forgottenShield","burningSkull","energyDrink","luckyDice","dumbbell","bandage","newBackpack","ultimateGuide","crackedSafe","goldenCarrot","goldenApple","popcorn","roseQuartz","goldenSeed","trellis","brickWall","printer","lightbulb","oldTV","worryingMail","redBalloon","sackOfGold","shredder","redprint","orangeBalloon","creditCard","simpleCalculator","orangeprint","yellowBalloon","fishbowl","pencil","smallBrush","strangePills","strangeScroll","printingPress","yellowprint","greenBalloon","woodenHanger","bedsheet","imageAlbum","greenprint","blueBalloon","blueprint","purpleBalloon","tinfoilHat","cupOfWater","combatStrategy","hundredDollarBill","hotAirBalloon","largeClover","eightBall","youngPig","silverHorseshoe","bronzeTools","minersHat","dictionary","expertTools","bloodBag","geode","birthdayCake","colorfulFlower","heatingBulb","trashCan","suitcase","tropicalTent","fruitBasket","massiveGrain","enchantedBottle","moneyGift","frozenCarrot"]
     
     window.addEventListener('message', function(event) {
         let receivedData = JSON.parse(atob(event.data));
@@ -26,8 +28,11 @@
     });
 
     function feature(){
-        document.getElementById("playerId").innerText = save.playerId
+        const difference = allRelics.filter(item => !save.relic.includes(item));
+        
+        console.log(difference)
         debugger;
+        document.getElementById("missingRelics")
     }
     
 </script>
