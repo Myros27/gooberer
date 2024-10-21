@@ -29,13 +29,6 @@
       "released": true
     },
     {
-      "title": "TestArea",
-      "icon": "mdi-bug",
-      "link": "cloud/cloud.html",
-      "version": 1,
-      "released": false
-    },
-    {
       "title": "Settings",
       "icon": "mdi-cog",
       "link": "settings/settings.html",
