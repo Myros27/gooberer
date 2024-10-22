@@ -122,6 +122,15 @@ function createEventMenu(eventItemsMap) {
             iframe.style.display = "block";
             iframe.src = item.link;
             document.title = `Gooberer Events - ${item.title}`;
+            iframe.onload = null;
+            iframe.onload = () => {
+                let sendData = {
+                    action: 'initData',
+                    save: save,
+                    settings: settings
+                }
+                iframe.contentWindow.postMessage(btoa(JSON.stringify(sendData)), '*');
+            };
         });
         tabList.appendChild(button);
     });
