@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <p id="playerId"></p>
-    <p>example</p>
+    <div>
+        <div id="eventList"></div>
+    </div>
 </body>
 </html>
 
@@ -17,6 +18,18 @@
     var nextEvents;
     var activeEvent = false
     var parameters = new URLSearchParams(document.location.search)
+
+    let eventSymbols = {
+        'casino': 'mdi-slot-machine',
+        'bank': 'mdi-bank',
+        'merchant': 'mdi-account-tie',
+        'summerFestival': 'mdi-island',
+        'nightHunt': 'mdi-weather-night',
+        'snowdown': 'mdi-snowflake',
+        'weatherChaos': 'mdi-weather-lightning-rainy',
+        'bloom': 'mdi-flower-poppy',
+        'cinders': 'mdi-lightbulb-on',
+    }
     
     window.addEventListener('message', function(event) {
         let receivedData = JSON.parse(atob(event.data));
@@ -26,8 +39,6 @@
         save = receivedData.save;
         settings = receivedData.settings;
         feature();
-        console.log(activeEvent)
-        console.log(nextEvents)
     });
 
     function feature() {
@@ -45,6 +56,40 @@
             if (nextEvents[0].start <= now && nextEvents[0].end >= now) {
                 activeEvent = true;
             }
+        }
+        showNextEvents();
+    }
+
+    function showNextEvents(){
+        const rootElement = document.getElementById('eventList');
+        for (let index = 0; index < nextEvents.length; index++) {
+            let nextEvent = nextEvents[index];
+            const div = document.createElement("div");
+            const nameContainer = document.createElement("p");
+            const iconContainer = document.createElement("span");
+            if (index === 0 && activeEvent){
+                const spanContainer = document.createElement("span");
+                spanContainer.innerText = "ACTIVE";
+                spanContainer.style.alignItems = "center";
+                spanContainer.style.justifyContent = "center";
+                div.appendChild(spanContainer);
+            }
+            iconContainer.style.fontSize = "2rem";
+            iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 1)";
+            iconContainer.style.display = "flex";
+            iconContainer.style.alignItems = "center";
+            iconContainer.style.justifyContent = "center";
+            iconContainer.classList.add("mdi");
+            iconContainer.classList.add(eventSymbols[nextEvent.name])
+            nameContainer.innerText = nextEvent.name;
+            nameContainer.style.padding = "0";
+            nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 1)";
+            nameContainer.style.display = "flex";
+            nameContainer.style.alignItems = "center";
+            nameContainer.style.justifyContent = "center";
+            div.appendChild(iconContainer);
+            div.appendChild(nameContainer);
+            rootElement.appendChild(div);
         }
     }
 
