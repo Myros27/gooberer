@@ -189,27 +189,26 @@ function showNextEvents() {
 
 function linkEventToMenu(eventName, eventElement) {
     const lowerCaseName = eventName.toLowerCase();
-    const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab => {
-        const spanElement = tab.querySelector("span");
-        if (spanElement) {
-            const spanText = spanElement.textContent.trim().toLowerCase();
-            console.log("comparing" + spanText + " and " + lowerCaseName + " did it match? " + spanText === lowerCaseName )
-            return spanText === lowerCaseName;
-        }
-        return false;
-    });
-    if (correspondingTab) {
-        eventElement.style.cursor = "pointer";
-        eventElement.addEventListener('click', () => {
+    eventElement.style.cursor = "pointer";
+    eventElement.addEventListener('click', () => {
+        const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab => {
+            const spanElement = tab.querySelector("span");
+            if (spanElement) {
+                const spanText = spanElement.textContent.trim().toLowerCase();
+                return spanText === lowerCaseName;
+            }
+            return false;
+        });
+        if (correspondingTab) {
             correspondingTab.click();
-        });
-        eventElement.addEventListener('mouseover', () => {
-            eventElement.style.backgroundColor = "#444";
-        });
-        eventElement.addEventListener('mouseout', () => {
-            eventElement.style.backgroundColor = "#2c2c2c";
-        });
-    }
+        }
+    });
+    eventElement.addEventListener('mouseover', () => {
+        eventElement.style.backgroundColor = "#444";
+    });
+    eventElement.addEventListener('mouseout', () => {
+        eventElement.style.backgroundColor = "#2c2c2c";
+    });
 }
 
 function returnNextEvents(nextMonth = 0) {
