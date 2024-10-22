@@ -73,7 +73,8 @@ p {
     width: 70px;
 }
 
-#gooberIframe {
+#gooberIframe,
+#eventIframe {
     flex: 1;
     border: none;
     margin-left: 1rem;
