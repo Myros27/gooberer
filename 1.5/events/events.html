@@ -30,6 +30,15 @@
         'bloom': 'mdi-flower-poppy',
         'cinders': 'mdi-lightbulb-on',
     }
+
+    let eventLinks = {
+        'summerFestival': '',
+        'nightHunt': '',
+        'snowdown': '',
+        'weatherChaos': '',
+        'bloom': '',
+        'cinders': '',
+    }
     
     window.addEventListener('message', function(event) {
         let receivedData = JSON.parse(atob(event.data));

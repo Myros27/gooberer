@@ -43,16 +43,18 @@
       "released": false
     },
     {
-      "title": "Nighthunt",
-      "icon": "mdi-weather-night",
-      "link": "nighthunt/nighthunt.html",
-      "version": 2,
-      "released": true
-    },
-    {
       "title": "Settings",
       "icon": "mdi-cog",
       "link": "settings/settings.html",
+      "version": 2,
+      "released": true
+    }
+  ],
+  "eventItems": [
+    {
+      "title": "Nighthunt",
+      "icon": "mdi-weather-night",
+      "link": "nighthunt/nighthunt.html",
       "version": 2,
       "released": true
     }

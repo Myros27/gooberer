@@ -222,6 +222,7 @@ function processMenuData(data, menuItemsMap, originalUrl) {
 function createMenu(menuItemsMap) {
     const tabList = document.getElementById("tabList");
     const iframe = document.getElementById("gooberIframe");
+    let activeButton = null;
     menuItemsMap.forEach(item => {
         const button = document.createElement("button");
         button.classList.add("tablinks");
@@ -234,6 +235,9 @@ function createMenu(menuItemsMap) {
         link.textContent = " " + item.title;
         button.appendChild(link);
         button.addEventListener('click', () => {
+            if (activeButton) activeButton.style.backgroundColor = "";
+            button.style.backgroundColor = "lightgray";
+            activeButton = button;
             iframe.src = item.link;
             iframe.removeAttribute('hidden');
             document.title = `Gooberer ${item.title}`;
@@ -242,7 +246,7 @@ function createMenu(menuItemsMap) {
                 let sendData = {
                     action: 'initData',
                     save: save,
-                    settings: settings                    
+                    settings: settings
                 }
                 iframe.contentWindow.postMessage(btoa(JSON.stringify(sendData)), '*');
             };
