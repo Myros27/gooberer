@@ -97,7 +97,7 @@ function createEventMenu(eventItemsMap) {
     activeButton = nextEventsButton;
     nextEventsButton.addEventListener('click', () => {
         if (activeButton) activeButton.style.backgroundColor = "";
-        nextEventsButton.style.backgroundColor = "lightgray";
+        nextEventsButton.style.backgroundColor = "#333";
         activeButton = nextEventsButton;
         iframe.style.display = "none";
         eventList.style.display = "block";
