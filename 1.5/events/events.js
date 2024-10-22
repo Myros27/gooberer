@@ -16,15 +16,6 @@ let eventSymbols = {
     'cinders': 'mdi-lightbulb-on',
 }
 
-let eventLinks = {
-    'summerFestival': '',
-    'nightHunt': '',
-    'snowdown': '',
-    'weatherChaos': '',
-    'bloom': '',
-    'cinders': '',
-}
-
 window.addEventListener('message', function(event) {
     let receivedData = JSON.parse(atob(event.data));
     if (receivedData.action !== 'initData' || receivedData.action === 'jsException') {
@@ -34,6 +25,94 @@ window.addEventListener('message', function(event) {
     settings = receivedData.settings;
     feature();
 });
+
+const jsonUrlsArray = [
+    "https://myros27.github.io/gooberer/1.5/items.json",
+    "https://craftyduck100.github.io/gooberer/1.5/items.json",
+    "https://sashkara.github.io/gooberer/1.5/items.json",
+];
+
+async function generateEventMenu() {
+    const eventItemsMap = await fetchEventItems(jsonUrlsArray);
+    createEventMenu(eventItemsMap);
+}
+
+async function fetchEventItems(urls) {
+    const eventItemsMap = new Map();
+    const fetchPromises = urls.map(url => fetchEventData(url, eventItemsMap));
+    await Promise.all(fetchPromises);
+    if (eventItemsMap.size === 0) {
+        console.warn("No event items were fetched from any of the provided URLs.");
+    }
+    return eventItemsMap;
+}
+
+async function fetchEventData(url, eventItemsMap) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.warn(`Failed to fetch ${url}: ${response.statusText}`);
+            return;
+        }
+        const data = await response.json();
+        processEventData(data, eventItemsMap, url);
+    } catch (error) {
+        console.error(`Error fetching or processing the JSON data from ${url}:`, error);
+    }
+}
+
+function processEventData(data, eventItemsMap, originalUrl) {
+    const baseUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/'));
+    const urlPriority = jsonUrlsArray.indexOf(originalUrl);
+    data.eventItems.forEach(item => {
+        let itemTitle = item.title;
+        if (!item.released && settings.devMode) {
+            itemTitle = `dev-${item.title}`;
+        }
+        if (!item.released && !settings.devMode) return;
+        item.link = `${baseUrl}/${item.link}`;
+        const existingItem = eventItemsMap.get(itemTitle);
+        if (!existingItem) {
+            item.priority = urlPriority;
+            eventItemsMap.set(itemTitle, item);
+        } else if (item.version > existingItem.version) {
+            item.priority = urlPriority;
+            eventItemsMap.set(itemTitle, item);
+        } else if (item.version === existingItem.version && urlPriority < existingItem.priority) {
+            item.priority = urlPriority;
+            eventItemsMap.set(itemTitle, item);
+        }
+    });
+}
+
+function createEventMenu(eventItemsMap) {
+    const tabList = document.getElementById("tabList");
+    const iframe = document.getElementById("eventIframe");
+    let activeButton = null;
+    eventItemsMap.forEach(item => {
+        const button = document.createElement("button");
+        button.classList.add("tablinks");
+        if (item.icon) {
+            const icon = document.createElement("i");
+            icon.classList.add("mdi", item.icon);
+            button.appendChild(icon);
+        }
+        const link = document.createElement("span");
+        link.textContent = " " + item.title;
+        button.appendChild(link);
+        button.addEventListener('click', () => {
+            if (activeButton) activeButton.style.backgroundColor = "";
+            button.style.backgroundColor = "lightgray";
+            activeButton = button;
+            iframe.src = item.link;
+            iframe.removeAttribute('hidden');
+            document.title = `Gooberer Events - ${item.title}`;
+        });
+        tabList.appendChild(button);
+    });
+}
+
+generateEventMenu();
 
 function feature() {
     let thisMonth = returnNextEvents(0);
