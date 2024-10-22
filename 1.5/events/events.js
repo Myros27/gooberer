@@ -176,14 +176,9 @@ function showNextEvents() {
         nameContainer.classList.add("event-name");
         const dateContainer = document.createElement("div");
         dateContainer.classList.add("event-dates");
-        const fromLabel = document.createElement("span");
-        const toLabel = document.createElement("span");
         const startDate = new Date(nextEvent.start).toLocaleDateString();
         const endDate = new Date(nextEvent.end).toLocaleDateString();
-        fromLabel.innerText = `From: ${startDate}`;
-        toLabel.innerText = `To: ${endDate}`;
-        dateContainer.appendChild(fromLabel);
-        dateContainer.appendChild(toLabel);
+        dateContainer.innerHTML = `<span>From: ${startDate}</span><span>To: ${endDate}</span>`;
         linkEventToMenu(nextEvent.name, div);
         div.appendChild(iconContainer);
         div.appendChild(nameContainer);
