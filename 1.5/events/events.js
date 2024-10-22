@@ -88,7 +88,21 @@ function processEventData(data, eventItemsMap, originalUrl) {
 function createEventMenu(eventItemsMap) {
     const tabList = document.getElementById("tabList");
     const iframe = document.getElementById("eventIframe");
+    const eventList = document.getElementById("eventList");
     let activeButton = null;
+    const nextEventsButton = document.createElement("button");
+    nextEventsButton.classList.add("tablinks");
+    nextEventsButton.textContent = "Next Events";
+    nextEventsButton.style.backgroundColor = "lightgray";
+    activeButton = nextEventsButton;
+    nextEventsButton.addEventListener('click', () => {
+        if (activeButton) activeButton.style.backgroundColor = "";
+        nextEventsButton.style.backgroundColor = "lightgray";
+        activeButton = nextEventsButton;
+        iframe.style.display = "none";
+        eventList.style.display = "block";
+    });
+    tabList.appendChild(nextEventsButton);
     eventItemsMap.forEach(item => {
         const button = document.createElement("button");
         button.classList.add("tablinks");
@@ -104,8 +118,9 @@ function createEventMenu(eventItemsMap) {
             if (activeButton) activeButton.style.backgroundColor = "";
             button.style.backgroundColor = "lightgray";
             activeButton = button;
+            eventList.style.display = "none";
+            iframe.style.display = "block";
             iframe.src = item.link;
-            iframe.removeAttribute('hidden');
             document.title = `Gooberer Events - ${item.title}`;
         });
         tabList.appendChild(button);
