@@ -215,10 +215,13 @@ function showNextEvents() {
 function linkEventToMenu(eventName, eventElement) {
     const lowerCaseName = eventName.toLowerCase();
     const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab => {
-        const spanText = tab.querySelector("span")?.textContent.trim().toLowerCase();
-        return spanText.includes(lowerCaseName);
+        const spanElement = tab.querySelector("span");
+        if (spanElement) {
+            const spanText = spanElement.textContent.trim().toLowerCase();
+            return spanText.includes(lowerCaseName);
+        }
+        return false;
     });
-
     if (correspondingTab) {
         eventElement.style.cursor = "pointer";
         eventElement.addEventListener('click', () => {
