@@ -157,38 +157,76 @@ function feature() {
     showNextEvents();
 }
 
-function showNextEvents(){
+function showNextEvents() {
     const rootElement = document.getElementById('eventList');
+    rootElement.innerHTML = '';
     for (let index = 0; index < nextEvents.length; index++) {
         let nextEvent = nextEvents[index];
         const div = document.createElement("div");
+        div.style.margin = "1rem";
+        div.style.border = "1px solid #ccc";
+        div.style.borderRadius = "10px";
+        div.style.padding = "1rem";
+        div.style.backgroundColor = "#f9f9f9";
+        div.style.display = "flex";
+        div.style.flexDirection = "column";
+        div.style.alignItems = "center";
+        div.style.boxShadow = "2px 2px 8px rgba(0, 0, 0, 0.1)";
+        div.style.transition = "background-color 0.3s ease";
         const nameContainer = document.createElement("p");
         const iconContainer = document.createElement("span");
-        if (index === 0 && activeEvent){
+        if (index === 0 && activeEvent) {
             const spanContainer = document.createElement("span");
             spanContainer.innerText = "ACTIVE";
-            spanContainer.style.alignItems = "center";
-            spanContainer.style.justifyContent = "center";
+            spanContainer.style.backgroundColor = "#ffdd57";
+            spanContainer.style.padding = "0.2rem 0.5rem";
+            spanContainer.style.borderRadius = "5px";
+            spanContainer.style.fontWeight = "bold";
+            spanContainer.style.color = "#333";
             div.appendChild(spanContainer);
         }
         iconContainer.style.fontSize = "2rem";
-        iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 1)";
+        iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
         iconContainer.style.display = "flex";
         iconContainer.style.alignItems = "center";
         iconContainer.style.justifyContent = "center";
-        iconContainer.classList.add("mdi");
-        iconContainer.classList.add(eventSymbols[nextEvent.name])
-        nameContainer.innerText = nextEvent.name;
+        iconContainer.classList.add("mdi", eventSymbols[nextEvent.name]);
+        nameContainer.innerText = nextEvent.name.charAt(0).toUpperCase() + nextEvent.name.slice(1);
         nameContainer.style.padding = "0";
-        nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 1)";
-        nameContainer.style.display = "flex";
-        nameContainer.style.alignItems = "center";
-        nameContainer.style.justifyContent = "center";
+        nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+        nameContainer.style.fontWeight = "bold";
+        nameContainer.style.fontSize = "1.2rem";
+        nameContainer.style.textAlign = "center";
+        const dateContainer = document.createElement("p");
+        const startDate = new Date(nextEvent.start).toLocaleDateString();
+        const endDate = new Date(nextEvent.end).toLocaleDateString();
+        dateContainer.innerText = `From: ${startDate} To: ${endDate}`;
+        dateContainer.style.color = "#555";
+        dateContainer.style.fontSize = "0.9rem";
+        dateContainer.style.margin = "0.5rem 0";
+        const lowerCaseName = nextEvent.name.toLowerCase();
+        const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab =>
+            tab.textContent.trim().toLowerCase().includes(lowerCaseName)
+        );
+        if (correspondingTab) {
+            div.style.cursor = "pointer";
+            div.addEventListener('click', () => {
+                correspondingTab.click();
+            });
+            div.addEventListener('mouseover', () => {
+                div.style.backgroundColor = "#e0e0e0";
+            });
+            div.addEventListener('mouseout', () => {
+                div.style.backgroundColor = "#f9f9f9";
+            });
+        }
         div.appendChild(iconContainer);
         div.appendChild(nameContainer);
+        div.appendChild(dateContainer);
         rootElement.appendChild(div);
     }
 }
+
 
 function returnNextEvents(nextMonth = 0) {
     let arr = [];
