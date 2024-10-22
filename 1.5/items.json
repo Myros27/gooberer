@@ -39,8 +39,8 @@
       "title": "Events",
       "icon": "mdi-calendar",
       "link": "events/events.html",
-      "version": 1,
-      "released": false
+      "version": 2,
+      "released": true
     },
     {
       "title": "Settings",
@@ -51,6 +51,13 @@
     }
   ],
   "eventItems": [
+    {
+      "title": "Snowdown",
+      "icon": "mdi-snowflake",
+      "link": "snowdown/snowdown.html",
+      "version": 1,
+      "released": false
+    },
     {
       "title": "Nighthunt",
       "icon": "mdi-weather-night",
