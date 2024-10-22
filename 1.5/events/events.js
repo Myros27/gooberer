@@ -116,7 +116,7 @@ function createEventMenu(eventItemsMap) {
         button.appendChild(link);
         button.addEventListener('click', () => {
             if (activeButton) activeButton.style.backgroundColor = "";
-            button.style.backgroundColor = "lightgray";
+            button.style.backgroundColor = "#333";
             activeButton = button;
             eventList.style.display = "none";
             iframe.style.display = "block";
