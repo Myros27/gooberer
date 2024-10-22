@@ -190,8 +190,6 @@ function showNextEvents() {
     });
 }
 
-
-
 function linkEventToMenu(eventName, eventElement) {
     const lowerCaseName = eventName.toLowerCase();
     eventElement.style.cursor = "pointer";
