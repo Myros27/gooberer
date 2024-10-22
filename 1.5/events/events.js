@@ -174,11 +174,16 @@ function showNextEvents() {
         iconContainer.classList.add("mdi", eventSymbols[nextEvent.name], "event-icon");
         nameContainer.innerText = nextEvent.name.charAt(0).toUpperCase() + nextEvent.name.slice(1);
         nameContainer.classList.add("event-name");
-        const dateContainer = document.createElement("p");
+        const dateContainer = document.createElement("div");
+        dateContainer.classList.add("event-dates");
+        const fromLabel = document.createElement("span");
+        const toLabel = document.createElement("span");
         const startDate = new Date(nextEvent.start).toLocaleDateString();
         const endDate = new Date(nextEvent.end).toLocaleDateString();
-        dateContainer.innerText = `From: ${startDate} To: ${endDate}`;
-        dateContainer.classList.add("event-dates");
+        fromLabel.innerText = `From: ${startDate}`;
+        toLabel.innerText = `To: ${endDate}`;
+        dateContainer.appendChild(fromLabel);
+        dateContainer.appendChild(toLabel);
         linkEventToMenu(nextEvent.name, div);
         div.appendChild(iconContainer);
         div.appendChild(nameContainer);
@@ -186,6 +191,7 @@ function showNextEvents() {
         rootElement.appendChild(div);
     });
 }
+
 
 function linkEventToMenu(eventName, eventElement) {
     const lowerCaseName = eventName.toLowerCase();

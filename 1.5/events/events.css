@@ -46,4 +46,11 @@
     color: #bbb;
     font-size: 0.9rem;
     margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.event-dates span {
+    line-height: 1.5;
 }
