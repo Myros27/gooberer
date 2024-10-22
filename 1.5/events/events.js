@@ -218,7 +218,7 @@ function linkEventToMenu(eventName, eventElement) {
         const spanElement = tab.querySelector("span");
         if (spanElement) {
             const spanText = spanElement.textContent.trim().toLowerCase();
-            return spanText.includes(lowerCaseName);
+            return spanText === lowerCaseName;
         }
         return false;
     });
