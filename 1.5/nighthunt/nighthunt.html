@@ -28,6 +28,7 @@
         let recipeList = []
         if (save.event.nightHunt_potion === undefined){
             document.getElementById('showListHere').innerText = "Nighthunt is closed!"
+            document.getElementById('showListHere').paddingTop = '10px'
             return;
         }
         for (let key in save.event.nightHunt_potion){
