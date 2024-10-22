@@ -164,14 +164,14 @@ function showNextEvents() {
         let nextEvent = nextEvents[index];
         const div = document.createElement("div");
         div.style.margin = "1rem";
-        div.style.border = "1px solid #ccc";
+        div.style.border = "1px solid #555";
         div.style.borderRadius = "10px";
         div.style.padding = "1rem";
-        div.style.backgroundColor = "#f9f9f9";
+        div.style.backgroundColor = "#2c2c2c";
         div.style.display = "flex";
         div.style.flexDirection = "column";
         div.style.alignItems = "center";
-        div.style.boxShadow = "2px 2px 8px rgba(0, 0, 0, 0.1)";
+        div.style.boxShadow = "2px 2px 8px rgba(0, 0, 0, 0.6)";
         div.style.transition = "background-color 0.3s ease";
         const nameContainer = document.createElement("p");
         const iconContainer = document.createElement("span");
@@ -186,22 +186,23 @@ function showNextEvents() {
             div.appendChild(spanContainer);
         }
         iconContainer.style.fontSize = "2rem";
-        iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+        iconContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.6)";
         iconContainer.style.display = "flex";
         iconContainer.style.alignItems = "center";
         iconContainer.style.justifyContent = "center";
         iconContainer.classList.add("mdi", eventSymbols[nextEvent.name]);
         nameContainer.innerText = nextEvent.name.charAt(0).toUpperCase() + nextEvent.name.slice(1);
         nameContainer.style.padding = "0";
-        nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.5)";
+        nameContainer.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.6)";
         nameContainer.style.fontWeight = "bold";
         nameContainer.style.fontSize = "1.2rem";
         nameContainer.style.textAlign = "center";
+        nameContainer.style.color = "#fff";
         const dateContainer = document.createElement("p");
         const startDate = new Date(nextEvent.start).toLocaleDateString();
         const endDate = new Date(nextEvent.end).toLocaleDateString();
         dateContainer.innerText = `From: ${startDate} To: ${endDate}`;
-        dateContainer.style.color = "#555";
+        dateContainer.style.color = "#bbb";
         dateContainer.style.fontSize = "0.9rem";
         dateContainer.style.margin = "0.5rem 0";
         const lowerCaseName = nextEvent.name.toLowerCase();
@@ -214,10 +215,10 @@ function showNextEvents() {
                 correspondingTab.click();
             });
             div.addEventListener('mouseover', () => {
-                div.style.backgroundColor = "#e0e0e0";
+                div.style.backgroundColor = "#444";
             });
             div.addEventListener('mouseout', () => {
-                div.style.backgroundColor = "#f9f9f9";
+                div.style.backgroundColor = "#2c2c2c";
             });
         }
         div.appendChild(iconContainer);
@@ -226,6 +227,7 @@ function showNextEvents() {
         rootElement.appendChild(div);
     }
 }
+
 
 
 function returnNextEvents(nextMonth = 0) {
