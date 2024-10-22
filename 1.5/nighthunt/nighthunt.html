@@ -28,7 +28,7 @@
         let recipeList = []
         if (save.event.nightHunt_potion === undefined){
             document.getElementById('showListHere').innerText = "Nighthunt is closed! (This module only works when Nighthunt is active)"
-            document.getElementById('showListHere').paddingTop = '10px'
+            document.getElementById('showListHere').style.paddingTop = '1rem'
             return;
         }
         for (let key in save.event.nightHunt_potion){
