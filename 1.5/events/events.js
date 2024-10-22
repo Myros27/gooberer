@@ -93,7 +93,7 @@ function createEventMenu(eventItemsMap) {
     const nextEventsButton = document.createElement("button");
     nextEventsButton.classList.add("tablinks");
     nextEventsButton.textContent = "Next Events";
-    nextEventsButton.style.backgroundColor = "lightgray";
+    nextEventsButton.style.backgroundColor = "#333";
     activeButton = nextEventsButton;
     nextEventsButton.addEventListener('click', () => {
         if (activeButton) activeButton.style.backgroundColor = "";
