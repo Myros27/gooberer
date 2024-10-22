@@ -57,6 +57,13 @@
       "link": "nighthunt/nighthunt.html",
       "version": 2,
       "released": true
+    },
+    {
+      "title": "Bank",
+      "icon": "mdi-bank",
+      "link": "bank/bank.html",
+      "version": 2,
+      "released": false
     }
   ]
 }
