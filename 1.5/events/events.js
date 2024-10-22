@@ -163,15 +163,15 @@ function showNextEvents() {
     nextEvents.forEach((nextEvent, index) => {
         const div = document.createElement("div");
         div.classList.add("event-card");
-        const nameContainer = document.createElement("p");
         const iconContainer = document.createElement("span");
+        iconContainer.classList.add("mdi", eventSymbols[nextEvent.name], "event-icon");
         if (index === 0 && activeEvent) {
             const spanContainer = document.createElement("span");
             spanContainer.innerText = "ACTIVE";
             spanContainer.classList.add("event-active");
             div.appendChild(spanContainer);
         }
-        iconContainer.classList.add("mdi", eventSymbols[nextEvent.name], "event-icon");
+        const nameContainer = document.createElement("p");
         nameContainer.innerText = nextEvent.name.charAt(0).toUpperCase() + nextEvent.name.slice(1);
         nameContainer.classList.add("event-name");
         const dateContainer = document.createElement("div");
@@ -179,13 +179,17 @@ function showNextEvents() {
         const startDate = new Date(nextEvent.start).toLocaleDateString();
         const endDate = new Date(nextEvent.end).toLocaleDateString();
         dateContainer.innerHTML = `<span>From: ${startDate}</span><span>To: ${endDate}</span>`;
+        const infoContainer = document.createElement("div");
+        infoContainer.classList.add("event-info");
+        infoContainer.appendChild(nameContainer);
+        infoContainer.appendChild(dateContainer);
         linkEventToMenu(nextEvent.name, div);
         div.appendChild(iconContainer);
-        div.appendChild(nameContainer);
-        div.appendChild(dateContainer);
+        div.appendChild(infoContainer);
         rootElement.appendChild(div);
     });
 }
+
 
 
 function linkEventToMenu(eventName, eventElement) {
