@@ -160,8 +160,7 @@ function feature() {
 function showNextEvents() {
     const rootElement = document.getElementById('eventList');
     rootElement.innerHTML = '';
-    for (let index = 0; index < nextEvents.length; index++) {
-        let nextEvent = nextEvents[index];
+    nextEvents.forEach((nextEvent, index) => {
         const div = document.createElement("div");
         div.style.margin = "1rem";
         div.style.border = "1px solid #555";
@@ -205,30 +204,33 @@ function showNextEvents() {
         dateContainer.style.color = "#bbb";
         dateContainer.style.fontSize = "0.9rem";
         dateContainer.style.margin = "0.5rem 0";
-        const lowerCaseName = nextEvent.name.toLowerCase();
-        const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab =>
-            tab.textContent.trim().toLowerCase().includes(lowerCaseName)
-        );
-        if (correspondingTab) {
-            div.style.cursor = "pointer";
-            div.addEventListener('click', () => {
-                correspondingTab.click();
-            });
-            div.addEventListener('mouseover', () => {
-                div.style.backgroundColor = "#444";
-            });
-            div.addEventListener('mouseout', () => {
-                div.style.backgroundColor = "#2c2c2c";
-            });
-        }
+        linkEventToMenu(nextEvent.name, div);
         div.appendChild(iconContainer);
         div.appendChild(nameContainer);
         div.appendChild(dateContainer);
         rootElement.appendChild(div);
-    }
+    });
 }
 
+function linkEventToMenu(eventName, eventElement) {
+    const lowerCaseName = eventName.toLowerCase();
+    const correspondingTab = [...document.getElementsByClassName('tablinks')].find(tab =>
+        tab.textContent.trim().toLowerCase().includes(lowerCaseName)
+    );
 
+    if (correspondingTab) {
+        eventElement.style.cursor = "pointer";
+        eventElement.addEventListener('click', () => {
+            correspondingTab.click();
+        });
+        eventElement.addEventListener('mouseover', () => {
+            eventElement.style.backgroundColor = "#444";
+        });
+        eventElement.addEventListener('mouseout', () => {
+            eventElement.style.backgroundColor = "#2c2c2c";
+        });
+    }
+}
 
 function returnNextEvents(nextMonth = 0) {
     let arr = [];
