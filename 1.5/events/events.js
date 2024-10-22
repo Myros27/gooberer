@@ -193,8 +193,7 @@ function linkEventToMenu(eventName, eventElement) {
         const spanElement = tab.querySelector("span");
         if (spanElement) {
             const spanText = spanElement.textContent.trim().toLowerCase();
-            console.log(spanText)
-            console.log(lowerCaseName)
+            console.log("comparing" + spanText + " and " + lowerCaseName + " did it match? " + spanText === lowerCaseName )
             return spanText === lowerCaseName;
         }
         return false;
