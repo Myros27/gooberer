@@ -257,7 +257,7 @@ function createMenu(menuItemsMap) {
 
 function useLocalStorage(){
     let localSaveFile = localStorage.getItem("lastSave")
-    if (localSaveFile.length > 0){
+    if (localSaveFile && localSaveFile.length > 0){
         document.getElementById("myLocalSaveFile").parentElement.style.display = "flex";
         document.getElementById("localSaveFileOr").style.display = "flex";
     }
