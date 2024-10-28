@@ -1,11 +1,16 @@
 const jobPool = []
-const maxNr = (55*(25**6))-1
+const jobFinish = []
+let stopAfterNext = false
+let globalResult = [];
+let globalData = {
+
+};
 
 const jobData = {
     from: 0,
-    to: 6*25**6,
+    to: (55*(25**6))-1,
     generateJobs: function() {
-        if (this.from < 0 || this.from > maxNr || this.to < 0 || this.to > maxNr ){
+        if (this.from < 0 || this.from > (55*(25**6))-1 || this.to < 0 || this.to > (55*(25**6))-1 ){
             console.log("Out of Range");
             return;
         }
@@ -25,19 +30,20 @@ const jobData = {
                 lastTryIsValid: true,
                 rollOver: false,
                 drawsPerDepth: [],
-                drawsPerDepthFlat:[],
-                bingoCard:[],
+                drawsPerDepthFlat: [],
+                bingoCard: [],
                 currentAsNr: 0,
                 pickPerDraw: getPickMaxPerRound(to7DPosition(firstNr)[0]), //2,4,6
-                pickPerDrawWeights:[],
+                pickPerDrawWeights: [],
                 calculations: 0,
-                mappedCard:[],
-                reversedMappedCard:[],
-                priceMappings:[],
-                baseDraws:[],
-                baseWeights:[],
-                drawsWeight:[],
+                mappedCard: [],
+                reversedMappedCard: [],
+                priceMappings: [],
+                baseDraws: [],
+                baseWeights: [],
+                drawsWeight: [],
                 maxBingo: 0,
+                result: [],
                 playerId: "b2b5637851af3d53",
                 bingo_generate: 77,
                 bingo_draw: 288,
@@ -101,9 +107,29 @@ function calculateBingo(job){
             bingo++;
         }
     });
-    if (bingo > job.maxBingo){
+    if (bingo >= job.maxBingo) {
         job.maxBingo = bingo
-        debugger;
+        let score = 100 * bingo + job.priceMappings.reduce((totalPoints, [index, singlePoint, doublePoint]) =>
+            bingoDrawnCards[index] === 1 ? totalPoints + (singlePoint ? 1 : 0) + (doublePoint ? 2 : 0) : totalPoints, 0
+        );
+        if (job.result.every(result => result.score > score) ) {
+        }
+        const singleResult = {
+            score: score,
+            position: job.lastAsNr,
+            field: bingoDrawnCards,
+            picks: copyArray(job.drawsPerDepth)
+        }
+        if (job.result.length > 4) {
+            job.result.sort((a, b) => b.score - a.score || a.position - b.position);
+            const lowestResult = job.result[job.result.length - 1];
+            if (singleResult.score > lowestResult.score || (singleResult.score === lowestResult.score && singleResult.position < lowestResult.position)) {
+                job.result[job.result.length - 1] = singleResult;
+                job.result.sort((a, b) => b.score - a.score || a.position - b.position);
+            }
+        } else {
+            job.result.push(singleResult)
+        }
     }
 }
 
@@ -339,10 +365,6 @@ function from7DPosition(position) {
 }
 
 function getPickMaxPerRound(n) {
-    if (n < 0 || n > 54) {
-        alert("uwu")
-        return
-    }
     let count = 0;
     for (let round1 = 0; round1 <= 2; round1++) {
         for (let round2 = round1; round2 <= 4; round2++) {
@@ -356,14 +378,58 @@ function getPickMaxPerRound(n) {
     }
 }
 
-async function start(){
+function mergeResults(job){
+    const combinedArray = [...globalResult, ...job.result];
+    globalResult = combinedArray
+        .sort((a, b) => {
+            if (b.score === a.score) {
+                return a.position - b.position;
+            }
+            return b.score - a.score;
+        }).slice(0, 5);
+    updateGui()
+}
+
+function updateGui(){
+
+}
+
+/*async function start(){
     jobData.generateJobs()
     for (let i = 0; i < jobPool.length; i++){
         console.log("from: " + jobPool[i].first + ", to: " + jobPool[i].last + ", mode: " + jobPool[i].pickPerDraw);
         await executeJob(jobPool[i]);
         console.log("finished: " + jobPool[i].calculations)
     }
+}*/
+
+function start(){
+    stopAfterNext = false
+    for (let i = 0; i < 1 ; i++){
+        startThread()
+    }
 }
+
+async function startThread(){
+    while (!stopAfterNext && jobPool.length > 0){
+        const myJob = jobPool.pop()
+        await executeJob(myJob);
+        jobFinish.push(myJob)
+        mergeResults(myJob)
+    }
+}
+
+function init(){
+    jobData.generateJobs()
+    jobPool.reverse()
+}
+
+function stop(){
+    stopAfterNext = true
+}
+
+
+
 
 /*
 Copyright 2019 David Bau.
@@ -619,5 +685,5 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     Math    // math: package containing random, pow, and seedrandom
 );
 
-
+init()
 start()
