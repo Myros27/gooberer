@@ -1,22 +1,23 @@
-.grid-container {
+.gridContainer {
     display: inline-grid;
     background-color: #000a58;
-    padding: 10px;
-    gap: 10px;
+    padding: 0.6rem;
+    gap: 0.6rem;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-auto-flow: row;
     align-items: center;
+    margin:1.25rem
 }
 
-.grid-item {
+.gridItem {
     display: flex;
     background-color: rgba(211, 197, 253, 0.218);
     border: 1px solid rgba(0, 0, 0, 0.8);
     color: aliceblue;
-    padding: 20px;
-    min-width: 40px;
+    padding: 1.25rem;
+    min-width: 2.5rem;
     aspect-ratio: 1;
-    font-size: 30px;
+    font-size: 2rem;
     justify-content: center;
     align-items: center;
     border-radius: 10%;
@@ -26,4 +27,110 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.solutionText {
+    display: inline-grid;
+    padding: 0.6rem;
+    gap: 0.6rem;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    align-items: center;
+    margin:1rem
+}
+
+.miniGridContainer {
+    display: inline-grid;
+    padding: 0.2rem;
+    gap: 0.2rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row;
+    align-items: center;
+    margin:0.5rem
+}
+
+.miniGridCard{
+    display: inline-grid;
+    background-color: #000a58;
+    padding: 0.3rem;
+    gap: 0.3rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row;
+    align-items: center;
+    margin:0.3rem
+}
+
+.miniGridItem {
+    display: flex;
+    background-color: rgba(211, 197, 253, 0.218);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    color: aliceblue;
+    padding: 0.1rem;
+    min-width: 0;
+    aspect-ratio: 1;
+    font-size: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10%;
+    font-family: monospace;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.betterText{
+    margin-left: 1rem;
+}
+
+.settings {
+    display: flex;
+    margin-top: 3rem;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #FFF;
+    border-radius: 4px;
+    width: 80px;
+    background-color: #111111;
+    color: #FFFFFF;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #FFF;
+    border-radius: 4px;
+    background-color: #111111;
+    color: #FFFFFF;
+}
+
+.button:hover {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
