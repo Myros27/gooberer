@@ -40,9 +40,11 @@ function feature(){
                 <label for="lookAheadCards" class="betterText">How many Cards to Calculate</label>
                 <input class="betterText input" type="number" value=${maxCards} id="lookAheadCards">
             </div>
-            <button class="betterText button" style="background-color: rgb(51, 51, 51);"><i class="mdi mdi-calculator"></i><span> Calculate</span></button>`;
+            <button class="betterText button" style="background-color: rgb(51, 51, 51);" onclick="generateJobs(this.value)"><i class="mdi mdi-calculator"></i><span> Calculate</span></button>`;
     }
 }
+
+
 
 function calculateGems(achievement) {
     const minutesPerGem = 60 / (1 + achievement * 0.01);
