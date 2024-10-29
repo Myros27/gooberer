@@ -89,27 +89,39 @@ function showCalculateGui(){
     for (let i = 0 ; i < bingoCards.length; i++) {
         const card = bingoCards[i]
         const bingoId = card.bingoId
-        alert()
         const outerDiv = document.createElement("div");
         outerDiv.classList.add(`outerDiv${bingoId}`);
         const mainDiv = document.createElement("div");
         mainDiv.classList.add(`mainDiv${bingoId}`, `gridContainer`, `solution0`);
         outerDiv.appendChild(mainDiv)
-        generateGridItems(mainDiv, [`gridItem`, `card${bingoId}`, `solution0`], card)
+        generateGridItems(mainDiv, [`gridItem`, `card${bingoId}`, `solution0`], card, false)
         const solutionText = document.createElement("div");
         solutionText.classList.add('solutionText' , `solutionText${bingoId}`, `solution0`);
+        solutionText.innerHTML = '<p>Test</p><p>2</p>';
         outerDiv.appendChild(solutionText)
         const miniGridContainer = document.createElement("div");
         miniGridContainer.classList.add('miniGridContainer');
-        outerDiv.appendChild(miniGridContainer)
-        for (let j = 0 ; j < 4; i++) {
-
+        for (let j = 1 ; j < 5; j++) {
+            const miniGridCard = document.createElement("div");
+            miniGridCard.classList.add('miniGridCard');
+            generateGridItems(miniGridCard, [`miniGridItem`, `card${bingoId}`, `solution${j}`], card, true)
+            miniGridContainer.appendChild(miniGridCard)
         }
+        for (let j = 1 ; j < 5; j++) {
+            const miniSolutionText = document.createElement("div");
+            miniSolutionText.classList.add('solutionText', `card${bingoId}`, `solution${j}` );
+            miniSolutionText.innerHTML = '<p>Test</p><p>2</p>';
+            miniGridContainer.appendChild(miniSolutionText)
+        }
+        outerDiv.appendChild(miniGridContainer)
         showBingoCardsHere.appendChild(outerDiv)
+
     }
 }
 
-function generateGridItems(rootNode, classes, card){
+
+
+function generateGridItems(rootNode, classes, card, small){
     const columns = 5;
     const totalNumbers = 24;
     for (let col = 0; col < columns; col++) {
@@ -122,8 +134,13 @@ function generateGridItems(rootNode, classes, card){
                 if (card.bingoCard[index][1]){
                     const badge = document.createElement("div");
                     badge.innerText = "◉"
-                    badge.style.fontSize = '1px';
-                    badge.style.transform = "translateX(5px) translateY(-20px) scale(20)";
+                    if (small){
+                        badge.style.fontSize = '0.5px';
+                        badge.style.transform = "translateY(-10px) scale(20)";
+                    } else {
+                        badge.style.fontSize = '1px';
+                        badge.style.transform = "translateX(5px) translateY(-20px) scale(20)";
+                    }
                     badge.style.color = card.bingoCard[index][2] ? '#188c19' : '#828282'
                     badge.classList.add("badge");
                     gridItem.appendChild(badge)
