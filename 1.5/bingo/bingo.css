@@ -138,3 +138,45 @@
 .badge{
     display: flex;
 }
+
+.card-status {
+    width: 55px;
+    height: 10px;
+    background-image: var(--card-gradient);
+}
+
+.functionButton{
+    color: aliceblue;
+    background-color: #111111;
+    padding: 0.5rem;
+    width: 10rem;
+}
+
+.startButton{
+    color: aliceblue;
+    background-color: #111111;
+    padding: 0.5rem
+}
+
+.engineSettings {
+    display: flex;
+    margin: 1rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.settingType{
+    padding-bottom: 0.25rem;
+    width: 300px;
+}
+
+#showGraph{
+    height: 20rem;
+    width: 80%;
+    margin: 2rem;
+    background-color: #2c0000;
+}
+
+.smallText{
+    font-size: 10px;
+}

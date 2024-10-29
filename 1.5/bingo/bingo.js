@@ -1,8 +1,12 @@
 var save;
 var settings;
 var parameters = new URLSearchParams(document.location.search)
-var jobPool = []
-var bingoCards = []
+var bingo = {
+    jobPool: [],
+    workerPool: [],
+    bingoCards: [],
+    pause: true,
+}
 
 let mock= true //debug only
 
@@ -41,11 +45,110 @@ function feature(){
                 <label for="lookAheadCards" class="betterText">How many Cards to Calculate</label>
                 <input class="betterText input" type="number" value=${maxCards} id="lookAheadCards">
             </div>
-            <button class="betterText button" style="background-color: rgb(51, 51, 51);" onclick="calculate(this.value)"><i class="mdi mdi-calculator"></i><span> Show bingo cards</span></button>`;
+            <button class="betterText button" style="background-color: rgb(51, 51, 51);" onclick="calculate(this.value)"><i class="mdi mdi-flash"></i><span> Show bingo cards</span></button>`;
     } else {
-        bingoCards = JSON.parse(storedCards)
+        bingo.bingoCards = JSON.parse(storedCards)
         showCalculateGui()
+        readyJobs()
     }
+}
+
+function startCrunch(){
+    document.getElementById("showEngineHere").style.display = "none"
+    document.getElementById("pause").style.display = "block"
+    document.getElementById("showGraph").style.display = "block"
+    let mainTreads = Number(document.getElementById("mainThreads").value)
+    if (mainTreads < 0 || mainTreads > 100){
+        mainTreads = 1
+    }
+    let supportThreads = Number(document.getElementById("supportThreads").value)
+    if (supportThreads < 0 || supportThreads > 100){
+        supportThreads = 1
+    }
+    let threads = mainTreads + supportThreads
+    if (threads <= 0 || threads > 100){
+        mainTreads = 1
+    }
+    let count = 0
+    for (let i = 0; i < mainTreads; i++){
+        spawnThread(true, count)
+        count ++
+    }
+    for (let i = 0; i < supportThreads; i++){
+        spawnThread(false, count)
+        count ++
+    }
+}
+
+function spawnThread(main, index){
+    const workerEntry = {
+        worker: new Worker("bingoSolver.js"),
+        isMain: main,
+        id: index,
+        isIdle: false,
+    }
+    workerEntry.worker.addEventListener("message", (event) => {
+        workerHandler(event)
+    })
+    workerEntry.worker.postMessage({
+        action: 'init',
+        data: {
+            id: workerEntry.id,
+            isMain: workerEntry.isMain,
+        }
+
+    });
+    bingo.workerPool.push(workerEntry);
+}
+
+function workerHandler(event){
+    const { action, data } = event.data;
+    if (action === 'ready') {
+        if (bingo.pause === false) {
+            const job = bingo.jobPool.pop()
+            bingo.workerPool[data.id].worker.postMessage({
+                action: "compute",
+                data: JSON.stringify(job),
+            })
+        } else {
+            bingo.workerPool[data.id].isIdle = true
+        }
+    }
+    if (action === 'finished') {
+        const job = JSON.parse(data);
+        const card = bingo.bingoCards.find(item => item.bingoId === job.bingo_generate);
+        mergeResults(card, job)
+        updateCards()
+        generateSolutionText(card.bingoId)
+    }
+}
+
+function updateCards(card, job){
+
+}
+
+function mergeResults(card, job){
+    card.bestResults = card.bestResults
+        .concat(job.result)
+        .sort((a, b) => {
+            if (b.score === a.score) {
+                return a.position - b.position;
+            }
+            return b.score - a.score;
+        })
+        .slice(0, 5);
+}
+
+function setPause(){
+    bingo.pause = true
+    document.getElementById("pause").style.display = "none"
+    document.getElementById("resume").style.display = "block"
+}
+
+function setResume(){
+    bingo.pause = false
+    document.getElementById("pause").style.display = "block"
+    document.getElementById("resume").style.display = "none"
 }
 
 function generateBingoCards(options){
@@ -56,6 +159,8 @@ function generateBingoCards(options){
             drawId: options.drawId + (i * 4),
             bingoCard: [],
             bestResults: [],
+            calculations: 0,
+            bingo: 0,
             finished: new Array(55).fill(false)
         }
         let seed = card.playerId + "bingo_generate_" + card.bingoId
@@ -64,7 +169,6 @@ function generateBingoCards(options){
         for (let i = 0; i < 5; i++) {
             bingoCardTmp.push(shuffleArray(buildArray(15).map(n => n + i * 15 + 1), rngGen).slice(0, 5).map(elem => {return {value: elem, prize: null, isRare: false};}));
         }
-        const mappedCard = bingoCardTmp.flat().map(cell => cell.value);
         shuffleArray([...buildArray(12), ...buildArray(12).map(i => i + 13)], rngGen).slice(0, 6).forEach(num => {
             bingoCardTmp[Math.floor(num / 5)][num % 5].prize = true;
             if (bingoCellIsRare(num)) {
@@ -76,18 +180,72 @@ function generateBingoCards(options){
             !!cell.prize,
             cell.isRare
         ]);
-        bingoCards.push(card)
+        bingo.bingoCards.push(card)
     }
     saveCards()
     showCalculateGui()
+    readyJobs()
+}
+
+function readyJobs(){
+    for (let i = 0 ; i < bingo.bingoCards.length ; i++){
+        const card = bingo.bingoCards[i]
+        for (let j = 0 ; j < card.finished.length ; j++){
+            const finish = bingo.bingoCards[i].finished[j]
+            if (!finish){
+                generateThis(card, j)
+            }
+        }
+    }
+    bingo.jobPool.reverse()
+    bingo.pause = false
+}
+
+function generateThis(card, index){
+    const firstNr = from7DPosition([index,0,0,0,0,0,0]);
+    const lastNr = from7DPosition([index,24,24,24,24,24,24]);
+    const job = {
+        finished: false,
+        first: to7DPosition(firstNr),
+        last: to7DPosition(lastNr),
+        lastAsNr: lastNr,
+        lastDepth: 0,
+        lastTryIsValid: true,
+        rollOver: false,
+        drawsPerDepth: [],
+        drawsPerDepthFlat: [],
+        bingoCard: [],
+        currentAsNr: 0,
+        pickPerDraw: getPickMaxPerRound(to7DPosition(firstNr)[0]),
+        pickPerDrawWeights: [],
+        calculations: 0,
+        mappedCard: [],
+        reversedMappedCard: [],
+        priceMappings: [],
+        baseDraws: [],
+        baseWeights: [],
+        drawsWeight: [],
+        maxBingo: 0,
+        result: [],
+        playerId: "b2b5637851af3d53",
+        bingo_generate: card.bingoId,
+        bingo_draw: card.drawId,
+    }
+    generatePickPerDraw(job)
+    generateCard(job)
+    calculateBaseDraws(job)
+    bingo.jobPool.push(job);
 }
 
 function showCalculateGui(){
     document.getElementById("info").style.display = "none"
     document.getElementById("showBingoCardsHere").style.display = ""
+    document.getElementById("calcHeader").style.display = ""
+    document.getElementById("mainThreads").value = 1//Math.floor(navigator.hardwareConcurrency/2)
+    document.getElementById("supportThreads").value = 0//Math.floor(navigator.hardwareConcurrency/3)
     const showBingoCardsHere = document.getElementById("showBingoCardsHere")
-    for (let i = 0 ; i < bingoCards.length; i++) {
-        const card = bingoCards[i]
+    for (let i = 0 ; i < bingo.bingoCards.length; i++) {
+        const card = bingo.bingoCards[i]
         const bingoId = card.bingoId
         const outerDiv = document.createElement("div");
         outerDiv.classList.add(`outerDiv${bingoId}`);
@@ -97,7 +255,6 @@ function showCalculateGui(){
         generateGridItems(mainDiv, [`gridItem`, `card${bingoId}`, `solution0`], card, false)
         const solutionText = document.createElement("div");
         solutionText.classList.add('solutionText' , `solutionText${bingoId}`, `solution0`);
-        solutionText.innerHTML = '<p>Test</p><p>2</p>';
         outerDiv.appendChild(solutionText)
         const miniGridContainer = document.createElement("div");
         miniGridContainer.classList.add('miniGridContainer');
@@ -109,17 +266,80 @@ function showCalculateGui(){
         }
         for (let j = 1 ; j < 5; j++) {
             const miniSolutionText = document.createElement("div");
-            miniSolutionText.classList.add('solutionText', `card${bingoId}`, `solution${j}` );
-            miniSolutionText.innerHTML = '<p>Test</p><p>2</p>';
+            miniSolutionText.classList.add('smallText', 'solutionText', `solutionText${bingoId}`, `solution${j}` );
             miniGridContainer.appendChild(miniSolutionText)
         }
         outerDiv.appendChild(miniGridContainer)
         showBingoCardsHere.appendChild(outerDiv)
-
+        generateSolutionText(bingoId)
     }
 }
 
-
+function generateSolutionText(bingoId){
+    for (let i = 0 ; i < 5; i++) {
+        const solutionText = document.getElementsByClassName(`solutionText solutionText${bingoId} solution${i}`)[0]
+        while(solutionText.firstChild){
+            solutionText.removeChild(solutionText.firstChild);
+        }
+        const card = bingo.bingoCards.find(item => item.bingoId === bingoId);
+        if (i === 0) {
+            const bingoIdLabel = document.createElement("div");
+            bingoIdLabel.innerText = "BingoId: "
+            solutionText.appendChild(bingoIdLabel);
+            const bingoIdText = document.createElement("div");
+            bingoIdText.innerText = bingoId
+            solutionText.appendChild(bingoIdText);
+            const drawIdLabel = document.createElement("div");
+            drawIdLabel.innerText = "DrawId: "
+            solutionText.appendChild(drawIdLabel);
+            const drawIdText = document.createElement("div");
+            drawIdText.innerText = card.drawId
+            solutionText.appendChild(drawIdText);
+            const bingoLabel = document.createElement("div");
+            bingoLabel.innerText = "Bingos: "
+            solutionText.appendChild(bingoLabel);
+            const bingoText = document.createElement("div");
+            bingoText.innerText = card.bingo
+            solutionText.appendChild(bingoText);
+            const calculationsLabel = document.createElement("div");
+            calculationsLabel.innerText = "Calculations: "
+            solutionText.appendChild(calculationsLabel);
+            const calculationsText = document.createElement("div");
+            calculationsText.innerText = card.calculations
+            solutionText.appendChild(calculationsText);
+            const progressLabel = document.createElement("div");
+            progressLabel.innerText = "Progress:"
+            solutionText.appendChild(progressLabel);
+            const cardStatus = document.createElement("div");
+            cardStatus.className = 'card-status';
+            const gradientColors = card.finished.map(status => (status ? 'green' : 'red')).join(', ');
+            cardStatus.style.backgroundImage = `linear-gradient(to right, ${gradientColors})`;
+            cardStatus.style.width = '165px';
+            cardStatus.style.height = '10px';
+            solutionText.appendChild(cardStatus);
+            const line = document.createElement("p");
+            solutionText.appendChild(line);
+            const line2 = document.createElement("p");
+            solutionText.appendChild(line2);
+        }
+        if (card.bestResults.length > i){
+            const solutionDraw0Label = document.createElement("div");
+            solutionDraw0Label.innerText = "Solution: "
+            solutionText.appendChild(solutionDraw0Label);
+            const solutionDraw0Text = document.createElement("div");
+            solutionDraw0Text.innerText = "Found!"
+            solutionText.appendChild(solutionDraw0Text);
+            debugger;
+        } else {
+            const solutionDraw0Label = document.createElement("div");
+            solutionDraw0Label.innerText = "Solution: "
+            solutionText.appendChild(solutionDraw0Label);
+            const solutionDraw0Text = document.createElement("div");
+            solutionDraw0Text.innerText = "Not Found"
+            solutionText.appendChild(solutionDraw0Text);
+        }
+    }
+}
 
 function generateGridItems(rootNode, classes, card, small){
     const columns = 5;
@@ -148,60 +368,6 @@ function generateGridItems(rootNode, classes, card, small){
                 rootNode.appendChild(gridItem)
             }
         }
-    }
-}
-
-function test(){
-    for (let i = 0; i < lookAhead.length; i++) {
-        const job = {
-            from: 0,
-            to: (55*(25**6))-1,
-            generateSubJobs: function() {
-                if (this.from < 0 || this.from > (55*(25**6))-1 || this.to < 0 || this.to > (55*(25**6))-1 ){
-                    console.log("Out of Range");
-                    return;
-                }
-                const fromNr = Math.min(this.from, this.to)
-                const toNr = Math.max(this.from, this.to)
-                const fromArray = to7DPosition(fromNr)
-                const toArray = to7DPosition(toNr)
-                for (let i = fromArray[0]; i <= toArray[0]; i++) {
-                    const firstNr = Math.max(fromNr, from7DPosition([i,0,0,0,0,0,0]));
-                    const lastNr = Math.min(toNr, from7DPosition([i,24,24,24,24,24,24]));
-                    const job = {
-                        finished: false,
-                        first: to7DPosition(firstNr),
-                        last: to7DPosition(lastNr),
-                        lastAsNr: lastNr,
-                        lastDepth: 0,
-                        lastTryIsValid: true,
-                        rollOver: false,
-                        drawsPerDepth: [],
-                        drawsPerDepthFlat: [],
-                        bingoCard: [],
-                        currentAsNr: 0,
-                        pickPerDraw: getPickMaxPerRound(to7DPosition(firstNr)[0]), //2,4,6
-                        pickPerDrawWeights: [],
-                        calculations: 0,
-                        mappedCard: [],
-                        reversedMappedCard: [],
-                        priceMappings: [],
-                        baseDraws: [],
-                        baseWeights: [],
-                        drawsWeight: [],
-                        maxBingo: 0,
-                        result: [],
-                        playerId: "b2b5637851af3d53",
-                        bingo_generate: 77,
-                        bingo_draw: 288,
-                    }
-                    generatePickPerDraw(job)
-                    generateCard(job)
-                    calculateBaseDraws(job)
-                    jobPool.push(job);
-                }
-            },
-        };
     }
 }
 
@@ -264,8 +430,17 @@ function countNumbers(obj) {
 }
 
 function saveCards(){
-    const bingoCardString = JSON.stringify(bingoCards);
+    const bingoCardString = JSON.stringify(bingo.bingoCards);
     localStorage.setItem("bingoCards", bingoCardString);
+}
+
+function resetEverything(){
+    const iAmSure = confirm("Delete all Calculations?");
+    if (iAmSure){
+        localStorage.removeItem("bingoCards");
+        location.reload();
+    }
+
 }
 
 function buildArray(length = 0) {
@@ -288,6 +463,108 @@ function shuffleArray(array, rngGen = null) {
         arr[j] = temp;
     }
     return arr;
+}
+
+function to7DPosition(num) {
+    let position = [];
+    for (let i = 0; i < 6; i++) {
+        position.unshift(num % 25);
+        num = Math.floor(num / 25);
+    }
+    position.unshift(num % 55);
+    return position;
+}
+
+function from7DPosition(position) {
+    let num = position[0] * Math.pow(25, 6);
+    for (let i = 1; i < 7; i++) {
+        num += position[i] * Math.pow(25, 6 - i);
+    }
+    return num;
+}
+
+function getPickMaxPerRound(n) {
+    let count = 0;
+    for (let round1 = 0; round1 <= 2; round1++) {
+        for (let round2 = round1; round2 <= 4; round2++) {
+            for (let round3 = round2; round3 <= 6; round3++) {
+                if (count === n) {
+                    return [round1,round2,round3]
+                }
+                count++;
+            }
+        }
+    }
+}
+
+function generatePickPerDraw(job){
+    const weightsPerDraw = [3,3,4,4,5,5]
+    let firstToPick = 0
+    let counter = 0
+    for (let j = 0; j < 3; j++) {
+        const currentPickPerDraw = job.pickPerDraw[j]
+        const weights = []
+        const result = []
+        while (currentPickPerDraw !== firstToPick){
+            result.push(job.first[j+1])
+            firstToPick++
+            weights.push(weightsPerDraw[counter])
+            counter ++
+        }
+        job.drawsPerDepth.push(result)
+        job.pickPerDrawWeights.push(weights)
+    }
+}
+
+function generateCard(job){
+    let seed = job.playerId + "bingo_generate_" + job.bingo_generate
+    let rngGen = new Math.seedrandom(seed);
+    for (let i = 0; i < 5; i++) {
+        job.bingoCard.push(shuffleArray(buildArray(15).map(n => n + i * 15 + 1), rngGen).slice(0, 5).map(elem => {return {value: elem, prize: null, isRare: false};}));
+    }
+    job.mappedCard = job.bingoCard.flat().map(cell => cell.value);
+    job.reversedMappedCard = job.mappedCard.reduce((acc, value, index) => {
+        acc[value] = index;
+        return acc;
+    }, {});
+    shuffleArray([...buildArray(12), ...buildArray(12).map(i => i + 13)], rngGen).slice(0, 6).forEach(num => {
+        job.bingoCard[Math.floor(num / 5)][num % 5].prize = true;
+        if (bingoCellIsRare(num)) {
+            job.bingoCard[Math.floor(num / 5)][num % 5].isRare = true;
+        }
+    });
+    job.priceMappings = job.bingoCard.flat().map(cell => [
+        cell.value,
+        !!cell.prize,
+        cell.isRare
+    ]);
+}
+
+function calculateBaseDraws(job){
+    job.baseWeights = Array(75).fill(1);
+    let seed = job.playerId + "bingo_draw_" + job.bingo_draw
+    let rngGen = new Math.seedrandom(seed);
+    while (job.baseDraws.length < 12) {
+        const drawnNum = weightSelect(job.baseWeights, rngGen());
+        job.baseWeights[drawnNum] = 0;
+        job.baseDraws.push(drawnNum + 1);
+    }
+}
+
+function weightSelect(weights, rng = Math.random()) {
+    if (rng >= 1) {
+        rng = 0.99999999;
+    }
+    let totalWeight = weights.reduce((a, b) => a + b, 0);
+    let currentWeight = 0;
+    let chosenValue = rng * totalWeight;
+    return weights.findIndex((elem) => {
+        if (currentWeight + elem > chosenValue) {
+            return true;
+        }
+        currentWeight += elem;
+        return false;
+    })
 }
 
 if (mock) {

@@ -1,63 +1,29 @@
-const jobPool = []
-const jobFinish = []
-let stopAfterNext = false
-let globalResult = [];
+let id = -1
+let main = false
+let ready = false
 
-const jobData = {
-    from: 0,
-    to: (55*(25**6))-1,
-    generateJobs: function() {
-        if (this.from < 0 || this.from > (55*(25**6))-1 || this.to < 0 || this.to > (55*(25**6))-1 ){
-            console.log("Out of Range");
-            return;
-        }
-        const fromNr = Math.min(this.from, this.to)
-        const toNr = Math.max(this.from, this.to)
-        const fromArray = to7DPosition(fromNr)
-        const toArray = to7DPosition(toNr)
-        for (let i = fromArray[0]; i <= toArray[0]; i++) {
-            const firstNr = Math.max(fromNr, from7DPosition([i,0,0,0,0,0,0]));
-            const lastNr = Math.min(toNr, from7DPosition([i,24,24,24,24,24,24]));
-            const job = {
-                finished: false,
-                first: to7DPosition(firstNr),
-                last: to7DPosition(lastNr),
-                lastAsNr: lastNr,
-                lastDepth: 0, //0-2
-                lastTryIsValid: true,
-                rollOver: false,
-                drawsPerDepth: [],
-                drawsPerDepthFlat: [],
-                bingoCard: [],
-                currentAsNr: 0,
-                pickPerDraw: getPickMaxPerRound(to7DPosition(firstNr)[0]), //2,4,6
-                pickPerDrawWeights: [],
-                calculations: 0,
-                mappedCard: [],
-                reversedMappedCard: [],
-                priceMappings: [],
-                baseDraws: [],
-                baseWeights: [],
-                drawsWeight: [],
-                maxBingo: 0,
-                result: [],
-                playerId: "b2b5637851af3d53",
-                bingo_generate: 77,
-                bingo_draw: 288,
-            }
-            generatePickPerDraw(job)
-            generateCard(job)
-            calculateBaseDraws(job)
-            jobPool.push(job);
-        }
-    },
+self.onmessage = function(event) {
+    const { action, data } = event.data;
+    if (action === 'init') {
+        id = data.id;
+        main = data.isMain
+        ready = true
+        start()
+    }
+    if (action === 'compute') {
+        executeJob(JSON.parse(data));
+    }
 };
 
-async function executeJob(job){//start
+function start(){
+    self.postMessage({ action: 'ready', data: {id: id, isMain: main, ready: ready }});
+}
+
+async function executeJob(job){
     let lastCheckTime = Date.now();
     while (job.finished === false){
         if (job.calculations % 1000 === 0){
-            if (Date.now() - lastCheckTime >= 100){ //check if is it time to sleep to keep the browser responsive
+            if (Date.now() - lastCheckTime >= 100){
                 await sleep(1);
                 lastCheckTime = Date.now();
                 console.log("sleeping after " + job.calculations + " calculations. Current Array: " + job.drawsPerDepth)
@@ -75,6 +41,12 @@ async function executeJob(job){//start
         }
         incrementNextDraw(job)
     }
+    finishJob(job)
+}
+
+function finishJob(job){
+    self.postMessage({ action: 'finished', data: JSON.stringify(job)});
+    start()
 }
 
 function calculateBingo(job){
@@ -185,41 +157,6 @@ function validateNextDraws(job){
     }
 }
 
-function calculateBaseDraws(job){
-    job.baseWeights = Array(75).fill(1);
-    let seed = job.playerId + "bingo_draw_" + ((job.bingo_draw ?? 0))
-    let rngGen = new Math.seedrandom(seed);
-    while (job.baseDraws.length < 12) {
-        const drawnNum = weightSelect(job.baseWeights, rngGen());
-        job.baseWeights[drawnNum] = 0;
-        job.baseDraws.push(drawnNum + 1);
-    }
-}
-
-function generateCard(job){
-    let seed = job.playerId + "bingo_generate_" + ((job.bingo_generate ?? 0))
-    let rngGen = new Math.seedrandom(seed);
-    for (let i = 0; i < 5; i++) {
-        job.bingoCard.push(shuffleArray(buildArray(15).map(n => n + i * 15 + 1), rngGen).slice(0, 5).map(elem => {return {value: elem, prize: null, isRare: false};}));
-    }
-    job.mappedCard = job.bingoCard.flat().map(cell => cell.value);
-    job.reversedMappedCard = job.mappedCard.reduce((acc, value, index) => {
-        acc[value] = index;
-        return acc;
-    }, {});
-    shuffleArray([...buildArray(12), ...buildArray(12).map(i => i + 13)], rngGen).slice(0, 6).forEach(num => {
-        job.bingoCard[Math.floor(num / 5)][num % 5].prize = true;
-        if (bingoCellIsRare(num)) {
-            job.bingoCard[Math.floor(num / 5)][num % 5].isRare = true;
-        }
-    });
-    job.priceMappings = job.bingoCard.flat().map(cell => [
-        cell.value,
-        !!cell.prize,
-        cell.isRare
-    ]);
-}
-
 function copyArray(x){
     return structuredClone(x)
 }
@@ -238,47 +175,6 @@ function weightSelect(weights, rng = Math.random()) {
         currentWeight += elem;
         return false;
     })
-}
-
-function bingoCellIsRare(index){
-    return [1, 3, 5, 9, 15, 19, 21, 23].includes(index);
-}
-
-function shuffleArray(array, rngGen = null) {
-    if (rngGen === null) {
-        rngGen = () => Math.random()
-    }
-    let arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(rngGen() * (i + 1));
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-    return arr;
-}
-
-function buildArray(length = 0) {
-    return Array(length).fill().map((x, i) => i);
-}
-
-function generatePickPerDraw(job){
-    const weightsPerDraw = [3,3,4,4,5,5]
-    let firstToPick = 0
-    let counter = 0
-    for (let j = 0; j < 3; j++) {
-        const currentPickPerDraw = job.pickPerDraw[j]
-        const weights = []
-        const result = []
-        while (currentPickPerDraw !== firstToPick){
-            result.push(job.first[j+1])
-            firstToPick++
-            weights.push(weightsPerDraw[counter])
-            counter ++
-        }
-        job.drawsPerDepth.push(result)
-        job.pickPerDrawWeights.push(weights)
-    }
 }
 
 function calculateDrawsPerDepthFlat(job){
@@ -360,70 +256,6 @@ function from7DPosition(position) {
     }
     return num;
 }
-
-function getPickMaxPerRound(n) {
-    let count = 0;
-    for (let round1 = 0; round1 <= 2; round1++) {
-        for (let round2 = round1; round2 <= 4; round2++) {
-            for (let round3 = round2; round3 <= 6; round3++) {
-                if (count === n) {
-                    return [round1,round2,round3]
-                }
-                count++;
-            }
-        }
-    }
-}
-
-/*async function start(){
-    jobData.generateJobs()
-    for (let i = 0; i < jobPool.length; i++){
-        console.log("from: " + jobPool[i].first + ", to: " + jobPool[i].last + ", mode: " + jobPool[i].pickPerDraw);
-        await executeJob(jobPool[i]);
-        console.log("finished: " + jobPool[i].calculations)
-    }
-}*/
-
-function start(){
-    stopAfterNext = false
-    for (let i = 0; i < 1 ; i++){
-        //startThread()
-    }
-}
-
-async function startThread(){
-    while (!stopAfterNext && jobPool.length > 0){
-        const myJob = jobPool.pop()
-        await executeJob(myJob);
-        jobFinish.push(myJob)
-        mergeResults(myJob)
-    }
-}
-
-function mergeResults(job){
-    const combinedArray = [...globalResult, ...job.result];
-    globalResult = combinedArray
-        .sort((a, b) => {
-            if (b.score === a.score) {
-                return a.position - b.position;
-            }
-            return b.score - a.score;
-        }).slice(0, 5);
-    //updateGui()
-    //generateNewCard(12)
-}
-
-function init(){
-    jobData.generateJobs()
-    jobPool.reverse()
-}
-
-function stop(){
-    stopAfterNext = true
-}
-
-
-
 
 /*
 Copyright 2019 David Bau.
@@ -678,6 +510,3 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     [],     // pool: entropy pool starts empty
     Math    // math: package containing random, pow, and seedrandom
 );
-
-init()
-start()
