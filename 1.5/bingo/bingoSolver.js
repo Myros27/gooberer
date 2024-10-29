@@ -387,7 +387,7 @@ function getPickMaxPerRound(n) {
 function start(){
     stopAfterNext = false
     for (let i = 0; i < 1 ; i++){
-        startThread()
+        //startThread()
     }
 }
 
@@ -409,46 +409,8 @@ function mergeResults(job){
             }
             return b.score - a.score;
         }).slice(0, 5);
-    updateGui()
-    generateNewCard(12)
-}
-
-function updateGui(){
-    const copy = document.getElementById("copy")
-    const showBingoCardsHere = document.getElementById("showBingoCardsHere")
-    while(showBingoCardsHere.firstChild){
-        showBingoCardsHere.removeChild(showBingoCardsHere.firstChild);
-    }
-    const clonedElement = copy.cloneNode(true);
-    clonedElement.style.display = "";
-    showBingoCardsHere.appendChild(clonedElement);
-}
-
-function generateNewCard(bingoId){
-    const showBingoCardsHere = document.getElementById("showBingoCardsHere")
-    const outerDiv = document.createElement("div");
-    outerDiv.classList.add(`outerDiv${bingoId}`);
-    const mainDiv = document.createElement("div");
-    mainDiv.classList.add(`mainDiv${bingoId}`, `gridContainer`, `solution0`);
-    outerDiv.appendChild(mainDiv)
-    generateGridItems(mainDiv, [`gridItem`, `card${bingoId}`, `solution0`])
-    showBingoCardsHere.appendChild(outerDiv)
-}
-
-function generateGridItems(rootNode, classes){
-    const columns = 5;
-    const totalNumbers = 24;
-    for (let col = 0; col < columns; col++) {
-        for (let row = 0; row <= Math.floor(totalNumbers / columns); row++) {
-            const index = row * columns + col;
-            if (index <= totalNumbers) {
-                const gridItem = document.createElement("div");
-                gridItem.classList.add(...classes, `item${index}`);
-                gridItem.innerText = 0;
-                rootNode.appendChild(gridItem)
-            }
-        }
-    }
+    //updateGui()
+    //generateNewCard(12)
 }
 
 function init(){
