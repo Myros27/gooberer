@@ -128,7 +128,7 @@ function generateChart(){
 }
 
 function updateGui(){
-    let current = 0
+    let current = bingo.calculationsTotal
     let pause = 0
     for (let i = 0; bingo.workerPool.length > i; i++){
         let times = bingo.workerPool[i].times
@@ -144,7 +144,7 @@ function updateGui(){
             const numberDifference = lastNumber - firstNumber;
             const timeDifferenceSeconds = timeDifferenceMs / 1000;
             const ratePerSecond = Math.max((numberDifference / timeDifferenceSeconds), 0);
-            bingo.rollingAverage = (bingo.rollingAverage * 0.99) + (ratePerSecond * 0.01)
+            bingo.rollingAverage = (bingo.rollingAverage * 0.95) + (ratePerSecond * 0.05)
             if (bingo.rollingAverage * 1.5 > ratePerSecond){
                 bingo.workerPool[i].addStats(ratePerSecond)
             } else {
@@ -164,8 +164,8 @@ function updateGui(){
         document.getElementById("instantPause").style.display = "none"
         document.getElementById("resume").style.display = "block"
     }
-    document.getElementById("stats").innerText = prettifyNumber(Number(bingo.calculationsTotal + current))
-    document.getElementById("operationPerSec").innerText = prettifyNumber(Number(current))
+    document.getElementById("stats").innerText = prettifyNumber(Number(current))
+    document.getElementById("operationPerSec").innerText = prettifyNumber(Number(bingo.rollingAverage))
     document.getElementById("threadsActive").innerText = pause.toString()
 }
 
@@ -747,5 +747,5 @@ function prettifyNumber(number) {
     const units = ["K", "M", "B", "T", "Qa", "Qi"];
     const exponent = Math.floor(Math.log10(number) / 3);
     const shortNumber = number / Math.pow(1000, exponent);
-    return shortNumber.toFixed(2) + units[exponent - 1];
+    return parseFloat(shortNumber.toFixed(2)) + units[exponent - 1];
 }
