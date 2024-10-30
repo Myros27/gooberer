@@ -238,16 +238,6 @@ function incrementArrayWithRollover(job){
     else job.rollOver = true;
 }
 
-function to7DPosition(num) {
-    let position = [];
-    for (let i = 0; i < 6; i++) {
-        position.unshift(num % 25);
-        num = Math.floor(num / 25);
-    }
-    position.unshift(num % 55);
-    return position;
-}
-
 function from7DPosition(position) {
     let num = position[0] * Math.pow(25, 6);
     for (let i = 1; i < 7; i++) {
