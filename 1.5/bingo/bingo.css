@@ -200,10 +200,5 @@
     color: #9fffb3;
     border: 2px solid #3e4e4a;
     font-weight: bold;
-    animation: pulse 1s infinite alternate;
 }
 
-@keyframes pulse {
-    from { transform: scale(1); opacity: 0.9; }
-    to { transform: scale(1.05); opacity: 1; }
-}
