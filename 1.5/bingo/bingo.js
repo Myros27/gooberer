@@ -69,7 +69,7 @@ function startCrunch(){
         supportThreads = 1
     }
     let threads = mainTreads + supportThreads
-    if (threads <= 0 || threads > 100){
+    if (threads <= 0 || threads > 1000){
         mainTreads = 1
     }
     let count = 0
