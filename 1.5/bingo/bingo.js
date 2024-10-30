@@ -148,6 +148,9 @@ function updateGui(){
             const timeDifferenceSeconds = timeDifferenceMs / 1000;
             const ratePerSecond = Math.max((numberDifference / timeDifferenceSeconds), 0);
             bingo.rollingAverage = (bingo.rollingAverage * 0.95) + (ratePerSecond * 0.05)
+            if (bingo.rollingAverage < 0 || bingo.rollingAverage > 1000000000000){
+                bingo.rollingAverage = 0
+            }
             if (bingo.rollingAverage * 1.5 > ratePerSecond){
                 bingo.workerPool[i].addStats(ratePerSecond)
             } else {
