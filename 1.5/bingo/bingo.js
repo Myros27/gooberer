@@ -514,7 +514,21 @@ function supportJobs(data){
 
 function searchForJob(){
     for (let i = 0 ; i < bingo.jobPool.length ; i++){
-        if ([0,1,7,25,8,26,2,31,13,43,14,32,44,9,27,3,48,36,18].includes(bingo.jobPool[i].first[0])){
+        if ([0,1,7,25,8,26,2,31,13,43].includes(bingo.jobPool[i].first[0])){
+            const job = bingo.jobPool[i]
+            bingo.jobPool.splice(i,1);
+            return job
+        }
+    }
+    for (let i = 0 ; i < bingo.jobPool.length ; i++){
+        if ([14,32,44,9,27,3,48,36,18].includes(bingo.jobPool[i].first[0])){
+            const job = bingo.jobPool[i]
+            bingo.jobPool.splice(i,1);
+            return job
+        }
+    }
+    for (let i = 0 ; i < bingo.jobPool.length ; i++){
+        if ([19,37,49,15,33,45,10].includes(bingo.jobPool[i].first[0])){
             const job = bingo.jobPool[i]
             bingo.jobPool.splice(i,1);
             return job
