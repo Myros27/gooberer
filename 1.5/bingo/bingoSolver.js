@@ -93,7 +93,7 @@ function calculateBingo(job){
             picks: []
         }
         for (let i = 0; i < 3; i++)        {
-            singleResult.push([...job.drawsPerDepth[i]])
+            singleResult.picks.push([...job.drawsPerDepth[i]])
         }
         if (job.result.length > 4) {
             job.result.sort((a, b) => b.score - a.score || a.position - b.position);
