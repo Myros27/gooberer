@@ -8,6 +8,7 @@ var bingo = {
     pause: true,
     calculationsTotal: 0,
     chart: null,
+    rollingAverage: 0
 }
 
 window.addEventListener('message', function(event) {
@@ -127,9 +128,8 @@ function generateChart(){
 }
 
 function updateGui(){
-    let current = bingo.calculationsTotal
+    let current = 0
     let pause = 0
-    let thisSec
     for (let i = 0; bingo.workerPool.length > i; i++){
         let times = bingo.workerPool[i].times
         current += bingo.workerPool[i].times[times.length - 1][1]
@@ -144,7 +144,13 @@ function updateGui(){
             const numberDifference = lastNumber - firstNumber;
             const timeDifferenceSeconds = timeDifferenceMs / 1000;
             const ratePerSecond = Math.max((numberDifference / timeDifferenceSeconds), 0);
-            bingo.workerPool[i].addStats(ratePerSecond)
+            bingo.rollingAverage = (bingo.rollingAverage * 0.99) + (ratePerSecond * 0.01)
+            if (bingo.rollingAverage * 1.5 > ratePerSecond){
+                bingo.workerPool[i].addStats(ratePerSecond)
+            } else {
+                bingo.workerPool[i].addStats(bingo.rollingAverage)
+            }
+
             pause ++
         } else {
             bingo.workerPool[i].addStats(0)
@@ -158,8 +164,9 @@ function updateGui(){
         document.getElementById("instantPause").style.display = "none"
         document.getElementById("resume").style.display = "block"
     }
-    document.getElementById("stats").innerText = current
-    document.getElementById("threadsActive").innerText = pause
+    document.getElementById("stats").innerText = prettifyNumber(Number(bingo.calculationsTotal + current))
+    document.getElementById("operationPerSec").innerText = prettifyNumber(Number(current))
+    document.getElementById("threadsActive").innerText = pause.toString()
 }
 
 function spawnThread(main, index){
@@ -424,7 +431,7 @@ function generateSolutionText(bingoId){
             calculationsLabel.innerText = "Calc: "
             solutionText.appendChild(calculationsLabel);
             const calculationsText = document.createElement("div");
-            calculationsText.innerText = card.calculations.toLocaleString()
+            calculationsText.innerText = prettifyNumber(card.calculations)
             solutionText.appendChild(calculationsText);
             const progressLabel = document.createElement("div");
             progressLabel.innerText = "Progress:"
@@ -733,4 +740,12 @@ function weightSelect(weights, rng = Math.random()) {
         currentWeight += elem;
         return false;
     })
+}
+
+function prettifyNumber(number) {
+    if (number < 1000) return number.toString();
+    const units = ["K", "M", "B", "T", "Qa", "Qi"];
+    const exponent = Math.floor(Math.log10(number) / 3);
+    const shortNumber = number / Math.pow(1000, exponent);
+    return shortNumber.toFixed(2) + units[exponent - 1];
 }
