@@ -612,7 +612,6 @@ function resetEverything(){
         localStorage.removeItem("bingoCards");
         location.reload();
     }
-
 }
 
 function buildArray(length = 0) {
