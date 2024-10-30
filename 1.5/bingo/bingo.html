@@ -8,7 +8,8 @@
 <div id="info" style="display:none"></div>
 <div id="calcHeader" style="display:none">
     <button class="functionButton" onclick="resetEverything()" style="position:absolute; top:1.25rem; right:1.25rem"><div style="" class="mdi mdi-48px mdi-delete"></div>Delete all Calculations</button>
-    <button id="pause" class="functionButton" onclick="setPause()" style="position:absolute; top:8.75rem; right:1.25rem; display:none"><div style="" class="mdi mdi-48px mdi-pause"></div>Pause at the next convenient opportunity</button>
+    <button id="pause" class="functionButton" onclick="setPause()" style="position:absolute; top:16.25rem; right:1.25rem; display:none"><div style="" class="mdi mdi-48px mdi-play-pause"></div>Pause at the next convenient opportunity</button>
+    <button id="instantPause" class="functionButton" onclick="setInstantPause()" style="position:absolute; top:8.75rem; right:1.25rem; display:none"><div style="" class="mdi mdi-48px mdi-stop"></div>STOP!</button>
     <button id="resume" class="functionButton" onclick="setResume()" style="position:absolute; top:8.75rem; right:1.25rem; display:none"><div style="" class="mdi mdi-48px mdi-play"></div>Resume</button>
     <div id="showEngineHere">
         <div>
@@ -28,9 +29,16 @@
     </div>
     <div id="showGraph" style="display:none">
         <div id="graph">
-            <canvas id="curveChart" width="100%" height="100%"></canvas>
+            <canvas id="curveChart" width="500px" height="100%"></canvas>
         </div>
-        <div id="stats">
+        <div class="statsContainer">
+            <div>Total Calculations:</div>
+            <div id="stats"></div>
+        </div>
+        <br>
+        <div class="statsContainer">
+            <div>Total active threads:</div>
+            <div id="threadsActive"></div>
         </div>
     </div>
 </div>

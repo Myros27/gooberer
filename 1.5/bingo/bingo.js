@@ -58,6 +58,7 @@ function feature(){
 function startCrunch(){
     document.getElementById("showEngineHere").style.display = "none"
     document.getElementById("pause").style.display = "block"
+    document.getElementById("instantPause").style.display = "block"
     document.getElementById("showGraph").style.display = "block"
     let mainTreads = Number(document.getElementById("mainThreads").value)
     if (mainTreads < 0 || mainTreads > 100){
@@ -87,41 +88,80 @@ function startCrunch(){
 function generateChart(){
     bingo.chart = {
         dataSets: [],
-        chartElement: null
+        chartElement: null,
+        chartEnabled: true,
+    }
+    for (let i = 0; i < bingo.workerPool.length; i++){
+        const insert = {
+            label: "worker " + i,
+            data: bingo.workerPool[i].lastMinute,
+        }
+        bingo.chart.dataSets.push(insert)
+    }
+    const labels = []
+    for (let i = 0; i <= 60; i++) {
+        labels.push(i);
     }
     bingo.chart.chartElement = new Chart(document.getElementById('curveChart'), {
         type: 'line',
         data: {
-            labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
-            datasets: dataSets.map(dataset => ({
+            labels: labels,
+            datasets: bingo.chart.dataSets.map(dataset => ({
                 label: dataset.label,
                 data: dataset.data,
-                borderColor: dataset.borderColor,
                 fill: false,
-                tension: 0.4
+                tension: 0.3
             }))
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    reverse: true
+                }
+            },
+            reverse: true
         }
     });
+    bingo.chart.chartElement.options.transitions.active.animation.duration = 2000
 }
 
 function updateGui(){
     let current = bingo.calculationsTotal
+    let pause = 0
+    let thisSec
     for (let i = 0; bingo.workerPool.length > i; i++){
         let times = bingo.workerPool[i].times
         current += bingo.workerPool[i].times[times.length - 1][1]
-        const firstEntry = times[times.length - 1];
-        const lastEntry = times[0];
-        const firstTime = new Date(firstEntry[0]);
-        const lastTime = new Date(lastEntry[0]);
-        const timeDifferenceMs = lastTime - firstTime;
-        const firstNumber = firstEntry[1];
-        const lastNumber = lastEntry[1];
-        const numberDifference = lastNumber - firstNumber;
-        const timeDifferenceSeconds = timeDifferenceMs / 1000;
-        const ratePerSecond = numberDifference / timeDifferenceSeconds;
-        bingo.workerPool[i].addStats(ratePerSecond)
+        if (bingo.workerPool[i].isIdle === false) {
+            const firstEntry = times[times.length - 1];
+            const lastEntry = times[0];
+            const firstTime = new Date(firstEntry[0]);
+            const lastTime = new Date(lastEntry[0]);
+            const timeDifferenceMs = lastTime - firstTime;
+            const firstNumber = firstEntry[1];
+            const lastNumber = lastEntry[1];
+            const numberDifference = lastNumber - firstNumber;
+            const timeDifferenceSeconds = timeDifferenceMs / 1000;
+            const ratePerSecond = Math.max((numberDifference / timeDifferenceSeconds), 0);
+            bingo.workerPool[i].addStats(ratePerSecond)
+            pause ++
+        } else {
+            bingo.workerPool[i].addStats(0)
+        }
+    }
+    if (bingo.chart.chartEnabled){
+        bingo.chart.chartElement.update('active');
+    }
+    if (bingo.pause && pause === 0){
+        document.getElementById("pause").style.display = "none"
+        document.getElementById("instantPause").style.display = "none"
+        document.getElementById("resume").style.display = "block"
     }
     document.getElementById("stats").innerText = current
+    document.getElementById("threadsActive").innerText = pause
 }
 
 function spawnThread(main, index){
@@ -140,7 +180,7 @@ function spawnThread(main, index){
         lastMinute: [],
         addStats(ratePerSecond) {
             this.lastMinute.unshift(ratePerSecond);
-            if (this.lastMinute.length > 60) {
+            if (this.lastMinute.length > 61) {
                 this.lastMinute.pop();
             }
         },
@@ -208,14 +248,27 @@ function mergeResults(card, job){
 
 function setPause(){
     bingo.pause = true
-    document.getElementById("pause").style.display = "none"
-    document.getElementById("resume").style.display = "block"
+    document.getElementById("pause").style.backgroundColor = "#5e0000"
+}
+
+function setInstantPause(){
+    location.reload()
 }
 
 function setResume(){
     bingo.pause = false
     document.getElementById("pause").style.display = "block"
+    document.getElementById("pause").style.backgroundColor = ""
+    document.getElementById("instantPause").style.display = "block"
     document.getElementById("resume").style.display = "none"
+    for (let i = 0 ; i < bingo.workerPool.length; i++) {
+        bingo.workerPool[i].isIdle = false;
+        const job = bingo.jobPool.pop()
+        bingo.workerPool[i].worker.postMessage({
+            action: "compute",
+            data: JSON.stringify(job),
+        })
+    }
 }
 
 function generateBingoCards(options){
@@ -308,8 +361,8 @@ function showCalculateGui(){
     document.getElementById("info").style.display = "none"
     document.getElementById("showBingoCardsHere").style.display = ""
     document.getElementById("calcHeader").style.display = ""
-    document.getElementById("mainThreads").value = Math.floor(navigator.hardwareConcurrency/2)
-    document.getElementById("supportThreads").value = Math.floor(navigator.hardwareConcurrency/3)
+    document.getElementById("mainThreads").value = Math.floor(navigator.hardwareConcurrency/3)
+    document.getElementById("supportThreads").value = 1
     const showBingoCardsHere = document.getElementById("showBingoCardsHere")
     for (let i = 0 ; i < bingo.bingoCards.length; i++) {
         const card = bingo.bingoCards[i]
