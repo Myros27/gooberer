@@ -2,6 +2,7 @@ let id = -1;
 let main = false;
 let ready = false;
 let activeSupport = false;
+let debug = false;
 const every = 1000;
 
 self.onmessage = function(event) {
@@ -45,10 +46,17 @@ async function executeJob(job){
         }
         incrementNextDraw(job)
     }
-    finishJob(job)
+    if (activeSupport){
+        finishDirectly(job)
+    } else {
+        finishJob(job)
+    }
 }
 
 function finishJob(job){
+    if (job === "noJobsLeft"){
+        activeSupport = true;
+    }
     self.postMessage({ action: 'finished', data: JSON.stringify(job)});
     start()
 }
@@ -106,6 +114,13 @@ function calculateBingo(job){
         } else {
             job.result.push(singleResult)
         }
+    }
+}
+
+function checkForFinish(job){
+    if (job.currentAsNr > job.lastAsNr){
+        job.finished = true
+        debug = true
     }
 }
 
@@ -188,9 +203,9 @@ function calculateDrawsPerDepthFlat(job){
     job.currentAsNr = from7DPosition([job.first[0], ...job.drawsPerDepthFlat.slice(0, 6)]);
 }
 
-function checkForFinish(job){
-    if (job.currentAsNr > job.lastAsNr){
-        job.finished = true
+function finishDirectly(job){
+    if (activeSupport && job.cloudSupportEnabled || debug){
+        //getDataHere
     }
 }
 

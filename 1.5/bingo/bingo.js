@@ -11,7 +11,6 @@ var bingo = {
     rollingAverage: 0,
     startTime: null
 }
-var tmpTracking = []
 
 window.addEventListener('message', function(event) {
     let receivedData = JSON.parse(atob(event.data));
@@ -233,7 +232,6 @@ function workerHandler(event){
     if (action === 'finished') {
         const job = JSON.parse(data);
         const card = bingo.bingoCards.find(item => item.bingoId === job.bingo_generate);
-        tmpTracking.push(job)
         mergeResults(card, job)
         updateCard(card, job)
         generateSolutionText(card.bingoId)
