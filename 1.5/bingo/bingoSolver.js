@@ -111,9 +111,9 @@ function calculateNextDraws(job){
     const weightBias = job.drawsPerDepth[job.lastDepth]
     const weightBiasLength = weightBias.length
     if (job.lastDepth <= 0){
-        job.drawsWeight[job.lastDepth] = copyArray(job.baseWeights)
+        job.drawsWeight[job.lastDepth] = [...(job.baseWeights)]
     } else {
-        job.drawsWeight[job.lastDepth] = copyArray(job.drawsWeight[job.lastDepth - 1])
+        job.drawsWeight[job.lastDepth] = [...(job.drawsWeight[job.lastDepth - 1])]
     }
     const weights = job.drawsWeight[job.lastDepth]
     const thisWeights = job.pickPerDrawWeights[job.lastDepth]
