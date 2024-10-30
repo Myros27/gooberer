@@ -62,7 +62,7 @@ function startCrunch(){
     document.getElementById("instantPause").style.display = "block"
     document.getElementById("showGraph").style.display = "block"
     let mainTreads = Number(document.getElementById("mainThreads").value)
-    if (mainTreads < 0 || mainTreads > 100){
+    if (mainTreads <= 0 || mainTreads > 100){
         mainTreads = 1
     }
     let supportThreads = Number(document.getElementById("supportThreads").value)
