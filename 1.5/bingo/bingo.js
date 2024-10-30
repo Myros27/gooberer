@@ -403,12 +403,17 @@ function showCalculateGui(){
 }
 
 function generateSolutionText(bingoId){
+    const card = bingo.bingoCards.find(item => item.bingoId === bingoId);
+    if (card.finished.every(Boolean)){
+        const outerDiv = document.getElementsByClassName(`outerDiv${bingoId}`)[0]
+        outerDiv.classList.add("finished")
+    }
     for (let i = 0 ; i < 5; i++) {
         const solutionText = document.getElementsByClassName(`solutionText solutionText${bingoId} solution${i}`)[0]
         while(solutionText.firstChild){
             solutionText.removeChild(solutionText.firstChild);
         }
-        const card = bingo.bingoCards.find(item => item.bingoId === bingoId);
+
         if (i === 0) {
             const bingoIdLabel = document.createElement("div");
             bingoIdLabel.innerText = "BingoId: "
