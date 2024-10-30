@@ -48,7 +48,6 @@ async function executeJob(job){
 }
 
 function finishJob(job){
-    clearInterval(threadInfo.interval);
     self.postMessage({ action: 'finished', data: JSON.stringify(job)});
     start()
 }

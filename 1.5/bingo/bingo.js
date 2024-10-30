@@ -7,6 +7,7 @@ var bingo = {
     bingoCards: [],
     pause: true,
     calculationsTotal: 0,
+    chart: null,
 }
 
 let mock= true //debug only
@@ -80,6 +81,27 @@ function startCrunch(){
         count ++
     }
     setInterval(updateGui, 1000);
+    generateChart()
+}
+
+function generateChart(){
+    bingo.chart = {
+        dataSets: [],
+        chartElement: null
+    }
+    bingo.chart.chartElement = new Chart(document.getElementById('curveChart'), {
+        type: 'line',
+        data: {
+            labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
+            datasets: dataSets.map(dataset => ({
+                label: dataset.label,
+                data: dataset.data,
+                borderColor: dataset.borderColor,
+                fill: false,
+                tension: 0.4
+            }))
+        }
+    });
 }
 
 function updateGui(){
