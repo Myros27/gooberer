@@ -8,7 +8,8 @@ var bingo = {
     pause: true,
     calculationsTotal: 0,
     chart: null,
-    rollingAverage: 0
+    rollingAverage: 0,
+    startTime: null
 }
 
 window.addEventListener('message', function(event) {
@@ -80,6 +81,7 @@ function startCrunch(){
         spawnThread(false, count)
         count ++
     }
+    bingo.startTime = Date.now();
     setInterval(updateGui, 1000);
     generateChart()
 }
@@ -128,6 +130,7 @@ function generateChart(){
 }
 
 function updateGui(){
+    updateElapsedTime()
     let current = bingo.calculationsTotal
     let pause = 0
     for (let i = 0; bingo.workerPool.length > i; i++){
@@ -522,6 +525,14 @@ function sanitizeDraws(card, draw){
         result += card.bingoCard[draw[i]][0]
     }
     return result
+}
+
+function updateElapsedTime() {
+    const elapsedMs = Date.now() - bingo.startTime;
+    const seconds = Math.floor((elapsedMs / 1000) % 60);
+    const minutes = Math.floor((elapsedMs / (1000 * 60)) % 60);
+    const hours = Math.floor((elapsedMs / (1000 * 60 * 60)) % 24);
+    document.getElementById("elapsedTime").textContent = (hours > 0 ? hours + "h " : "") + (minutes > 0 ? minutes + "m " : "") + seconds + "s";
 }
 
 function generateGridItems(rootNode, classes, card, small){
