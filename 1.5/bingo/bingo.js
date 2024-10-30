@@ -6,6 +6,7 @@ var bingo = {
     workerPool: [],
     bingoCards: [],
     pause: true,
+    calculationsTotal: 0,
 }
 
 let mock= true //debug only
@@ -78,6 +79,27 @@ function startCrunch(){
         spawnThread(false, count)
         count ++
     }
+    setInterval(updateGui, 1000);
+}
+
+function updateGui(){
+    let current = bingo.calculationsTotal
+    for (let i = 0; bingo.workerPool.length > i; i++){
+        let times = bingo.workerPool[i].times
+        current += bingo.workerPool[i].times[times.length - 1][1]
+        const firstEntry = times[times.length - 1];
+        const lastEntry = times[0];
+        const firstTime = new Date(firstEntry[0]);
+        const lastTime = new Date(lastEntry[0]);
+        const timeDifferenceMs = lastTime - firstTime;
+        const firstNumber = firstEntry[1];
+        const lastNumber = lastEntry[1];
+        const numberDifference = lastNumber - firstNumber;
+        const timeDifferenceSeconds = timeDifferenceMs / 1000;
+        const ratePerSecond = numberDifference / timeDifferenceSeconds;
+        bingo.workerPool[i].addStats(ratePerSecond)
+    }
+    document.getElementById("stats").innerText = current
 }
 
 function spawnThread(main, index){
@@ -86,7 +108,22 @@ function spawnThread(main, index){
         isMain: main,
         id: index,
         isIdle: false,
+        times: [],
+        addCurrentDate(calc) {
+            this.times.unshift([new Date(), calc]);
+            if (this.times.length > 10) {
+                this.times.pop();
+            }
+        },
+        lastMinute: [],
+        addStats(ratePerSecond) {
+            this.lastMinute.unshift(ratePerSecond);
+            if (this.lastMinute.length > 60) {
+                this.lastMinute.pop();
+            }
+        },
     }
+    workerEntry.addCurrentDate(0)
     workerEntry.worker.addEventListener("message", (event) => {
         workerHandler(event)
     })
@@ -118,13 +155,17 @@ function workerHandler(event){
         const job = JSON.parse(data);
         const card = bingo.bingoCards.find(item => item.bingoId === job.bingo_generate);
         mergeResults(card, job)
-        updateCards()
+        updateCard(card, job)
         generateSolutionText(card.bingoId)
+    }
+    if (action === 'calculating') {
+        bingo.workerPool[data.id].addCurrentDate(data.calculations)
     }
 }
 
-function updateCards(card, job){
-
+function updateCard(card, job){
+    card.finished[job.first[0]] = job.finished
+    saveCards()
 }
 
 function mergeResults(card, job){
@@ -137,6 +178,10 @@ function mergeResults(card, job){
             return b.score - a.score;
         })
         .slice(0, 5);
+    card.calculations += job.calculations;
+    if (card.bestResults.length > 0){
+        card.bingo = Math.floor(card.bestResults[0].score/100)
+    }
 }
 
 function setPause(){
@@ -241,11 +286,12 @@ function showCalculateGui(){
     document.getElementById("info").style.display = "none"
     document.getElementById("showBingoCardsHere").style.display = ""
     document.getElementById("calcHeader").style.display = ""
-    document.getElementById("mainThreads").value = 1//Math.floor(navigator.hardwareConcurrency/2)
-    document.getElementById("supportThreads").value = 0//Math.floor(navigator.hardwareConcurrency/3)
+    document.getElementById("mainThreads").value = Math.floor(navigator.hardwareConcurrency/2)
+    document.getElementById("supportThreads").value = Math.floor(navigator.hardwareConcurrency/3)
     const showBingoCardsHere = document.getElementById("showBingoCardsHere")
     for (let i = 0 ; i < bingo.bingoCards.length; i++) {
         const card = bingo.bingoCards[i]
+        bingo.calculationsTotal += card.calculations
         const bingoId = card.bingoId
         const outerDiv = document.createElement("div");
         outerDiv.classList.add(`outerDiv${bingoId}`);
@@ -302,10 +348,10 @@ function generateSolutionText(bingoId){
             bingoText.innerText = card.bingo
             solutionText.appendChild(bingoText);
             const calculationsLabel = document.createElement("div");
-            calculationsLabel.innerText = "Calculations: "
+            calculationsLabel.innerText = "Calc: "
             solutionText.appendChild(calculationsLabel);
             const calculationsText = document.createElement("div");
-            calculationsText.innerText = card.calculations
+            calculationsText.innerText = card.calculations.toLocaleString()
             solutionText.appendChild(calculationsText);
             const progressLabel = document.createElement("div");
             progressLabel.innerText = "Progress:"
@@ -323,22 +369,73 @@ function generateSolutionText(bingoId){
             solutionText.appendChild(line2);
         }
         if (card.bestResults.length > i){
+            const thisResult = card.bestResults[i]
             const solutionDraw0Label = document.createElement("div");
-            solutionDraw0Label.innerText = "Solution: "
+            solutionDraw0Label.innerText = "Score: "
             solutionText.appendChild(solutionDraw0Label);
             const solutionDraw0Text = document.createElement("div");
-            solutionDraw0Text.innerText = "Found!"
+            solutionDraw0Text.innerText = thisResult.score
             solutionText.appendChild(solutionDraw0Text);
-            debugger;
+            const solutionDraw1Label = document.createElement("div");
+            solutionDraw1Label.innerText = "Draw 1: "
+            solutionText.appendChild(solutionDraw1Label);
+            const solutionDraw1Text = document.createElement("div");
+            solutionDraw1Text.innerText = sanitizeDraws(card, thisResult.picks[0])
+            solutionText.appendChild(solutionDraw1Text);
+            const solutionDraw2Label = document.createElement("div");
+            solutionDraw2Label.innerText = "Draw 2: "
+            solutionText.appendChild(solutionDraw2Label);
+            const solutionDraw2Text = document.createElement("div");
+            solutionDraw2Text.innerText = sanitizeDraws(card, thisResult.picks[1])
+            solutionText.appendChild(solutionDraw2Text);
+            const solutionDraw3Label = document.createElement("div");
+            solutionDraw3Label.innerText = "Draw 3: "
+            solutionText.appendChild(solutionDraw3Label);
+            const solutionDraw3Text = document.createElement("div");
+            solutionDraw3Text.innerText = sanitizeDraws(card, thisResult.picks[2])
+            solutionText.appendChild(solutionDraw3Text);
+            drawBingoCard(card, i)
         } else {
             const solutionDraw0Label = document.createElement("div");
-            solutionDraw0Label.innerText = "Solution: "
+            solutionDraw0Label.innerText = "Score: "
             solutionText.appendChild(solutionDraw0Label);
             const solutionDraw0Text = document.createElement("div");
-            solutionDraw0Text.innerText = "Not Found"
+            solutionDraw0Text.innerText = "Nothing Found"
             solutionText.appendChild(solutionDraw0Text);
         }
     }
+}
+
+function drawBingoCard(card, index){
+    for (let i = 0 ; i < 25 ; i++){
+        const element = document.getElementsByClassName(`card${card.bingoId} solution${index} item${i}`)[0]
+        const getsDrawn = card.bestResults[index].field[i] === 1
+        const getsPicked = card.bestResults[index].picks.some(element => element.includes(i))
+        if (getsDrawn) {
+            element.classList.add('drawnResult');
+        } else {
+            element.classList.remove('drawnResult');
+        }
+        if (getsPicked) {
+            element.classList.add('selectToWin');
+        } else {
+            element.classList.remove('selectToWin');
+        }
+    }
+}
+
+function sanitizeDraws(card, draw){
+    if (draw.length === 0){
+        return "nothing"
+    }
+    let result = ""
+    for (let i = 0; draw.length > i; i++){
+        if (result !== ""){
+            result += ", "
+        }
+        result += card.bingoCard[draw[i]][0]
+    }
+    return result
 }
 
 function generateGridItems(rootNode, classes, card, small){
@@ -361,7 +458,7 @@ function generateGridItems(rootNode, classes, card, small){
                         badge.style.fontSize = '1px';
                         badge.style.transform = "translateX(5px) translateY(-20px) scale(20)";
                     }
-                    badge.style.color = card.bingoCard[index][2] ? '#188c19' : '#828282'
+                    badge.style.color = card.bingoCard[index][2] ? '#ff0008' : '#828282'
                     badge.classList.add("badge");
                     gridItem.appendChild(badge)
                 }

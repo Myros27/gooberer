@@ -1,6 +1,7 @@
-let id = -1
-let main = false
-let ready = false
+let id = -1;
+let main = false;
+let ready = false;
+const every = 1000;
 
 self.onmessage = function(event) {
     const { action, data } = event.data;
@@ -11,7 +12,7 @@ self.onmessage = function(event) {
         start()
     }
     if (action === 'compute') {
-        executeJob(JSON.parse(data));
+        executeJob(JSON.parse(data))
     }
 };
 
@@ -20,14 +21,16 @@ function start(){
 }
 
 async function executeJob(job){
-    let lastCheckTime = Date.now();
     while (job.finished === false){
-        if (job.calculations % 1000 === 0){
-            if (Date.now() - lastCheckTime >= 100){
-                await sleep(1);
-                lastCheckTime = Date.now();
-                console.log("sleeping after " + job.calculations + " calculations. Current Array: " + job.drawsPerDepth)
-            }
+        if (job.calculations % every === 0){
+            self.postMessage({
+                action: 'calculating',
+                data: {
+                    id: id,
+                    every: every,
+                    calculations: job.calculations,
+                }
+            });
         }
         calculateDrawsPerDepthFlat(job)
         checkForFinish(job)
@@ -45,6 +48,7 @@ async function executeJob(job){
 }
 
 function finishJob(job){
+    clearInterval(threadInfo.interval);
     self.postMessage({ action: 'finished', data: JSON.stringify(job)});
     start()
 }
@@ -233,10 +237,6 @@ function incrementArrayWithRollover(job){
     while (i >= 0 && job.drawsPerDepth[job.lastDepth][i] === 24) job.drawsPerDepth[job.lastDepth][i--] = 0;
     if (i >= 0) job.drawsPerDepth[job.lastDepth][i]++;
     else job.rollOver = true;
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function to7DPosition(num) {

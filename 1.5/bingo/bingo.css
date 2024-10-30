@@ -31,12 +31,11 @@
 
 .solutionText {
     display: inline-grid;
-    padding: 0.6rem;
-    gap: 0.6rem;
-    grid-template-columns: 1fr 1fr;
+    gap: 0.2rem;
+    grid-template-columns: 1fr 2fr;
     grid-auto-flow: row;
     align-items: center;
-    margin:1rem
+    margin:0.5rem
 }
 
 .miniGridContainer {
@@ -58,6 +57,14 @@
     grid-auto-flow: row;
     align-items: center;
     margin:0.3rem
+}
+
+.drawnResult{
+    background-color: #004903 !important;
+}
+
+.selectToWin{
+    border: 1px solid rgba(255, 0, 0, 0.8) !important;
 }
 
 .miniGridItem {
@@ -170,7 +177,7 @@
     width: 300px;
 }
 
-#showGraph{
+#graph{
     height: 20rem;
     width: 80%;
     margin: 2rem;
