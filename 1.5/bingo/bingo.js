@@ -367,8 +367,8 @@ function showCalculateGui(){
     document.getElementById("info").style.display = "none"
     document.getElementById("showBingoCardsHere").style.display = ""
     document.getElementById("calcHeader").style.display = ""
-    document.getElementById("mainThreads").value = Math.floor(navigator.hardwareConcurrency/2)
-    document.getElementById("supportThreads").value = Math.floor(navigator.hardwareConcurrency/3)
+    document.getElementById("mainThreads").value = Math.max(Math.floor(navigator.hardwareConcurrency/2), 2)
+    document.getElementById("supportThreads").value = Math.max(Math.floor(navigator.hardwareConcurrency/3), 1)
     const showBingoCardsHere = document.getElementById("showBingoCardsHere")
     for (let i = 0 ; i < bingo.bingoCards.length; i++) {
         const card = bingo.bingoCards[i]
