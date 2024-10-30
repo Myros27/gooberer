@@ -216,11 +216,15 @@ function workerHandler(event){
     const { action, data } = event.data;
     if (action === 'ready') {
         if (bingo.pause === false) {
-            const job = bingo.jobPool.pop()
-            bingo.workerPool[data.id].worker.postMessage({
-                action: "compute",
-                data: JSON.stringify(job),
-            })
+            if (bingo.jobPool.length > 0 && bingo.workerPool[data.id].isMain) {
+                const job = bingo.jobPool.pop()
+                bingo.workerPool[data.id].worker.postMessage({
+                    action: "compute",
+                    data: JSON.stringify(job),
+                })
+            } else {
+                supportJobs(data)
+            }
         } else {
             bingo.workerPool[data.id].isIdle = true
         }
@@ -496,6 +500,21 @@ function generateSolutionText(bingoId){
             solutionText.appendChild(solutionDraw0Text);
         }
     }
+}
+
+function supportJobs(data){
+    const job = searchForJob()
+    bingo.workerPool[data.id].worker.postMessage({
+        action: "compute",
+        data: JSON.stringify(job),
+    })
+}
+
+function searchForJob(){
+    debugger;
+    return "noJobsLeft"
+    //const indexToRemove = 2;
+    //array.splice(indexToRemove, 1);
 }
 
 function drawBingoCard(card, index){

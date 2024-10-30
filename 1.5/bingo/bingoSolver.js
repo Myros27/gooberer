@@ -1,6 +1,7 @@
 let id = -1;
 let main = false;
 let ready = false;
+let activeSupport = false;
 const every = 1000;
 
 self.onmessage = function(event) {
