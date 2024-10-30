@@ -165,7 +165,8 @@ function updateGui(){
         document.getElementById("resume").style.display = "block"
     }
     document.getElementById("stats").innerText = prettifyNumber(Number(current))
-    document.getElementById("operationPerSec").innerText = prettifyNumber(Number(bingo.rollingAverage))
+    document.getElementById("operationPerSec").innerText = prettifyNumber(Number(bingo.rollingAverage*pause))
+    document.getElementById("operationPerSecPerThread").innerText = prettifyNumber(Number(bingo.rollingAverage))
     document.getElementById("threadsActive").innerText = pause.toString()
 }
 
