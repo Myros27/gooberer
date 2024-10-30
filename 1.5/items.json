@@ -36,6 +36,13 @@
       "released": true
     },
     {
+      "title": "Bingo",
+      "icon": "mdi-slot-machine",
+      "link": "bingo/bingo.html",
+      "version": 2,
+      "released": false
+    },
+    {
       "title": "Settings",
       "icon": "mdi-cog",
       "link": "settings/settings.html",
