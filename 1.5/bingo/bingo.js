@@ -525,8 +525,7 @@ function generateGridItems(rootNode, classes, card, small){
                     const badge = document.createElement("div");
                     badge.innerText = "◉"
                     if (small){
-                        badge.style.fontSize = '0.5px';
-                        badge.style.transform = "translateY(-10px) scale(20)";
+                        badge.style.display = "none";
                     } else {
                         badge.style.fontSize = '1px';
                         badge.style.transform = "translateX(5px) translateY(-20px) scale(20)";
